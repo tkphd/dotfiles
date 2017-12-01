@@ -1,3 +1,15 @@
+;;  ██             ██   ██              ██
+;; ░░             ░░   ░██             ░██
+;; ███ █████████  ███ ██████     █████ ░██
+;;░░██░░██    ░██░░██░░░██░     ██░░░██░██
+;; ░██ ░██    ░██ ░██  ░██     ░███████░██
+;; ░██ ░██    ░██ ░██  ░██     ░██░░░░ ░██
+;; ░███░██    ░███░███ ░░██  ██░░█████░░██
+;; ░░░ ░░     ░░░ ░░░   ░░  ░░   ░░░░  ░░
+
+;; Prerequisites:
+;; M-x package-install cuda-mode
+
 (require 'package)
 
 (add-to-list 'package-archives
@@ -38,6 +50,7 @@ t)
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t))
 )
+(setq column-number-mode t)
 
 ;; function-args
 ;; (require 'function-args)
@@ -75,4 +88,5 @@ t)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "pandoc"))
+;;  :init (setq markdown-command "multimarkdown"))
