@@ -1,14 +1,11 @@
-;;  ██             ██   ██              ██
-;; ░░             ░░   ░██             ░██
-;; ███ █████████  ███ ██████     █████ ░██
-;;░░██░░██    ░██░░██░░░██░     ██░░░██░██
-;; ░██ ░██    ░██ ░██  ░██     ░███████░██
-;; ░██ ░██    ░██ ░██  ░██     ░██░░░░ ░██
-;; ░███░██    ░███░███ ░░██  ██░░█████░░██
-;; ░░░ ░░     ░░░ ░░░   ░░  ░░   ░░░░  ░░
-
-;; Prerequisites:
-;; M-x package-install cuda-mode
+;;  ██             ██   ██               ██
+;; ░░             ░░   ░██              ░██
+;; ███ █████████  ███ ██████      █████ ░██
+;;░░██░░██    ░██░░██░░░██░      ██░░░██░██
+;; ░██ ░██    ░██ ░██  ░██      ░███████░██
+;; ░██ ░██    ░██ ░██  ░██      ░██░░░░ ░██
+;; ░███░██    ░███░███ ░░██  ██ ░░█████░░██
+;; ░░░ ░░     ░░░ ░░░   ░░  ░░    ░░░░  ░░
 
 (require 'package)
 
@@ -40,16 +37,27 @@ t)
   (require 'setup-helm-gtags)
 )
 
-;; (require 'setup-ggtags)
 (require 'setup-cedet)
 (require 'setup-editing)
 
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory))
-)
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t))
-)
+;; Put backup files neatly away
+(let ((backup-dir (getenv "EMACSBD"))
+      (auto-saves-dir (getenv "EMACSSD")))
+  (dolist (dir (list backup-dir auto-saves-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        tramp-backup-directory-alist `((".*" . ,backup-dir))
+        tramp-auto-save-directory auto-saves-dir))
+
+(setq backup-by-copying t    ; Don't delink hardlinks
+      delete-old-versions t  ; Clean up the backups
+      version-control t      ; Use version numbers on backups,
+      kept-new-versions 5    ; keep some new versions
+      kept-old-versions 2)   ; and some old ones, too
+
 (setq column-number-mode t)
 
 ;; function-args
@@ -75,12 +83,15 @@ t)
  ;; If there is more than one, they won't work right.
 )
 
-;; custom highlighting, etc.
-(autoload 'cuda-mode "cuda-mode.el")
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . cuda-mode)
-             'auto-mode-alist '("\\.cu\\'" . cuda-mode)
-             'auto-mode-alist '("\\.cuh\\'" . cuda-mode)
+;; custom highlighting
+(use-package cuda-mode
+  :ensure t
+  :mode (("\\.cu\\'"  . cuda-mode)
+         ("\\.cuh\\'" . cuda-mode))
 )
+
+(require 'opencl-mode)
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -88,5 +99,10 @@ t)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
-;;  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "pandoc")
+)
+
+(setq c-default-style "linux"
+      c-basic-offset 4
+      tab-width 4
+      indent-tabs-mode t)
