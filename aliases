@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias acs="apt-cache search"
+alias agi="apt-get -s install"
+alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
+alias condact="source /site/x86/anaconda-1.8/anaconda/bin/activate"
+alias condeact="source /site/x86/anaconda-1.8/anaconda/bin/deactivate"
+alias convertbw="convert -density 300 -colorspace gray"
+alias e="emacsclient -nw"
+alias ec="emacsclient -c -a emacs"
+alias ek="emacsclient -e '(kill-emacs)'"
+alias i3lock="/usr/bin/i3lock -c 659ccc"
+alias ifstat="sudo iftop -i enp0s31f6"
+alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -l'
+alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
+alias rsync="rsync -Pavz"
+alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
+alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
+alias wnv="watch -n 1 nvidia-smi"

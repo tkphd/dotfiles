@@ -1,0 +1,88 @@
+#!/bin/bash
+
+export ALTERNATE_EDITOR=""
+export EDITOR="/usr/bin/emacsclient -nw"
+export VISUAL="/usr/bin/emacsclient -nw"
+export TERMINAL=/usr/bin/urxvt
+
+export GOBIN=$GOPATH/bin
+export GOROOT=/usr/lib/go-1.7
+
+export KDE_FULL_SESSION=true
+export KDEWM=/usr/bin/i3
+
+export MMSP_PATH=/users/tnk10/Downloads/mmsp
+
+export PATH=/usr/local/bin:/users/tnk10/Downloads/mmsp/utility:$PATH
+export PATH=/opt/intel/bin:/opt/pgi/linux86-64/2017/bin:$PATH
+export PATH=$MMSP_PATH/utility:$PATH
+export PATH=/home/thor/anaconda/bin:$PATH
+
+export CHROME_CONFIG_HOME=/usr/local/tnk10
+export CHROME_USER_DATA_HOME=/usr/local/tnk10/google-chrome
+
+export EMACSD=/tmp/emacs-$(whoami)
+export EMACSBD=$EMACSD/backups
+export EMACSSD=$EMACSD/saves
+
+if [[ ! -d $EMACSD ]]
+then
+    mkdir $EMACSD
+elif [[ ! -d $EMACSBD ]]
+then
+    mkdir $EMACSBD
+elif [[ ! -d $EMACSSD ]]
+then
+    mkdir $EMACSSD
+fi
+
+if [[ -d /usr/local/tnk10 ]]
+then
+    export PATH=/usr/local/tnk10/bin:$PATH
+fi
+
+if [[ -d /usr/local/cuda ]]
+then
+    export PATH=$PATH:/usr/local/cuda/bin
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-8.0/targets/x86_64-linux/lib/
+fi
+
+if [[ -d /usr/local/intel ]]
+then
+    if [[ "$LD_LIBRARY_PATH" == "" ]]
+    then
+        export LD_LIBRARY_PATH=/usr/local/intel/composer_xe_2015.3.187/compiler/lib/intel64/
+    elif [[ $(echo $LD_LIBRARY_PATH | grep composer_xe) == "" ]]
+    then
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/intel/composer_xe_2015.3.187/compiler/lib/intel64/
+    fi
+elif [[ -d /cluster/intel ]]
+then
+    export PATH=/cluster/intel/composer_xe_2015.0.090/bin/intel64/:$PATH
+    if [[ "$LD_LIBRARY_PATH" == "" ]]
+    then
+        export LD_LIBRARY_PATH=/cluster/intel/composer_xe_2015.0.090/compiler/lib/intel64/
+    elif [[ $(echo $LD_LIBRARY_PATH | grep composer_xe) == "" ]]
+    then
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cluster/intel/composer_xe_2015.0.090/compiler/lib/intel64/
+    fi
+fi
+
+if [[ -f /opt/pgi/license.dat ]]
+then
+    export PGI_PATH=/opt/pgi
+    export LM_LICENSE_FILE=/opt/pgi/license.dat
+    export PATH=/opt/pgi/linux86-64/2016/bin:$PATH
+elif [[ -f /usr/local/pgi/license.dat ]]
+then
+    export PGI_PATH=/usr/local/pgi
+    export LM_LICENSE_FILE=/usr/local/pgi/license.dat
+    export PATH=/usr/local/pgi/linux86-64/2016/bin:$PATH
+fi
+
+if [[ $(echo $PATH | grep anaconda) == "" ]]
+then
+    export PATH=$PATH:/site/x86/anaconda-1.8/anaconda/bin:/users/tnk10/.conda/envs/globus/bin
+    export GSL_PATH=/users/tnk10/.conda/envs/mmsp/include
+    export LIBGL_ALWAYS_INDIRECT=1
+fi
