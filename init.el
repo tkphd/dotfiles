@@ -8,11 +8,9 @@
 ;; ░░░ ░░     ░░░ ░░░   ░░  ░░    ░░░░  ░░
 
 (require 'package)
-
 (add-to-list 'package-archives
-             '("melpa" . "https://stable.melpa.org/packages/")
+             '("melpa" . "https://melpa.org/packages/")
 t)
-
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -22,9 +20,7 @@ t)
 (unless (package-installed-p 'use-package)
   (package-install 'use-package)
 )
-
 (require 'use-package)
-
 (setq use-package-always-ensure t)
 
 (add-to-list 'load-path "~/.emacs.d/custom")
@@ -39,6 +35,8 @@ t)
 
 (require 'setup-cedet)
 (require 'setup-editing)
+
+(load-theme 'tsdh-dark)
 
 ;; Put backup files neatly away
 (let ((backup-dir (getenv "EMACSBD"))
