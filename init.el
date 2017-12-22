@@ -22,6 +22,7 @@ t)
 )
 (require 'use-package)
 (setq use-package-always-ensure t)
+(setq column-number-mode t)
 
 (add-to-list 'load-path "~/.emacs.d/custom")
 
