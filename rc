@@ -25,16 +25,14 @@ fi
 # === Prompt! ===
 if [ "$PS1" ]
 then
-	force_color_prompt=yes
-    # Turn on automatic directory spelling correction (for 'cd'),
-    # checking for removed commands, and saving multi-line commands
-    # on one line in the history
-    shopt -s cdspell checkhash cmdhist
-
-    # Turn off HUP on exit, mail notification, and using $PATH for
-    # the 'source' command
+    # colorize if at all possible
+    force_color_prompt=yes
+    # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
+    # append rather than overwrite history, update window size after each command
+    shopt -s cdspell checkhash checkwinsize cmdhist histappend
+    # Turn off HUP on exit, mail notification, and using $PATH for the 'source' command
     shopt -u huponexit mailwarn sourcepath
-
+    # set failsafe prompt
     function prompt_command
     {
         if [ "$?" = 0 ]
@@ -45,32 +43,33 @@ then
         fi
     }
     PROMPT_COMMAND=prompt_command
-    # Put current user@machine:/directory on headline of xterms
     case $TERM in
-        iris-ansi*|*xterm*|*rxvt*|screen)
-        PS="${RED}\${ERRPROMPT}${BLUE}\!"
-        if [ $UID = $EUID -a $UID -ne 0 ]
-        then
-            PS="${PS} ${BROWN}\h${BLUE}% ${NONE}"
-        else
-            PS="${PS} ${RED}\u@\h${BLUE}# ${NONE}"
-        fi
-	    PS1="${PURPLE}<${GREEN}\D{%H:%M}${REDB}@${GREEN}\h${RED}:${CYAN}\W${PURPLE}>${RED}\$ ${NONE}"
-    ;;
-    default)
-        if [ $UID = $EUID -a $UID -ne 0 ]
-        then
-            PS1="\${ERRPROMPT}\! \h$% "
-        else
-            PS1="\${ERRPROMPT}\! \u@\h$#"
-        fi
+        iris-ansi*|konsole|*rxvt*|*xterm*|screen)
+            # Put user@machine:/directory on headline of xterms
+            PS="${RED}\${ERRPROMPT}${BLUE}\!"
+            if [ $UID = $EUID -a $UID -ne 0 ]
+            then
+                PS="${PS} ${BROWN}\h${BLUE}% ${NONE}"
+            else
+                PS="${PS} ${RED}\u@\h${BLUE}# ${NONE}"
+            fi
+	        PS1="${PURPLE}<${GREEN}\D{%H:%M}${REDB}@${GREEN}\h${RED}:${CYAN}\W${PURPLE}>${RED}\$ ${NONE}"
+            ;;
+        default)
+            if [ $UID = $EUID -a $UID -ne 0 ]
+            then
+                PS1="\${ERRPROMPT}\! \h$% "
+            else
+                PS1="\${ERRPROMPT}\! \u@\h$#"
+            fi
     esac
 fi
-# === Resourceful! ===
+# === Aliased! ===
 if [ -f $HOME/.bash.d/aliases ]
 then
     source $HOME/.bash.d/aliases
 fi
+# === Environmental! ===
 if [ -f $HOME/.bash.d/envs ]
 then
     source $HOME/.bash.d/envs
