@@ -3,7 +3,7 @@
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
-export TERMINAL=/usr/bin/urxvt
+export TERMINAL=/usr/bin/konsole
 
 export GOBIN=$GOPATH/bin
 export GOROOT=/usr/lib/go-1.7
