@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/bash.d/dircolors)" || eval "$(dircolors -b)"
+    test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/.bash.d/dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias l='ls -CF'
     alias la='ls -A'
