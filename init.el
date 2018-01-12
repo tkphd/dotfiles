@@ -36,8 +36,11 @@ t)
 
 (require 'setup-cedet)
 (require 'setup-editing)
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
 
 (load-theme 'tsdh-dark)
+;;(load-theme 'forest-blue)
 
 ;; Put backup files neatly away
 (let ((backup-dir (getenv "EMACSBD"))
@@ -69,18 +72,19 @@ t)
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" default)))
  '(package-selected-packages
    (quote
-    (zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))
-  )
-)
+    (zygospore helm-gtags helm yasnippet ws-butler volatile-highlights use-package undo-tree iedit dtrt-indent counsel-projectile company clean-aindent-mode anzu))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ )
 
 ;; custom highlighting
 (use-package cuda-mode
@@ -104,4 +108,5 @@ t)
 (setq c-default-style "linux"
       c-basic-offset 4
       tab-width 4
-      indent-tabs-mode t)
+      indent-tabs-mode t
+)
