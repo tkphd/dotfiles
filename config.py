@@ -9,7 +9,7 @@ from os import environ, getlogin
 #    disks = {"/": "", "/home/": "", "/data/": ""}
 # to feed local machine configuration variables into this script
 try:
-    from machine.py import *
+    from machine import *
 except:
     ifce = "eth0"
 
@@ -38,11 +38,11 @@ status.register("temp",
 # Shows disk usage of /
 # Format:
 # 42/128G [86G]
-for disk,icon in disks:
+for disk, icon in disks.items():
     status.register("disk",
                     path=disk,
                     hints={'markup': 'pango'},
-                    format="<span size=\"x-small\">{0}</span> {avail}G".format(icon),
+                    format="<span size=\"x-small\">%s</span> {avail}G"%icon,
     )
 
 try:
