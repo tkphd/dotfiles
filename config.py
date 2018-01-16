@@ -13,7 +13,7 @@ try:
 except:
     # Defaults! Renders a penguin for '' and a house for '' (Font Awesome)
     ifce = "eth0"
-    disks = [[[["/", ""], ["/home", ""]]
+    disks = [["/", ""], ["/home", ""]]
 
 home = environ['HOME']
 user = getlogin()
