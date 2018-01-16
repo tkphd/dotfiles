@@ -4,11 +4,13 @@
 from i3pystatus import Status
 from os import environ, getlogin
 
-ifce = "eth0"
 # Create "ifce.py" in this directory with key-value pairs, e.g.
 # ifce = "eth0"
 # to feed local machine configuration variables into this script
-from ifce import *
+try:
+    from ifce import *
+except:
+    ifce = "eth0"
 
 home = environ['HOME']
 user = getlogin()
