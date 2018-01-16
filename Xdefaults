@@ -37,11 +37,11 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
-Xft.dpi:             96
+Xft.dpi:             120
 Xft.antialias:       true
 Xft.rgba:            rgb
 Xft.hinting:         true
-Xft.hintstyle:       hintslight
+Xft.hintstyle:       hintfull
 
 ! █▓▒░ appearance
 URxvt.letterSpace:   -2

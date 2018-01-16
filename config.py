@@ -1,19 +1,24 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Use pango markup to modify fonts per item. Valid font sizes are
-# 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
-
 from i3pystatus import Status
 from os import environ, getlogin
+
+ifce = "eth0"
+# Create "ifce.py" in this directory with key-value pairs, e.g.
+# ifce = "eth0"
+# to feed local machine configuration variables into this script
+from ifce import *
 
 home = environ['HOME']
 user = getlogin()
 status = Status()
 
+# Use pango markup to modify fonts per item. Valid font sizes are
+# 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
+
 # Displays clock like this:
-# Tue 30 Jul 11:59:46 PM KW31
-#                          ^-- calendar week
+# Tue 30 Jul 11:59 PM
 status.register("clock",
     format="%a %-d %b %I:%M %p",
 )
@@ -33,7 +38,7 @@ status.register("disk",
     format="<span size=\"x-small\"></span> {avail}G",
 )
 status.register("disk",
-    path='{0}'.format(home),
+    path="/home/",
     hints={'markup': 'pango'},
     format="<span size=\"small\"></span> {avail}G",
 )
@@ -62,10 +67,10 @@ status.register("pulseaudio",
 #
 # Note: the network module requires PyPI package netifaces
 status.register("network",
-    interface="eth0",
+    # interface="{0}".format(ifce),
+    interface=ifce,
     hints={'markup': 'pango'},
     format_up="↘ {bytes_recv}k ↗ {bytes_sent}k",
-    #format_up="↘ {bytes_recv}k ↗ {bytes_sent}k {network_graph}",
 )
 
 status.run()
