@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
+
+# Use pango markup to modify fonts per item. Valid font sizes are
+# 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
 from i3pystatus import Status
 
@@ -9,7 +12,8 @@ status = Status()
 # Tue 30 Jul 11:59:46 PM KW31
 #                          ^-- calendar week
 status.register("clock",
-    format="%a %-d %b %I:%M %p",)
+    format="%a %-d %b %I:%M %p",
+)
 
 # Shows the average load of the last minute and the last 5 minutes
 # (the default value for format is used)
@@ -17,7 +21,11 @@ status.register("load")
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
-    format="{temp:.0f}°C",)
+    format="{temp}°C",
+    # format="{temp}°C {core_0_bar}{core_1_bar}{core_2_bar}{core_3_bar}",
+    hints={"markup": "pango"},
+    #lm_sensors_enabled=True,
+)
 
 # The battery monitor has many formatting options, see README for details
 
@@ -38,7 +46,8 @@ status.register("temp",
 #        "DIS": "↓",
 #        "CHR": "↑",
 #        "FULL": "=",
-#    },)
+#    },
+#)
 
 # This would look like this:
 # Discharging 6h:51m
@@ -50,22 +59,29 @@ status.register("temp",
 #        "DIS":  "Discharging",
 #        "CHR":  "Charging",
 #        "FULL": "Bat full",
-#    },)
+#    },
+#)
 
 # Shows disk usage of /
 # Format:
 # 42/128G [86G]
 status.register("disk",
     path="/media/Valhalla",
-    format="V {avail}G",)
+    hints={'markup': 'pango'},
+    format="<span size=\"x-small\"></span> {avail}G",
+)
 
 status.register("disk",
     path="/home/thor",
-    format="~ {avail}G",)
+    hints={'markup': 'pango'},
+    format="<span size=\"small\"></span> {avail}G",
+)
 
 status.register("disk",
     path="/",
-    format="/ {avail}G",)
+    hints={'markup': 'pango'},
+    format="<span size=\"x-small\"></span> {avail}G",
+)
 
 # Shows pulseaudio default sink volume
 #
@@ -76,20 +92,22 @@ status.register("disk",
 # Shows mpd status
 # Format:
 # Cloud connected▶Reroute to Remain
-status.register("mpd",
-    format="{title}{status}{album}",
-    status={
-        "pause": "▷",
-        "play": "▶",
-        "stop": "◾",
-    },)
+#status.register("mpd",
+#                format="{title}{status}{album}",
+#                status={
+#                    "pause": "▷",
+#                    "play": "▶",
+#                    "stop": "◾",
+#                },
+#)
 
 status.register("alsa",)
 
 ## Displays whether a DHCP client is running
 #status.register("runwatch",
 #    name="DHCP",
-#    path="/var/run/dhclient*.pid",)
+#    path="/var/run/dhclient*.pid",
+#)
 
 # Shows the address and up/down state of enp0s31f6. If it is up the address is shown in
 # green (the default value of color_up) and the CIDR-address is shown
@@ -101,6 +119,7 @@ status.register("alsa",)
 status.register("network",
     interface="enp0s31f6",
     hints={'markup': 'pango'},
-    format_up="↘ {bytes_recv}k ↗ {bytes_sent}k {network_graph}",)
+    format_up="↘ {bytes_recv}k ↗ {bytes_sent}k",
+)
 
 status.run()
