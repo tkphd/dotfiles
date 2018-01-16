@@ -1,18 +1,29 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from i3pystatus import Status
+from os import environ, getlogin
+
+# Create "machine.py" in this directory with key-value pairs, e.g.
+#    ifce = "eth0"
+#    disks = {"/": "", "/home/": "", "/data/": ""}
+# to feed local machine configuration variables into this script
+try:
+    from machine.py import *
+except:
+    ifce = "eth0"
+
+home = environ['HOME']
+user = getlogin()
+status = Status()
+
 # Use pango markup to modify fonts per item. Valid font sizes are
 # 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
-from i3pystatus import Status
-
-status = Status()
-
 # Displays clock like this:
-# Tue 30 Jul 11:59:46 PM KW31
-#                          ^-- calendar week
+# Tue 30 Jul 11:59 PM
 status.register("clock",
-    format="%a %-d %b %I:%M %p",
+                format="%a %-d %b %I:%M %p",
 )
 
 # Shows the average load of the last minute and the last 5 minutes
@@ -21,105 +32,42 @@ status.register("load")
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
-    format="{temp}°C",
-    # format="{temp}°C {core_0_bar}{core_1_bar}{core_2_bar}{core_3_bar}",
-    hints={"markup": "pango"},
-    #lm_sensors_enabled=True,
+                format="{temp:.0f}°C",
 )
-
-# The battery monitor has many formatting options, see README for details
-
-# This would look like this, when discharging (or charging)
-# ↓14.22W 56.15% [77.81%] 2h:41m
-# And like this if full:
-# =14.22W 100.0% [91.21%]
-#
-# This would also display a desktop notification (via D-Bus) if the percentage
-# goes below 5 percent while discharging. The block will also color RED.
-# If you don't have a desktop notification demon yet, take a look at dunst:
-#   http://www.knopwob.org/dunst/
-#status.register("battery",
-#    format="{status}/{consumption:.2f}W {percentage:.2f}% [{percentage_design:.2f}%] {remaining:%E%hh:%Mm}",
-#    alert=True,
-#    alert_percentage=5,
-#    status={
-#        "DIS": "↓",
-#        "CHR": "↑",
-#        "FULL": "=",
-#    },
-#)
-
-# This would look like this:
-# Discharging 6h:51m
-#status.register("battery",
-#    format="{status} {remaining:%E%hh:%Mm}",
-#    alert=True,
-#    alert_percentage=5,
-#    status={
-#        "DIS":  "Discharging",
-#        "CHR":  "Charging",
-#        "FULL": "Bat full",
-#    },
-#)
 
 # Shows disk usage of /
 # Format:
 # 42/128G [86G]
-status.register("disk",
-    path="/media/Valhalla",
-    hints={'markup': 'pango'},
-    format="<span size=\"x-small\"></span> {avail}G",
-)
+for disk,icon in disks:
+    status.register("disk",
+                    path=disk,
+                    hints={'markup': 'pango'},
+                    format="<span size=\"x-small\">{0}</span> {avail}G".format(icon),
+    )
 
-status.register("disk",
-    path="/home/thor",
-    hints={'markup': 'pango'},
-    format="<span size=\"small\"></span> {avail}G",
-)
+try:
+    ## Shows pulseaudio default sink volume
+    ## Note: requires libpulseaudio from PyPI
+    status.register("pulseaudio",
+                    format="♪ {volume}",
+    )
+except:
+    ## Shows alsaaudio default sink volume
+    ## Note: requires pyalsaaudio from PyPI
+    ##       and libalsaaudio-dev
+    status.register("alsa")
 
-status.register("disk",
-    path="/",
-    hints={'markup': 'pango'},
-    format="<span size=\"x-small\"></span> {avail}G",
-)
-
-# Shows pulseaudio default sink volume
-#
-# Note: requires libpulseaudio from PyPI
-#status.register("pulseaudio",
-#    format="♪{volume}",)
-
-# Shows mpd status
-# Format:
-# Cloud connected▶Reroute to Remain
-#status.register("mpd",
-#                format="{title}{status}{album}",
-#                status={
-#                    "pause": "▷",
-#                    "play": "▶",
-#                    "stop": "◾",
-#                },
-#)
-
-status.register("alsa",)
-
-## Displays whether a DHCP client is running
-#status.register("runwatch",
-#    name="DHCP",
-#    path="/var/run/dhclient*.pid",
-#)
-
-# Shows the address and up/down state of enp0s31f6. If it is up the address is shown in
-# green (the default value of color_up) and the CIDR-address is shown
-# (i.e. 10.10.10.42/24).
-# If it's down just the interface name (enp0s31f6) will be displayed in red
+# Shows the address and up/down state of eth0. If it is up the address is
+# shown in green (the default value of color_up) and the CIDR-address is
+# shown (i.e. 10.10.10.42/24).
+# If it's down just the interface name (eth0) will be displayed in red
 # (defaults of format_down and color_down)
 #
 # Note: the network module requires PyPI package netifaces
 status.register("network",
-    interface="enp0s31f6",
-    hints={'markup': 'pango'},
-    format_up="↘ {bytes_recv}k ↗ {bytes_sent}k",
+                interface=ifce,
+                hints={'markup': 'pango'},
+                format_up="↘ {bytes_recv}k ↗ {bytes_sent}k",
 )
 
 status.run()
