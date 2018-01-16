@@ -1,0 +1,77 @@
+!  ██     ██      ██           ████                    ██   ██          
+! ░░██   ██      ░██          ░██░                    ░██  ░██          
+!  ░░██ ██       ░██  █████  ██████  ██████   ██   ██ ░██ ██████  ██████
+!   ░░███     ██████ ██░░░██░░░██░  ░░░░░░██ ░██  ░██ ░██░░░██░  ██░░░░ 
+!    ██░██   ██░░░██░███████  ░██    ███████ ░██  ░██ ░██  ░██  ░░█████ 
+!   ██ ░░██ ░██  ░██░██░░░░   ░██   ██░░░░██ ░██  ░██ ░██  ░██   ░░░░░██
+!  ██   ░░██░░██████░░██████  ░██  ░░████████░░██████ ███  ░░██  ██████ 
+! ░░     ░░  ░░░░░░  ░░░░░░   ░░    ░░░░░░░░  ░░░░░░ ░░░    ░░  ░░░░░░  
+! Modified from <http://github.com/xero/dotfiles/urxvt>
+
+! █▓▒░ foundation
+*.termName:          rxvt-256color
+*.iso14755:          false
+*.saveLines:         10000
+
+! █▓▒░ dark color schemes
+#include ".config/Xcolors/material"
+! #include ".config/Xcolors/NumixDarkest"
+! #include ".config/Xcolors/OK100-Matrix"
+
+! █▓▒░ light color schemes
+! #include ".config/Xcolors/dracula"
+! #include ".config/Xcolors/miasma"
+! #include ".config/Xcolors/sourcerer"
+
+! █▓▒░ preferred font
+*.font:              xft:fira code:pixelsize=14
+*.boldFont:          xft:fira code:pixelsize=14:style=Bold
+*.italicFont:        xft:fira code:pixelsize=14:style=Italic
+
+! █▓▒░ alternate fonts
+! *.font:            xft:hack:pixelsize=14
+! *.boldFont:        xft:hack:pixelsize=14:style=Bold
+! *.italicFont:      xft:hack:pixelsize=14:style=Italic
+! *.font:            xft:mononoki:pixelsize=14
+! *.boldFont:        xft:mononoki:pixelsize=14:style=Bold
+! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
+
+! █▓▒░ Xft settings
+Xft.dpi:             96
+Xft.antialias:       true
+Xft.rgba:            rgb
+Xft.hinting:         true
+Xft.hintstyle:       hintslight
+
+! █▓▒░ appearance
+URxvt.letterSpace:   -2
+URxvt.lineSpace:     0
+URxvt.urlLauncher:   google-chrome
+URxvt.allow_bold:    true
+URxvt.buffered:      true
+URxvt.visualBell:    true
+URxvt.scrollBar:     off
+URxvt.scrollStyle:   rxvt
+
+!! █▓▒░ interface
+!*.scrollBar:         false
+!*.transparent:       true
+!*.shading:           80
+!*.tintColor:         #1C1C1C
+!*.internalBorder:    10
+!*.borderColor:       #1c1c1c
+!*.borderLess:        false
+!*.perl-ext-common:   default,matcher
+!*.matcher.button:    1
+!*.borderColor:       #000030
+!*.internalBorder:    1
+
+!! █▓▒░ interaction
+!*.scrollStyle:       rxvt
+!*.jumpScroll:        true
+!*.scrollTtyOutput:   false 
+!*.scrollTtyKeypress: true 
+!*.scrollWithBuffer:  true 
+!*.secondaryScreen:   true
+!*.secondaryScroll:   true
+!*.secondaryWheel:    true
