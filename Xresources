@@ -1,4 +1,4 @@
-!  ██     ██      ██           ████                    ██   ██          
+!  ██     ██      ██           ████                    ██   ██
 ! ░░██   ██      ░██          ░██░                    ░██  ░██          
 !  ░░██ ██       ░██  █████  ██████  ██████   ██   ██ ░██ ██████  ██████
 !   ░░███     ██████ ██░░░██░░░██░  ░░░░░░██ ░██  ░██ ░██░░░██░  ██░░░░ 
@@ -14,7 +14,7 @@
 *.saveLines:         10000
 
 ! █▓▒░ dark color schemes
-#include ".config/Xcolors/material"
+#include ".config/i3/Xcolors/material"
 ! #include ".config/Xcolors/NumixDarkest"
 ! #include ".config/Xcolors/OK100-Matrix"
 
@@ -37,7 +37,7 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
-Xft.dpi:             120
+Xft.dpi:             192
 Xft.antialias:       true
 Xft.rgba:            rgb
 Xft.hinting:         true
