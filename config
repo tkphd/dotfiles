@@ -38,7 +38,8 @@ floating_modifier $mod
 bindsym $mod+Return exec /usr/bin/konsole
 
 # lock the screen (Mod1 is Alt)
-bindsym Control+Mod1+l exec /usr/bin/i3lock -c 659ccc
+bindsym Control+Mod1+l exec ~/.config/i3/fuzzylocker.sh
+exec xautolock -time 15 -locker ~/.config/i3/fuzzylocker.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill
