@@ -67,6 +67,7 @@ URxvt.scrollStyle:   rxvt
 !*.internalBorder:    1
 
 !! █▓▒░ interaction
+URxvt.perl-ext-common: ...,font-size
 !*.scrollStyle:       rxvt
 !*.jumpScroll:        true
 !*.scrollTtyOutput:   false 
