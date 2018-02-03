@@ -3,12 +3,13 @@ me=$(whoami)
 # === Manage search paths ===
 export PATH=/usr/local/bin:$HOME/Downloads/mmsp/utility:$PATH
 export PATH=/opt/intel/bin:/opt/pgi/linux86-64/2017/bin:$PATH
-export PATH=$HOME/anaconda/bin:$PATH
 if [[ -d /usr/local/${me} ]]; then
     export PATH=/usr/local/${me}/bin:$PATH
 fi
 export MMSP_PATH=$HOME/Downloads/mmsp
 export PATH=$MMSP_PATH/utility:$PATH
+# === AUR ===
+export gaur="https://aur.archlinux.org"
 # === Emacs ===
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
@@ -45,7 +46,7 @@ if [[ $(hostname -s) == "p859561" ]]; then
     fi
 fi
 # === CUDA ===
-for n in {7.0,7.5,8.0,8.5,9.0,9.5}; do
+for n in {7.0,7.5,8.0,8.5,9.0,9.1}; do
     if [[ -d "/usr/local/cuda-${n}" ]]; then
         export PATH=$PATH:/usr/local/cuda-${n}/bin
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-${n}/targets/x86_64-linux/lib/

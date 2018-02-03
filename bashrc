@@ -65,12 +65,12 @@ then
     esac
 fi
 # === Aliased! ===
-if [ -f $HOME/.bash.d/aliases ]
+if [ -f $HOME/.bash.d/bash_aliases ]
 then
-    source $HOME/.bash.d/aliases
+    source $HOME/.bash.d/bash_aliases
 fi
 # === Environmental! ===
-if [ -f $HOME/.bash.d/envs ]
+if [ -f $HOME/.bash.d/bash_envs ]
 then
-    source $HOME/.bash.d/envs
+    source $HOME/.bash.d/bash_envs
 fi
