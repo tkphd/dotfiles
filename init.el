@@ -80,6 +80,9 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; linting
+(global-flycheck-mode)
+
 ;; syntax highlighting
 (setq c-default-style "linux"
       c-basic-offset 4
@@ -105,3 +108,14 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc")
 )
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
