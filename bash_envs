@@ -1,12 +1,12 @@
 #!/bin/bash
 me=$(whoami)
 # === Manage search paths ===
-export PATH=/usr/local/bin:$HOME/Downloads/mmsp/utility:$PATH
+export PATH=/usr/local/bin:$HOME/research/projects/mmsp/utility:$PATH
 export PATH=/opt/intel/bin:/opt/pgi/linux86-64/2017/bin:$PATH
 if [[ -d /usr/local/${me} ]]; then
     export PATH=/usr/local/${me}/bin:$PATH
 fi
-export MMSP_PATH=$HOME/Downloads/mmsp
+export MMSP_PATH=$HOME/research/projects/mmsp
 export PATH=$MMSP_PATH/utility:$PATH
 # === AUR ===
 export gaur="https://aur.archlinux.org"
