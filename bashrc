@@ -53,7 +53,10 @@ then
             else
                 PS="${PS} ${RED}\u@\h${BLUE}# ${NONE}"
             fi
-	        PS1="${PURPLE}<${GREEN}\D{%H:%M}${REDB}@${GREEN}\h${RED}:${CYAN}\W${PURPLE}>${RED}\$ ${NONE}"
+            parse_git() {
+                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/.\1/'
+            }
+	        PS1="${PURPLE}«${GREEN}\D{%H:%M}${REDB}@${BLUE}\h${RED}:${CYAN}\W${YELLOW}\$(parse_git)${PURPLE}»${RED}\$ ${NONE}"
             ;;
         default)
             if [ $UID = $EUID -a $UID -ne 0 ]
