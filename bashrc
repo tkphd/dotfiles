@@ -70,7 +70,7 @@ if [ "$PS1" ]; then
                 # Encapsulating in a function makes git branch detection dynamic
                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\x1b[35m:\x1b[31m\1/'
             }
-	        PS1="${RED}\D{%H:%M}${MAGENTA}@${BLUE}\h${MAGENTA}:${CYANL}\W\$(str_git) ${GREENL}\$ ${NONE}"
+	        PS1="${MAGENTA}«${RED}\D{%H:%M}${MAGENTA}@${BLUE}\h${MAGENTA}:${CYANL}\W\$(str_git)${MAGENTA}»${GREENL}\$ ${NONE}"
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
