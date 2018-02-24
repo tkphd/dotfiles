@@ -51,8 +51,6 @@
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
 
-(setq column-number-mode t)
-
 ;; function-args
 ;; (require 'function-args)
 ;; (fa-config-default)
@@ -80,7 +78,11 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; syntax highlighting
+;; syntactic preferences
+(setq column-number-mode t)
+
+(setq require-final-newline t)
+
 (setq c-default-style "linux"
       c-basic-offset 4
       tab-width 4
