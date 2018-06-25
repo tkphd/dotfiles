@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from i3pystatus import Status
-from os import environ, getlogin
+from os import environ
 
 ### Notice:
 # Create "machine.py" in this directory with key-value pairs, e.g.
@@ -18,7 +18,6 @@ except:
     disks = [["/", ""], ["/home", ""]]
 
 home = environ['HOME']
-user = getlogin()
 status = Status()
 
 # Use pango markup to modify fonts per item. Valid font sizes are

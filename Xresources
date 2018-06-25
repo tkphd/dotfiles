@@ -37,7 +37,11 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
+#if X_RESOLUTION>3000 
+Xft.dpi:             192
+#else
 Xft.dpi:             96
+#endif
 Xft.antialias:       true
 Xft.rgba:            rgb
 Xft.hinting:         true
