@@ -37,7 +37,7 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
-Xft.dpi:             192
+Xft.dpi:             96
 Xft.antialias:       true
 Xft.rgba:            rgb
 Xft.hinting:         true
@@ -68,11 +68,12 @@ URxvt.scrollStyle:   rxvt
 
 !! █▓▒░ interaction
 URxvt.perl-ext-common: ...,font-size
-!*.scrollStyle:       rxvt
-!*.jumpScroll:        true
-!*.scrollTtyOutput:   false 
-!*.scrollTtyKeypress: true 
-!*.scrollWithBuffer:  true 
-!*.secondaryScreen:   true
-!*.secondaryScroll:   true
-!*.secondaryWheel:    true
+Xcursor.size:         32
+*.scrollStyle:       rxvt
+*.jumpScroll:        true
+*.scrollTtyOutput:   false 
+*.scrollTtyKeypress: true 
+*.scrollWithBuffer:  true 
+*.secondaryScreen:   true
+*.secondaryScroll:   true
+*.secondaryWheel:    true

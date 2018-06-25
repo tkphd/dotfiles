@@ -4,10 +4,12 @@
 from i3pystatus import Status
 from os import environ, getlogin
 
+### Notice:
 # Create "machine.py" in this directory with key-value pairs, e.g.
 #    ifce = "eth0"
 #    disks = [["/", ""], ["/home", ""], ["/data", ""]]
 # to feed local machine configuration variables into this script
+
 try:
     from machine import *
 except:
@@ -44,7 +46,9 @@ for disk, icon in disks:
     status.register("disk",
                     path=disk,
                     hints={'markup': 'pango'},
-                    format="<span size=\"x-small\">%s</span> {avail}G"%icon,
+                    divisor=1024.0**4,
+                    round_size=3,
+                    format="<span size=\"x-small\">%s</span> {avail} TB"%icon,
     )
 
 try:
