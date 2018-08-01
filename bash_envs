@@ -36,6 +36,11 @@ if [[ -d ${HOME}/.nvm ]]; then
     export NVM_DIR="/home/thor/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 fi
+# === Qt ===
+if [[ -d /usr/local/lib/plugins ]]
+then
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
+fi
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
