@@ -66,6 +66,9 @@ elif [[ -d /cluster/intel ]]; then
     elif [[ $(echo $LD_LIBRARY_PATH | grep composer_xe) == "" ]]; then
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cluster/intel/composer_xe_2015.0.090/compiler/lib/intel64/
     fi
+elif [[ $(hostname -s) == "thrudvang" ]]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/compilers_and_libraries_2018.3.222/linux/compiler/lib/intel64_lin
+    export AMGX_DIR=/Valhalla/arch/AMGX
 fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then

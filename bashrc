@@ -94,3 +94,11 @@ if [ -f "$HOME/.bash.d/bash_envs" ]
 then
     source "$HOME/.bash.d/bash_envs"
 fi
+if [ -f "$HOME/.bash.d/conda.sh" ]
+then
+    source "$HOME/.bash.d/conda.sh"
+fi
+if [[ -f "~/repositories/OpenFOAM-dev/etc/bashrc" ]]
+then
+        source "~/repositories/OpenFOAM-dev/etc/bashrc"
+fi
