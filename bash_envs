@@ -1,13 +1,13 @@
 #!/bin/bash
 me=$(whoami)
 # === Manage search paths ===
-export PATH=/usr/local/bin:$HOME/research/projects/mmsp/utility:$PATH
-export PATH=/opt/intel/bin:/opt/pgi/linux86-64/2017/bin:$PATH
+export PATH=$PATH:/usr/local/bin:$HOME/research/projects/mmsp/utility
+export PATH=$PATH:/opt/intel/bin:/opt/pgi/linux86-64/2017/bin
 if [[ -d /usr/local/${me} ]]; then
-    export PATH=/usr/local/${me}/bin:/usr/local/${me}/opt/anaconda/bin:$PATH
+    export PATH=$PATH:/usr/local/${me}/bin
 fi
 export MMSP_PATH=$HOME/research/projects/mmsp
-export PATH=$MMSP_PATH/utility:$PATH
+export PATH=$PATH:$MMSP_PATH/utility
 # === AUR ===
 export gaur="https://aur.archlinux.org"
 # === Emacs ===
@@ -29,24 +29,33 @@ export GOROOT=/usr/lib/go
 # === KDE ===
 export KDE_FULL_SESSION=true
 export KDEWM=/usr/bin/i3
+# === MPI ===
+export MPI_PATH=/usr/local/include
 # === NVM ===
 if [[ -d ${HOME}/.nvm ]]; then
     export NVM_DIR="/home/thor/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+fi
+# === Qt ===
+if [[ -d /usr/local/lib/plugins ]]
+then
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
 fi
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
     export CHROME_CONFIG_HOME=/usr/local/${me}
     export CHROME_USER_DATA_HOME=/usr/local/${me}/google-chrome
+    export AMGX_DIR=/usr/local/tnk10/opt/AMGX
+    export GSL_PATH=$HOME/.conda/envs/mmsp/include
+    export MPI_PATH=$HOME/.conda/envs/mmsp/include
     if [[ $(echo $PATH | grep anaconda) == "" ]]; then
         export PATH=$PATH:/site/x86/anaconda-1.8/anaconda/bin
-        export GSL_PATH=$HOME/.conda/envs/mmsp/include
         export LIBGL_ALWAYS_INDIRECT=1
     fi
 fi
 # === CUDA ===
-for n in {7.0,7.5,8.0,8.5,9.0,9.1}; do
+for n in {9.1,9.0,8.5,8.0,7.5,7.0}; do
     if [[ -d "/usr/local/cuda-${n}" ]]; then
         export PATH=$PATH:/usr/local/cuda-${n}/bin
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-${n}/targets/x86_64-linux/lib/
@@ -54,26 +63,21 @@ for n in {7.0,7.5,8.0,8.5,9.0,9.1}; do
 done
 # === Intel ===
 if [[ -d /usr/local/intel ]]; then
-    if [[ "$LD_LIBRARY_PATH" == "" ]]; then
-        export LD_LIBRARY_PATH=/usr/local/intel/composer_xe_2015.3.187/compiler/lib/intel64/
-    elif [[ $(echo $LD_LIBRARY_PATH | grep composer_xe) == "" ]]; then
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/intel/composer_xe_2015.3.187/compiler/lib/intel64/
-    fi
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /usr/local/intel -type d -name intel64)
 elif [[ -d /cluster/intel ]]; then
-    export PATH=/cluster/intel/composer_xe_2015.0.090/bin/intel64/:$PATH
-    if [[ "$LD_LIBRARY_PATH" == "" ]]; then
-        export LD_LIBRARY_PATH=/cluster/intel/composer_xe_2015.0.090/compiler/lib/intel64/
-    elif [[ $(echo $LD_LIBRARY_PATH | grep composer_xe) == "" ]]; then
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cluster/intel/composer_xe_2015.0.090/compiler/lib/intel64/
-    fi
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /cluster/intel -type d -name intel64)
 fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi
     export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH=/opt/pgi/linux86-64/2016/bin:$PATH
+    export PATH=$PATH:/opt/pgi/linux86-64/2016/bin
 elif [[ -f /usr/local/pgi/license.dat ]]; then
     export PGI_PATH=/usr/local/pgi
     export LM_LICENSE_FILE=/usr/local/pgi/license.dat
-    export PATH=/usr/local/pgi/linux86-64/2016/bin:$PATH
+    export PATH=$PATH:/usr/local/pgi/linux86-64/2016/bin
+fi
+
+if [[ -f $HOME/.bash.d/tokens ]]; then
+    . ~/.bash.d/tokens
 fi
