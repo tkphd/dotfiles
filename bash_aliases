@@ -12,18 +12,24 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-if [[ $(hostname -s) != "p859561" ]]; then
+if [[ $(hostname -s) == "p859561" ]]; then
+    alias agi="apt-get -s install"
+    alias condact="source /site/x86/anaconda-1.8/anaconda/bin/activate"
+    alias condeact="source /site/x86/anaconda-1.8/anaconda/bin/deactivate"
+elif [[ $(hostname -s) == "huginn" ]]; then
+        alias agi="sudo apt-get install"
+        alias aguu="sudo apt update; sudo apt upgrade -y"
+        alias condact="source /usr/local/tnk10/opt/anaconda/bin/activate"
+        alias condeact="source /usr/local/tnk10/opt/anaconda/bin/deactivate"
+else
     alias agi="sudo apt install"
     alias aguu="sudo apt update; sudo apt upgrade -y"
     alias condact="source $HOME/anaconda/bin/activate"
     alias condeact="source $HOME/anaconda/bin/deactivate"
-else
-    alias agi="apt-get -s install"
-    alias condact="source /site/x86/anaconda-1.8/anaconda/bin/activate"
-    alias condeact="source /site/x86/anaconda-1.8/anaconda/bin/deactivate"
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 12h /root/.ssh/id_rsa; stty echo'"
+alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias convertbw="convert -density 300 -colorspace gray"
 alias e="emacsclient -t"
@@ -52,5 +58,5 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wdd="sudo dd bs=4M conv=fsync status=progress"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
-alias wihome="nmtui-connect home"
-alias wiwork="nmtui-connect work"
+alias wihome="nmcli con up home"
+alias wiwork="nmcli con up work passwd-file ~/.wifi"
