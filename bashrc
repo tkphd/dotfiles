@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # === Colorful! ===
     NONE='\[\e[0m\]'
    BLACK='\[\e[0;30m\]'
