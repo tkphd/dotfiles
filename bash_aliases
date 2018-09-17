@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/.bash.d/dircolors)" || eval "$(dircolors -b)"
@@ -29,7 +29,6 @@ else
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 12h /root/.ssh/id_rsa; stty echo'"
-alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias convertbw="convert -density 300 -colorspace gray"
 alias e="emacsclient -t"
@@ -60,7 +59,8 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wdd="sudo dd bs=4M conv=fsync status=progress"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
-if [[ $(hostname -s) -eq "huginn" ]]
+if [[ $(hostname -s) == 'huginn' ]]
+	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 	alias wihome="nmcli con up home"
 	alias wiwork="nmcli con up work passwd-file ~/.wifi"
 fi
