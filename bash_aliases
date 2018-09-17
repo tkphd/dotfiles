@@ -60,5 +60,7 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wdd="sudo dd bs=4M conv=fsync status=progress"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
-alias wihome="nmcli con up home"
-alias wiwork="nmcli con up work passwd-file ~/.wifi"
+if [[ $(hostname -s) -eq "huginn" ]]
+	alias wihome="nmcli con up home"
+	alias wiwork="nmcli con up work passwd-file ~/.wifi"
+fi
