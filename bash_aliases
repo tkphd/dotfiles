@@ -60,6 +60,7 @@ alias wdd="sudo dd bs=4M conv=fsync status=progress"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
 if [[ $(hostname -s) == 'huginn' ]]
+then
 	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 	alias wihome="nmcli con up home"
 	alias wiwork="nmcli con up work passwd-file ~/.wifi"
