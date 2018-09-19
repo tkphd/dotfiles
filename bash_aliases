@@ -1,4 +1,4 @@
-!/bin/bash
+#!/usr/bin/env bash
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/.bash.d/dircolors)" || eval "$(dircolors -b)"
@@ -50,6 +50,7 @@ alias psi="sudo pacman -S"
 alias psu="sudo pacman -Syu"
 alias rsync="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
+alias sbash="srun --pty -n 20 bash"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
 alias sq="squeue -o \"%14i %10j %4t %8q %8a %8g %10P %10Q %6p %8D %11l %11L %R\" -u $USER"
