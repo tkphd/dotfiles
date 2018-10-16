@@ -8,6 +8,11 @@ if [[ -d /usr/local/${me} ]]; then
 fi
 export MMSP_PATH=$HOME/research/projects/mmsp
 export PATH=$PATH:$MMSP_PATH/utility
+# === Anaconda ===
+if [[ -d ~/miniconda3 ]]
+then
+    export PATH="~/miniconda3/bin:$PATH"
+fi
 # === AUR ===
 export gaur="https://aur.archlinux.org"
 # === Emacs ===
@@ -41,6 +46,8 @@ if [[ -d /usr/local/lib/plugins ]]
 then
     export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
 fi
+# === SSH ===
+export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL

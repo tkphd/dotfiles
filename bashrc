@@ -73,7 +73,7 @@ if [ "$PS1" ]; then
                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
             }
 	        PS1="${MAGENTA}«${RED}\D{%H:%M}${MAGENTA}@${BLUE}\h${MAGENTA}:${CYANL}\W${MAGENTA}\$(sep_git)${RED}\$(str_git)${MAGENTA}»${GREENL}\$${NONE} "
-            PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
+                PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
             if [ $UID = $EUID -a $UID -ne 0 ]
@@ -102,3 +102,7 @@ if [[ -f "~/repositories/OpenFOAM-dev/etc/bashrc" ]]
 then
         source "~/repositories/OpenFOAM-dev/etc/bashrc"
 fi
+# Install Ruby Gems to ~/gems
+export GEM_HOME=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
+
