@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/.bash.d/dircolors)" || eval "$(dircolors -b)"
@@ -29,7 +29,6 @@ else
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 12h /root/.ssh/id_rsa; stty echo'"
-alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias convertbw="convert -density 300 -colorspace gray"
 alias e="emacsclient -t"
@@ -51,6 +50,7 @@ alias psi="sudo pacman -S"
 alias psu="sudo pacman -Syu"
 alias rsync="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
+alias sbash="srun --pty -n 20 bash"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
 alias sq="squeue -o \"%14i %10j %4t %8q %8a %8g %10P %10Q %6p %8D %11l %11L %R\" -u $USER"
@@ -60,5 +60,9 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wdd="sudo dd bs=4M conv=fsync status=progress"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
-alias wihome="nmcli con up home"
-alias wiwork="nmcli con up work passwd-file ~/.wifi"
+if [[ $(hostname -s) == 'huginn' ]]
+then
+	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
+	alias wihome="nmcli con up home"
+	alias wiwork="nmcli con up work passwd-file ~/.wifi"
+fi
