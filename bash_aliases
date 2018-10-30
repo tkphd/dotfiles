@@ -28,7 +28,7 @@ else
     alias condeact="source $HOME/anaconda/bin/deactivate"
 fi
 alias acs="apt-cache search"
-alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 12h /root/.ssh/id_rsa; stty echo'"
+alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 8h /root/.ssh/id_rsa; stty echo'"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias convertbw="convert -density 300 -colorspace gray"
 alias e="emacsclient -t"
@@ -53,7 +53,7 @@ alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c
 alias sbash="srun --pty -n 20 bash"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
-alias sq="squeue -o \"%14i %10j %4t %8q %8a %8g %10P %10Q %6p %8D %11l %11L %R\" -u $USER"
+alias sq="squeue -o \"%7i %10j %10P %9Q %6D %5C %11R %o\" -u"
 alias ss="squeue --start -u $USER"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
@@ -66,3 +66,8 @@ then
 	alias wihome="nmcli con up home"
 	alias wiwork="nmcli con up work passwd-file ~/.wifi"
 fi
+whoareu () {
+    local user=$(id -u $1)
+    local info=$(getent passwd $user)
+    echo $info | awk -F':' '{print $5}' | awk -F',' '{print $1}'
+}
