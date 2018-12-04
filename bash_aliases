@@ -29,8 +29,10 @@ else
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 8h /root/.ssh/id_rsa; stty echo'"
+alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias convertbw="convert -density 300 -colorspace gray"
+alias curl="curl -L -C -"
 alias e="emacsclient -t"
 alias ec="emacsclient -c -a emacs"
 alias ed="emacs --daemon"
@@ -58,6 +60,7 @@ alias ss="squeue --start -u $USER"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wdd="sudo dd bs=4M conv=fsync status=progress"
+alias wget="wget -d -c --tries=0 --read-timeout=30"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
 if [[ $(hostname -s) == 'huginn' ]]
