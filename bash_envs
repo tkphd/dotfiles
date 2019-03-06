@@ -2,7 +2,9 @@
 me=$(whoami)
 # === Manage search paths ===
 export PATH=$PATH:/usr/local/bin:$HOME/research/projects/mmsp/utility
-export PATH=$PATH:/opt/intel/bin:/opt/pgi/linux86-64/2017/bin
+if [[ -d ${HOME}/bin ]];then
+    export PATH=${PATH}:${HOME}/bin
+fi
 if [[ -d /usr/local/${me} ]]; then
     export PATH=$PATH:/usr/local/${me}/bin
 fi
@@ -41,10 +43,9 @@ if [[ -d ${HOME}/.nvm ]]; then
     export NVM_DIR="/home/thor/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 fi
-# === Qt ===
-if [[ -d /usr/local/lib/plugins ]]
-then
-    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
+# OpenARC
+if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
+    export openarc=${HOME}/repositories/OpenARC
 fi
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
@@ -76,6 +77,9 @@ for n in {9.1,9.0,8.5,8.0,7.5,7.0}; do
     fi
 done
 # === Intel ===
+if [[ -d /opt/intel/bin ]]; then
+    export PATH=$PATH:/opt/intel/bin
+fi
 if [[ -d /usr/local/intel ]]; then
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /usr/local/intel/compilers_and_libraries_2018 -type d -name intel64 | grep -m1 .)
 elif [[ -d /cluster/intel ]]; then
@@ -88,7 +92,7 @@ fi
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi
     export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH=$PATH:/opt/pgi/linux86-64/2016/bin
+    export PATH=$PATH:/opt/pgi/linux86-64/$(ls -r -1 /opt/pgi/linux86-64 | head -n 1)/bin
 elif [[ -f /usr/local/pgi/license.dat ]]; then
     export PGI_PATH=/usr/local/pgi
     export LM_LICENSE_FILE=/usr/local/pgi/license.dat
