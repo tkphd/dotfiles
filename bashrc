@@ -85,24 +85,16 @@ if [ "$PS1" ]; then
     esac
 fi
 # === Aliased! ===
-if [ -f "$HOME/.bash.d/bash_aliases" ]
-then
-    source "$HOME/.bash.d/bash_aliases"
+if [ -f "${HOME}/.bash.d/bash_aliases" ]; then
+    source "${HOME}/.bash.d/bash_aliases"
 fi
 # === Environmental! ===
-if [ -f "$HOME/.bash.d/bash_envs" ]
-then
-    source "$HOME/.bash.d/bash_envs"
+if [ -f "${HOME}/.bash.d/bash_envs" ]; then
+    source "${HOME}/.bash.d/bash_envs"
 fi
-if [ -f "$HOME/.bash.d/conda.sh" ]
-then
-    source "$HOME/.bash.d/conda.sh"
+if [ -f "${HOME}/.bash.d/conda.sh" ]; then
+    source "${HOME}/.bash.d/conda.sh"
 fi
-if [[ -f "~/repositories/OpenFOAM-dev/etc/bashrc" ]]
-then
-        source "~/repositories/OpenFOAM-dev/etc/bashrc"
-fi
-# Install Ruby Gems to ~/gems
-export GEM_HOME=$HOME/gems
-export PATH=$HOME/gems/bin:$PATH
-
+#if [[ -f "~/repositories/OpenFOAM-dev/etc/bashrc" ]]; then
+#        source "~/repositories/OpenFOAM-dev/etc/bashrc"
+#fi
