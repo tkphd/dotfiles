@@ -29,8 +29,6 @@
 
 (require 'setup-cedet)
 (require 'setup-editing)
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
 
 (load-theme 'tsdh-dark)
 
@@ -68,7 +66,7 @@
  '(package-selected-packages
    (quote
     (zygospore helm-gtags helm yasnippet ws-butler dtrt-indent
-     volatile-highlights use-package undo-tree iedit
+     use-package undo-tree iedit
      counsel-projectile company clean-aindent-mode anzu))))
 
 (custom-set-faces
@@ -93,9 +91,25 @@
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
 ;; linting
-(global-flycheck-mode)
+;; (global-flycheck-mode)
 (setq require-final-newline t)
 (setq column-number-mode t)
+
+;; Mutt
+(setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
+(defun mail-mode-fill-col ()
+    (setq fill-column 72))
+(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+(add-hook 'mail-mode-hook          'turn-on-auto-fill)
+(add-hook 'mail-mode-hook          'mail-mode-fill-col)
+(add-hook 'mail-mode-hook          'mail-abbrevs-setup)
+(add-hook 'mail-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("^[ \t]*>[ \t]*>[ \t]*>.*$"
+                                       (0 'mail-multiply-quoted-text-face))
+                                      ("^[ \t]*>[ \t]*>.*$"
+                                                         (0 'mail-double-quoted-text-face))))))
 
 ;; syntax highlighting
 (setq c-default-style "linux"
@@ -106,8 +120,8 @@
 
 (use-package cuda-mode
   :ensure t
-  :mode (("\\.cu\\'"  . cuda-mode)
-         ("\\.cuh\\'" . cuda-mode))
+  :mode (("\\.cu\\'"  . cuda-mode))
+  :mode (("\\.cuh\\'"  . cuda-mode))
 )
 
 (require 'opencl-mode)
