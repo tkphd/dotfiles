@@ -35,7 +35,10 @@ status.register("load")
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
-                format="{temp:.0f}°C",
+                # format="{Package_id_0:.0f}°C",
+                hints={"markup": "pango"},
+                # lm_sensors_enabled=True,
+                dynamic_color=True,
 )
 
 # Shows disk usage of /

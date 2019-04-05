@@ -24,9 +24,10 @@
 ! #include ".config/Xcolors/sourcerer"
 
 ! █▓▒░ preferred font
-*.font:              xft:fira code:pixelsize=14
-*.boldFont:          xft:fira code:pixelsize=14:style=Bold
-*.italicFont:        xft:fira code:pixelsize=14:style=Italic
+URxvt.font:           xft:fira code:pixelsize=14
+URxvt.boldFont:       xft:fira code:pixelsize=14:style=Bold
+URxvt.italicFont:     xft:fira code:pixelsize=14:style=Italic
+Emacs.font:          Fira Code-14
 
 ! █▓▒░ alternate fonts
 ! *.font:            xft:hack:pixelsize=14
@@ -37,10 +38,10 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
-#if X_RESOLUTION>3000 
-Xft.dpi:             192
-#else
+#if X_RESOLUTION<32000
 Xft.dpi:             96
+#else
+Xft.dpi:             192
 #endif
 Xft.antialias:       true
 Xft.rgba:            rgb

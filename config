@@ -142,6 +142,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# printscreen
+
+bindsym Print exec "scrot ${HOME}/Pictures/screenshot-%Y-%m-%d-%S.png"
+
 # audio volume
 bindsym XF86AudioRaiseVolume exec "amixer -q set Master 1%+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q set Master 1%- unmute"
