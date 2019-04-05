@@ -29,6 +29,8 @@
 
 (require 'setup-cedet)
 (require 'setup-editing)
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
 
 (load-theme 'tsdh-dark)
 
@@ -66,7 +68,7 @@
  '(package-selected-packages
    (quote
     (zygospore helm-gtags helm yasnippet ws-butler dtrt-indent
-     use-package undo-tree iedit
+     volatile-highlights use-package undo-tree iedit
      counsel-projectile company clean-aindent-mode anzu))))
 
 (custom-set-faces
@@ -141,8 +143,10 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
+
 (add-hook 'LaTeX-mode-hook 'visual-line-mode)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
