@@ -80,6 +80,7 @@ if [[ $(hostname -s) == "p859561" ]]; then
     export CUDARCH=sm_35
 elif [[ $(hostname -s) == "thrudvang" ]]; then
     export CUDARCH=sm_61
+    export CUDA_HDR_PATH=/opt/cuda/targets/x86_64-linux/include
 else
     export CUDARCH=sm_50
 fi

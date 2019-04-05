@@ -42,6 +42,7 @@ alias fixperm="find . -perm -u=r -a -not -perm -o=r -exec chmod -v a+r {} \; ; f
 alias se="sudo emacs -nw"
 alias gdb="gdb -q"
 alias gue="git config user.email 'trevor.keller@gmail.com'"
+alias guvc="guvcviewer -x 1600x1200"
 alias ifstat="sudo iftop -i enp0s31f6"
 alias jbld="docker run --rm --volume=$PWD:/srv/jekyll -it jekyll/jekyll:stable jekyll build"
 alias jsrv="docker run --rm --volume=$PWD:/srv/jekyll -p 4000:4000 -it jekyll/jekyll:stable jekyll serve"
@@ -64,6 +65,10 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wget="wget -d -c --tries=0 --read-timeout=30"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
+alias yss="yaourt -Ss"
+alias ysi="yaourt -S"
+alias ysu="yaourt -Syu"
+
 if [[ $(hostname -s) == 'huginn' ]]
 then
 	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
