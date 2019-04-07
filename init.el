@@ -97,6 +97,22 @@
 (setq require-final-newline t)
 (setq column-number-mode t)
 
+;; line endings
+(defun unix-file ()
+  "Change the current buffer to Unix line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'unix t))
+
+(defun dos-file ()
+  "Change the current buffer to DOS line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'dos t))
+
+(defun mac-file ()
+  "Change the current buffer to Mac line-ends."
+  (interactive)
+    (set-buffer-file-coding-system 'mac t))
+
 ;; Mutt
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 (defun mail-mode-fill-col ()
