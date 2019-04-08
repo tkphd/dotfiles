@@ -20,6 +20,9 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec /usr/bin/konsole
 
+# screenshot
+bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
+
 # lock the screen (Mod1 is Alt)
 bindsym Control+Mod1+l exec "~/.config/i3/fuzzylocker.sh"
 exec "/usr/bin/xautolock -locker ~/.config/i3/fuzzylocker.sh"
