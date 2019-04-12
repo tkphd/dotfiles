@@ -1,7 +1,7 @@
 ! Google Material Design
 
 *background 		: #263238
-*foreground 		: #bcbfc0
+*foreground 		: #eceff1
 
 ! black
 *color0  			: #263238
@@ -26,4 +26,4 @@
 *color14 			: #26a69a
 ! white
 *color7  			: #cfd8dc
-*color15 			: #bcbfc0
+*color15 			: #eceff1
