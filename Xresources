@@ -34,7 +34,7 @@ Xft.hinting:   true
 Xft.hintstyle: hintfull
 
 ! █▓▒░ appearance
-*.letterSpace: -2
+Urxvt.letterSpace: -2
 *.lineSpace:   0
 *.urlLauncher: google-chrome
 *.allow_bold:  true
@@ -44,7 +44,7 @@ Xft.hintstyle: hintfull
 *.scrollStyle: rxvt
 
 ! █▓▒░ interaction
-*.perl-ext-common:   ...,font-size
+URxvt.perl-ext-common: ...,font-size
 Xcursor.size:        32
 *.scrollStyle:       rxvt
 *.jumpScroll:        true
