@@ -9,7 +9,7 @@
 ! Modified from <http://github.com/xero/dotfiles/urxvt>
 
 ! █▓▒░ foundation
-*.termName:  rxvt-256color
+*.termName:  konsole
 *.iso14755:  false
 *.saveLines: 10000
 
@@ -23,8 +23,10 @@
 Emacs.font:   Fira Code-14
 
 ! █▓▒░ Xft settings
-#if WIDTH > 3000 
+#if WIDTH > 3000
 Xft.dpi:       192
+#else
+Xft.dpi:       96
 #endif
 Xft.antialias: true
 Xft.rgba:      rgb
