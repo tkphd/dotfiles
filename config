@@ -18,8 +18,8 @@ font pango:LM Sans 12, Font Awesome 12
 floating_modifier $mod
 
 # start a terminal
-# bindsym $mod+Return exec /usr/bin/konsole --hide-menubar --hide-tabbar
-bindsym $mod+Return exec /usr/bin/rxvt-unicode
+bindsym $mod+Return exec /usr/bin/konsole --hide-menubar --hide-tabbar
+# bindsym $mod+Return exec /usr/bin/rxvt-unicode
 
 # screenshot
 bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
