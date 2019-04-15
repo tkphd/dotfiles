@@ -4,10 +4,12 @@
 from i3pystatus import Status
 from os import environ
 
+### Notice:
 # Create "machine.py" in this directory with key-value pairs, e.g.
 #    ifce = "eth0"
 #    disks = [["/", ""], ["/home", ""], ["/data", ""]]
 # to feed local machine configuration variables into this script
+
 try:
     from machine import *
 except:
@@ -33,7 +35,10 @@ status.register("load")
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
-                format="{temp:.0f}°C",
+                # format="{Package_id_0:.0f}°C",
+                hints={"markup": "pango"},
+                # lm_sensors_enabled=True,
+                dynamic_color=True,
 )
 
 # Shows disk usage of /
@@ -43,7 +48,9 @@ for disk, icon in disks:
     status.register("disk",
                     path=disk,
                     hints={'markup': 'pango'},
-                    format="<span size=\"x-small\">%s</span> {avail}G"%icon,
+                    divisor=1024.0**4,
+                    round_size=3,
+                    format="<span size=\"x-small\">%s</span> {avail} TB"%icon,
     )
 
 try:

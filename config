@@ -18,9 +18,10 @@ font pango:LM Sans 12, Font Awesome 12
 floating_modifier $mod
 
 # start a terminal
-# bindsym $mod+Return exec i3-sensible-terminal
-# bindsym $mod+Return exec /usr/bin/konsole
 bindsym $mod+Return exec /usr/bin/urxvt
+
+# screenshot
+bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
 
 # lock the screen (Mod1 is Alt)
 bindsym Control+Mod1+l exec "~/.config/i3/fuzzylocker.sh"
@@ -141,6 +142,10 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# printscreen
+
+bindsym Print exec "scrot ${HOME}/Pictures/screenshot-%Y-%m-%d-%S.png"
 
 # audio volume
 bindsym XF86AudioRaiseVolume exec "amixer -q set Master 1%+ unmute"
