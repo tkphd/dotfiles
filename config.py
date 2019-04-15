@@ -58,6 +58,17 @@ except:
     ##       and libalsaaudio-dev
     status.register("alsa")
 
+# Battery status
+status.register("battery",
+                format="{status} {consumption:.2f}W {percentage:.2f}% {remaining:%E%hh:%Mm}",
+                alert=True,
+                alert_percentage=5,
+                status={
+                    "DIS": "↓",
+                    "CHR": "↑",
+                    "FULL": "=",
+                },)
+
 # Shows the address and up/down state of eth0. If it is up the address is
 # shown in green (the default value of color_up) and the CIDR-address is
 # shown (i.e. 10.10.10.42/24).

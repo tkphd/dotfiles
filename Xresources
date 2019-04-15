@@ -37,7 +37,7 @@
 ! *.italicFont:      xft:mononoki:pixelsize=14:style=Italic
 
 ! █▓▒░ Xft settings
-#if X_RESOLUTION>3000 
+#if WIDTH > 3000 
 Xft.dpi:             192
 #else
 Xft.dpi:             96
