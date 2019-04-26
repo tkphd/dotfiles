@@ -16,6 +16,7 @@ except:
     # Defaults! Renders a penguin for '' and a house for '' (Font Awesome)
     ifce = "eth0"
     disks = [["/", ""], ["/home", ""]]
+    battery = False
 
 home = environ['HOME']
 status = Status()
@@ -63,15 +64,16 @@ except:
     status.register("alsa")
 
 # Battery status
-status.register("battery",
-                format="{status} {consumption:.2f}W {percentage:.2f}% {remaining:%E%hh:%Mm}",
-                alert=True,
-                alert_percentage=5,
-                status={
-                    "DIS": "↓",
-                    "CHR": "↑",
-                    "FULL": "=",
-                },)
+if battery:
+    status.register("battery",
+                    format="{status} {consumption:.2f}W {percentage:.2f}% {remaining:%E%hh:%Mm}",
+                    alert=True,
+                    alert_percentage=5,
+                    status={
+                        "DIS": "↓",
+                        "CHR": "↑",
+                        "FULL": "=",
+                    },)
 
 # Shows the address and up/down state of eth0. If it is up the address is
 # shown in green (the default value of color_up) and the CIDR-address is
