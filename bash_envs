@@ -1,7 +1,7 @@
 #!/bin/bash
 me=$(whoami)
 # === Manage search paths ===
-export PATH=$PATH:/usr/local/bin:$HOME/research/projects/mmsp/utility
+export PATH=$PATH:$HOME/bin:/usr/local/bin:$HOME/research/projects/mmsp/utility
 export PATH=$PATH:/opt/intel/bin:/opt/pgi/linux86-64/2017/bin
 if [[ -d /usr/local/${me} ]]; then
     export PATH=$PATH:/usr/local/${me}/bin
@@ -72,18 +72,8 @@ fi
 for n in {9.1,9.0,8.5,8.0,7.5,7.0}; do
     if [[ -d "/usr/local/cuda-${n}" ]]; then
         export PATH=$PATH:/usr/local/cuda-${n}/bin
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-${n}/targets/x86_64-linux/lib/
     fi
 done
-# === Intel ===
-if [[ -d /usr/local/intel ]]; then
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /usr/local/intel/compilers_and_libraries_2018 -type d -name intel64 | grep -m1 .)
-elif [[ -d /cluster/intel ]]; then
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /cluster/intel -type d -name intel64 | grep -m1 .)
-elif [[ $(hostname -s) == "thrudvang" ]]; then
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/compilers_and_libraries_2018.3.222/linux/compiler/lib/intel64_lin
-    export AMGX_DIR=/Valhalla/arch/AMGX
-fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi

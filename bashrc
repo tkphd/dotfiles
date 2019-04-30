@@ -85,24 +85,40 @@ if [ "$PS1" ]; then
     esac
 fi
 # === Aliased! ===
-if [ -f "$HOME/.bash.d/bash_aliases" ]
+if [ -f "${HOME}/.bash.d/bash_aliases" ]
 then
-    source "$HOME/.bash.d/bash_aliases"
+    source "${HOME}/.bash.d/bash_aliases"
 fi
 # === Environmental! ===
-if [ -f "$HOME/.bash.d/bash_envs" ]
+if [ -f "${HOME}/.bash.d/bash_envs" ]
 then
-    source "$HOME/.bash.d/bash_envs"
+    source "${HOME}/.bash.d/bash_envs"
 fi
-if [ -f "$HOME/.bash.d/conda.sh" ]
+if [ -f "${HOME}/.bash.d/conda.sh" ]
 then
-    source "$HOME/.bash.d/conda.sh"
+    source "${HOME}/.bash.d/conda.sh"
 fi
-if [[ -f "~/repositories/OpenFOAM-dev/etc/bashrc" ]]
+if [[ -f "${HOME}/repositories/OpenFOAM-dev/etc/bashrc" ]]
 then
-        source "~/repositories/OpenFOAM-dev/etc/bashrc"
+        source "${HOME}/repositories/OpenFOAM-dev/etc/bashrc"
 fi
-# Install Ruby Gems to ~/gems
-export GEM_HOME=$HOME/gems
-export PATH=$HOME/gems/bin:$PATH
+
+# Install Ruby Gems to ${HOME}/gems
+export GEM_HOME=${HOME}/gems
+export PATH=${HOME}/gems/bin:$PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('${HOME}/anaconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "${HOME}/anaconda/etc/profile.d/conda.sh" ]; then
+        . "${HOME}/anaconda/etc/profile.d/conda.sh"
+    else
+        export PATH="${HOME}/anaconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
