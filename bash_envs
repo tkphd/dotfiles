@@ -1,26 +1,28 @@
-#!/bin/bash
-me=$(whoami)
+#!/usr/bin/env bash
 # === Manage search paths ===
-export PATH=$PATH:$HOME/bin:/usr/local/bin:$HOME/research/projects/mmsp/utility
-export PATH=$PATH:/opt/intel/bin:/opt/pgi/linux86-64/2017/bin
-if [[ -d /usr/local/${me} ]]; then
-    export PATH=$PATH:/usr/local/${me}/bin
+export PATH=$PATH:/usr/local/bin:$HOME/research/projects/mmsp/utility
+if [[ -d ${HOME}/bin ]];then
+    export PATH=${PATH}:${HOME}/bin
 fi
-export MMSP_PATH=$HOME/research/projects/mmsp
-export PATH=$PATH:$MMSP_PATH/utility
+if [[ -d /usr/local/${USER} ]]; then
+    export PATH=$PATH:/usr/local/${USER}/bin
+fi
 # === Anaconda ===
-if [[ -d ~/miniconda3 ]]
-then
-    export PATH="~/miniconda3/bin:$PATH"
+if [[ -d ${HOME}/miniconda3 ]]; then
+    export PATH=${HOME}/miniconda3/bin:$PATH
 fi
 # === AUR ===
 export gaur="https://aur.archlinux.org"
+# === BeeGFS ===
+if [[ -d /opt/beegfs ]]; then
+    export PATH=$PATH:/opt/beegfs/sbin
+fi
 # === Emacs ===
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
 export TERMINAL=/usr/bin/konsole
-export EMACSD=/tmp/emacs-${me}
+export EMACSD=/tmp/emacs-${USER}
 export EMACSBD=$EMACSD/backups
 export EMACSSD=$EMACSD/saves
 if [[ ! -d $EMACSD ]]; then
@@ -28,63 +30,93 @@ if [[ ! -d $EMACSD ]]; then
     mkdir -p $EMACSBD
     mkdir -p $EMACSSD
 fi
-# === GO ===
-export GOBIN=$GOPATH/bin
-export GOROOT=/usr/lib/go
+# === GCC ===
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === KDE ===
 export KDE_FULL_SESSION=true
 export KDEWM=/usr/bin/i3
+# === MMSP ===
+export MMSP_PATH=${HOME}/research/projects/mmsp
+export PATH=$PATH:$MMSP_PATH/utility
 # === MPI ===
 export MPI_PATH=/usr/local/include
-# === NVM ===
-if [[ -d ${HOME}/.nvm ]]; then
-    export NVM_DIR="/home/thor/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# === NIX ===
+if [[ -d ${HOME}/.nix-profile/etc/profile.d ]]; then
+    . ${HOME}/.nix-profile/etc/profile.d/nix.sh
+fi
+# OpenARC (Accelerator Research Compiler)
+if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
+    export openarc=${HOME}/repositories/OpenARC
 fi
 # === Qt ===
-if [[ -d /usr/local/lib/plugins ]]
-then
+if [[ -d /usr/local/lib/plugins ]]; then
     export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
 fi
+# === Ruby ===
+export GEM_HOME=${HOME}/.gems
+export PATH=$PATH:$GEM_HOME/bin:$GEM_HOME/ruby/2.5.0/bin
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
-    export CHROME_CONFIG_HOME=/usr/local/${me}
-    export CHROME_USER_DATA_HOME=/usr/local/${me}/google-chrome
+    export CHROME_CONFIG_HOME=/usr/local/${USER}
+    export CHROME_USER_DATA_HOME=/usr/local/${USER}/google-chrome
     export AMGX_DIR=/usr/local/tnk10/opt/AMGX
-    export GSL_PATH=$HOME/.conda/envs/mmsp/include
-    export MPI_PATH=$HOME/.conda/envs/mmsp/include
+    export GSL_PATH=${HOME}/.conda/envs/mmsp/include
+    export MPI_PATH=${HOME}/.conda/envs/mmsp/include
     if [[ $(echo $PATH | grep anaconda) == "" ]]; then
         export PATH=$PATH:/site/x86/anaconda-1.8/anaconda/bin
         export LIBGL_ALWAYS_INDIRECT=1
     fi
 fi
 # === CUDA ===
+# See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
 if [[ $(hostname -s) == "p859561" ]]; then
     export CUDARCH=sm_35
 elif [[ $(hostname -s) == "thrudvang" ]]; then
     export CUDARCH=sm_61
+elif [[ $(hostname -s) == "rgpu3" ]]; then
+    export CUDARCH=sm_60
 else
     export CUDARCH=sm_50
 fi
-for n in {9.1,9.0,8.5,8.0,7.5,7.0}; do
-    if [[ -d "/usr/local/cuda-${n}" ]]; then
+for n in {10.1,9.1,9.0,8.5,8.0,7.5,7.0}; do
+    if [[ -d "/usr/local/cuda-${n}" ]] && [[ $CUDA_HDR_PATH == "" ]]; then
         export PATH=$PATH:/usr/local/cuda-${n}/bin
+        export CUDA_HDR_PATH=/usr/local/cuda-${n}/targets/x86_64-linux/include
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-${n}/targets/x86_64-linux/lib
+    elif [[ -d /opt/cuda ]]; then
+        export CUDA_HDR_PATH=/opt/cuda/targets/x86_64-linux/include
     fi
 done
+# === Intel ===
+if [[ -d /opt/intel ]]; then
+    export PATH=$PATH:/opt/intel/bin
+fi
+if [[ -d /usr/local/intel ]]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /usr/local/intel/compilers_and_libraries_2018 -type d -name intel64 | grep -m1 .)
+elif [[ -d /cluster/intel ]]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(find /cluster/intel -type d -name intel64 | grep -m1 .)
+elif [[ $(hostname -s) == "thrudvang" ]]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/compilers_and_libraries_2018.3.222/linux/compiler/lib/intel64_lin
+    export AMGX_DIR=/Valhalla/arch/AMGX
+fi
+
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi
     export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH=$PATH:/opt/pgi/linux86-64/2016/bin
+    export PATH=$PATH:/opt/pgi/linux86-64/$(ls -r -1 /opt/pgi/linux86-64 | head -n 1)/bin
 elif [[ -f /usr/local/pgi/license.dat ]]; then
     export PGI_PATH=/usr/local/pgi
     export LM_LICENSE_FILE=/usr/local/pgi/license.dat
     export PATH=$PATH:/usr/local/pgi/linux86-64/2016/bin
 fi
+if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
+    export PATH=$PATH:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
+fi
 
-if [[ -f $HOME/.bash.d/tokens ]]; then
-    . ~/.bash.d/tokens
+if [[ -f ${HOME}/.bash.d/tokens ]]; then
+    . ${HOME}/.bash.d/tokens
 fi
