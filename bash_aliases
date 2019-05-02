@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.bash.d/dircolors && eval "$(dircolors -b ~/.bash.d/dircolors)" || eval "$(dircolors -b)"
+    test -r ${HOME}/.bash.d/dircolors && eval "$(dircolors -b ${HOME}/.bash.d/dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias l='ls -CF'
     alias la='ls -A'
@@ -11,6 +11,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+fi
+if [[ -f ${HOME}/.bash.d/HostIP ]]; then
+    source ${HOME}/.bash.d/HostIP
 fi
 if [[ $(hostname -s) == "p859561" ]]; then
     alias agi="apt-get -s install"
@@ -54,6 +57,7 @@ alias p="python 2>/dev/null"
 alias pss="pacman -Ss"
 alias psi="sudo pacman -S"
 alias psu="sudo pacman -Syu"
+alias pvrc="pvserver -rc --client-host=${HostIP}"
 alias rshop="rsync -e \"ssh -o ProxyJump=mr-french\""
 alias rsync="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
@@ -76,7 +80,7 @@ if [[ $(hostname -s) == 'huginn' ]]
 then
 	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 	alias wihome="nmcli con up home"
-	alias wiwork="nmcli con up work passwd-file ~/.wifi"
+	alias wiwork="nmcli con up work passwd-file ${HOME}/.wifi"
 fi
 whoareu () {
     local user=$(id -u $1)
