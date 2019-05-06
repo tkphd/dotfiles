@@ -17,18 +17,18 @@ if [[ -f ${HOME}/.bash.d/HostIP ]]; then
 fi
 if [[ $(hostname -s) == "p859561" ]]; then
     alias agi="apt-get -s install"
-    alias condact="source /site/x86/anaconda-1.8/anaconda/bin/activate"
-    alias condeact="source /site/x86/anaconda-1.8/anaconda/bin/deactivate"
+    alias condact="/site/x86/anaconda-1.8/anaconda/bin/./conda activate"
+    alias condeact="/site/x86/anaconda-1.8/anaconda/bin/./conda deactivate"
 elif [[ $(hostname -s) == "huginn" ]]; then
         alias agi="sudo apt-get install"
         alias aguu="sudo apt update; sudo apt upgrade -y"
-        alias condact="source /usr/local/tnk10/opt/anaconda/bin/activate"
-        alias condeact="source /usr/local/tnk10/opt/anaconda/bin/deactivate"
+        alias condact="/usr/local/tnk10/opt/anaconda/bin/./conda activate"
+        alias condeact="/usr/local/tnk10/opt/anaconda/bin/./conda deactivate"
 else
     alias agi="sudo apt install"
     alias aguu="sudo apt update; sudo apt upgrade -y"
-    alias condact="source $HOME/anaconda/bin/activate"
-    alias condeact="source $HOME/anaconda/bin/deactivate"
+    alias condact="$HOME/anaconda/bin/./conda activate"
+    alias condeact="$HOME/anaconda/bin/./conda deactivate"
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 8h /root/.ssh/id_rsa; stty echo'"
