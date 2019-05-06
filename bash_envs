@@ -19,17 +19,9 @@ if [[ -d /opt/beegfs ]]; then
     export PATH=${PATH}:/opt/beegfs/sbin
 fi
 # === Conda ===
-__conda_setup="$('${HOME}/anaconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "${HOME}/anaconda/etc/profile.d/conda.sh" ]; then
-        . "${HOME}/anaconda/etc/profile.d/conda.sh"
-    else
-        export PATH="${HOME}/anaconda/bin:${PATH}"
-    fi
+if [[ -f ${HOME}/.bash.d/conda.sh ]]; then
+    . ${HOME}/.bash.d/conda.sh
 fi
-unset __conda_setup
 # === CUDA ===
 # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
 if [[ $(hostname -s) == "p859561" ]]; then
