@@ -17,23 +17,19 @@ if [[ -f ${HOME}/.bash.d/HostIP ]]; then
 fi
 if [[ $(hostname -s) == "p859561" ]]; then
     alias agi="apt-get -s install"
-    alias condact="/site/x86/anaconda-1.8/anaconda/bin/./conda activate"
-    alias condeact="/site/x86/anaconda-1.8/anaconda/bin/./conda deactivate"
 elif [[ $(hostname -s) == "huginn" ]]; then
         alias agi="sudo apt-get install"
         alias aguu="sudo apt update; sudo apt upgrade -y"
-        alias condact="/usr/local/tnk10/opt/anaconda/bin/./conda activate"
-        alias condeact="/usr/local/tnk10/opt/anaconda/bin/./conda deactivate"
 else
     alias agi="sudo apt install"
     alias aguu="sudo apt update; sudo apt upgrade -y"
-    alias condact="$HOME/anaconda/bin/./conda activate"
-    alias condeact="$HOME/anaconda/bin/./conda deactivate"
 fi
 alias acs="apt-cache search"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 8h /root/.ssh/id_rsa; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
+alias condact="conda activate"
+alias condeact="conda deactivate"
 alias convertbw="convert -density 300 -colorspace gray"
 alias curl="curl -L -C -"
 alias ddp="sudo dd bs=4M conv=fsync status=progress"
@@ -41,6 +37,7 @@ alias e="emacsclient -t"
 alias ec="emacsclient -c -a emacs"
 alias ed="emacs --daemon"
 alias ek="emacsclient -e '(kill-emacs)'"
+alias ffmp4="ffmpeg -pix_fmt yuv420p -c:v libx264 -r 30"
 alias fixperm="find . -perm -u=r -a -not -perm -o=r -exec chmod -v a+r {} \; ; find . -perm -u=x -a -not -perm -o=x -exec chmod -v a+x {} \;"
 alias se="sudo emacs -nw"
 alias gdb="gdb -q"
