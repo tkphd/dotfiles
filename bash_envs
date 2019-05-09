@@ -32,14 +32,14 @@ else
     export CUDARCH=sm_50
 fi
 if [[ ${CUDA_HDR_PATH} == "" ]]; then
-    NVCCBIN=$(dirname $(ls -t $(find /usr/local/cuda* -name nvcc) | head -n 1))
+    NVCCBIN=$(dirname $(ls -t $(find /usr/local/cuda* -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
     if [[ $NVCCBIN != "" ]]; then
         export PATH=${PATH}:${NVCCBIN}
         export CUDA_HDR_PATH=$(dirname ${NVCCBIN})/targets/x86_64-linux/include
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib)
     fi
     if [[ $NVCCBIN == "" ]]; then
-        NVCCBIN=$(dirname $(ls -t $(find /opt/cuda -name nvcc) | head -n 1))
+        NVCCBIN=$(dirname $(ls -t $(find /opt/cuda -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
         if [[ $NVCCBIN != "" ]]; then
             export PATH=${PATH}:${NVCCBIN}
             export CUDA_HDR_PATH=$(dirname ${NVCCBIN})/targets/x86_64-linux/include
