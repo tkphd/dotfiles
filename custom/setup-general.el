@@ -40,6 +40,12 @@
 ;; (define-key c-mode-map  [(control tab)] 'company-complete)
 ;; (define-key c++-mode-map  [(control tab)] 'company-complete)
 
+;; Package: projejctile
+(use-package projectile
+  :init
+  (projectile-global-mode)
+  (setq projectile-enable-caching t))
+
 ;; Package zygospore
 (use-package zygospore
   :bind (("C-x 1" . zygospore-toggle-delete-other-windows)
