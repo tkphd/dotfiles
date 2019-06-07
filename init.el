@@ -7,6 +7,8 @@
 ;; ░███░██    ░███░███ ░░██  ██ ░░█████░░██
 ;; ░░░ ░░     ░░░ ░░░   ░░  ░░    ░░░░  ░░
 
+(add-to-list 'exec-path "~/bin") ;; put global in there
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
