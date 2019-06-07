@@ -19,6 +19,13 @@
 (setq use-package-always-ensure t)
 (setq column-number-mode t)
 
+(defvar myPackages
+  '(better-defaults
+    elpy
+    flycheck
+    py-autopep8)
+  )
+
 (add-to-list 'load-path "~/.emacs.d/custom")
 
 (require 'setup-general)
@@ -131,7 +138,53 @@
                                       ("^[ \t]*>[ \t]*>.*$"
                                                          (0 'mail-double-quoted-text-face))))))
 
-;; syntax highlighting
+;; Hex editing
+
+(defun buffer-binary-p (&optional buffer)
+  "Return whether BUFFER or the current buffer is binary.
+
+A binary buffer is defined as containing at least on null byte.
+
+Returns either nil, or the position of the first null byte."
+  (with-current-buffer (or buffer (current-buffer))
+    (save-excursion
+      (goto-char (point-min))
+      (search-forward (string ?\x00) nil t 1))))
+
+(defun hexl-if-binary ()
+  "If `hexl-mode' is not already active, and the current buffer
+is binary, activate `hexl-mode'."
+  (interactive)
+  (unless (eq major-mode 'hexl-mode)
+    (when (buffer-binary-p)
+      (hexl-mode))))
+
+(add-hook 'find-file-hooks 'hexl-if-binary)
+
+;; syntax highlighting and code styling
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'"       . markdown-mode)
+         ("\\.rst\\'"      . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)
+         )
+  :init (setq markdown-command "pandoc")
+  )
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+
 (setq c-default-style "linux"
       c-basic-offset 4
       tab-width 4
@@ -147,47 +200,43 @@
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'"       . markdown-mode)
-         ("\\.rst\\'"      . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)
-         )
-  :init (setq markdown-command "pandoc")
-)
+(defun astyle-this-buffer ()
+  ;; from https://gist.github.com/blueabysm/e69ceb62e41d68cc81ea2c6791db25c2
+  "Use astyle command to auto format C/C++ code."
+  (interactive "r")
+  (if (executable-find "astyle")
+      (shell-command-on-region
+       (point-min) (point-max)
+       (concat
+        "astyle"
+        " --style=linux"
+        " --indent=tab"
+        " --indent-col1-comments"
+        " --indent-preprocessor"
+        " --indent-preproc-cond"
+        " --pad-oper"
+        " --pad-header"
+        " --keep-one-line-blocks"
+        " --align-pointer=type"
+        " --align-reference=name"
+        " --suffix=none")
+       (current-buffer) t
+       (get-buffer-create "*Astyle Errors*") t)
+    (message "Cannot find binary \"astyle\", please install first.")))
 
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+(defun astyle-before-save ()
+  "Artistic styling before saving."
+  (interactive)
+  (when (member major-mode '(cc-mode c++-mode c-mode cuda-mode opencl-mode))
+    (astyle-this-buffer)))
 
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'c-mode-common-hook (lambda () (add-hook 'before-save-hook 'astyle-before-save)))
 
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
+;; Python, after https://realpython.com/emacs-the-best-python-editor/#configuration-and-packages
 
-;; Hex editing
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
-(defun buffer-binary-p (&optional buffer)
-    "Return whether BUFFER or the current buffer is binary.
-
-A binary buffer is defined as containing at least on null byte.
-
-Returns either nil, or the position of the first null byte."
-    (with-current-buffer (or buffer (current-buffer))
-      (save-excursion
-        (goto-char (point-min))
-        (search-forward (string ?\x00) nil t 1))))
-
-(defun hexl-if-binary ()
-    "If `hexl-mode' is not already active, and the current buffer
-is binary, activate `hexl-mode'."
-    (interactive)
-    (unless (eq major-mode 'hexl-mode)
-      (when (buffer-binary-p)
-        (hexl-mode))))
-
-(add-hook 'find-file-hooks 'hexl-if-binary)
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
