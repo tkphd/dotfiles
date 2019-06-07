@@ -26,6 +26,11 @@
     py-autopep8)
   )
 
+(mapc #'(lambda (package)
+          (unless (package-installed-p package)
+            (package-install package)))
+      myPackages)
+
 (add-to-list 'load-path "~/.emacs.d/custom")
 
 (require 'setup-general)
@@ -234,6 +239,7 @@ is binary, activate `hexl-mode'."
 
 ;; Python, after https://realpython.com/emacs-the-best-python-editor/#configuration-and-packages
 
+(elpy-enable)
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
