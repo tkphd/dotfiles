@@ -58,7 +58,6 @@ alias pvrc="pvserver -rc --client-host=${HostIP}"
 alias rshop="rsync -e \"ssh -o ProxyJump=mr-french\""
 alias rsync="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
-alias sbash="srun --pty -n 20 bash"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
 alias sq="squeue -o \"%7i %10j %10P %9Q %6D %5C %11R %o\" -u"
@@ -73,12 +72,18 @@ alias yss="yaourt -Ss"
 alias ysi="yaourt -S"
 alias ysu="yaourt -Syu"
 
-if [[ $(hostname -s) == 'huginn' ]]
+if [[ $(hostname -s) == "huginn" ]]
 then
 	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
 	alias wihome="nmcli con up home"
 	alias wiwork="nmcli con up work passwd-file ${HOME}/.wifi"
 fi
+
+if [[ $(hostname -s) == "enki" ]]; then
+    alias  sbash="srun -p debug -t 30 -n 1 --x11 --pty bash"
+    alias squart="srun -p debug -t 30 -n 20 --x11 --gres=gpu:1 --pty bash"
+fi
+
 whoareu () {
     local user=$(id -u $1)
     local info=$(getent passwd $user)
