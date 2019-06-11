@@ -2,3 +2,6 @@
 *.#*
 HostIP
 tokens
+*.el
+*.eld
+elpa
