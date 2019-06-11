@@ -21,7 +21,7 @@ floating_modifier $mod
 bindsym $mod+Return exec "/usr/bin/konsole --hide-menubar --hide-tabbar"
 
 # screenshot
-bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
+bindsym $mod+Print exec scrot -u ${HOME}/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
 
 # lock the screen (Mod1 is Alt)
 bindsym Control+Mod1+l exec "~/.config/i3/fuzzylocker.sh"
