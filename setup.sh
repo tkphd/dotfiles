@@ -28,9 +28,9 @@ if [[ -f ${HOME}/.gitconfig ]]; then
 fi
 ln -s ${DIR}/git/gitconfig ${HOME}/.gitconfig
 
-# === i3 ===
+# === i3wm ===
 
-if [[ -d ${HOME}/.config/i3 ]]; then
+if [[ -d ${HOME}/.config/i3wm ]]; then
     rm -rf ${HOME}/.config/i3
 elif [[ -f ${HOME}/.config/i3 ]]; then
     rm ${HOME}/.config/i3
@@ -41,9 +41,9 @@ fi
 if [[ -f ${HOME}/.Xdefaults ]]; then
     rm ${HOME}/.Xdefaults
 fi
-ln -s ${DIR}/i3 ${HOME}/.config/i3
-ln -s ${DIR}/i3/Xresources ${HOME}/.Xresources
-ln -s ${DIR}/i3/Xresources ${HOME}/.Xdefaults
+ln -s ${DIR}/i3wm ${HOME}/.config/i3
+ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xresources
+ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xdefaults
 
 # === urxvt ===
 if [[ -d ${HOME}/.urxvt/ext/font-size ]]; then
@@ -51,4 +51,4 @@ if [[ -d ${HOME}/.urxvt/ext/font-size ]]; then
 elif [[ -f ${HOME}/.urxvt/ext/font-size ]]; then
     rm ${HOME}/.urxvt/ext/font-size
 fi
-ln -s ${DIR}/i3/urxvt-font-size/font-size ~/.urxvt/ext/font-size
+ln -s ${DIR}/i3wm/urxvt-font-size/font-size ~/.urxvt/ext/font-size
