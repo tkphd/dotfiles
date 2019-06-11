@@ -1,5 +1,8 @@
 *~
+*#*
+*__
 *.#*
+*.orig
 
 local/
 emacs/*.el
@@ -7,3 +10,5 @@ emacs/*.eld
 emacs/*.last
 emacs/elpa
 emacs/places
+
+i3/machine.py
