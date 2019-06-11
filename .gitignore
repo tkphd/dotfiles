@@ -1,7 +1,9 @@
 *~
 *.#*
-HostIP
-tokens
-*.el
-*.eld
-elpa
+
+local/
+emacs/*.el
+emacs/*.eld
+emacs/*.last
+emacs/elpa
+emacs/places

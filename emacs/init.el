@@ -19,18 +19,6 @@
 (setq use-package-always-ensure t)
 (setq column-number-mode t)
 
-(defvar myPackages
-  '(better-defaults
-    elpy
-    flycheck
-    py-autopep8)
-  )
-
-(mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
-      myPackages)
-
 (add-to-list 'load-path "~/.emacs.d/custom")
 
 (require 'setup-general)
@@ -91,6 +79,18 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(defvar myPackages
+  '(better-defaults
+    elpy
+    flycheck
+    py-autopep8)
+  )
+
+(mapc #'(lambda (package)
+          (unless (package-installed-p package)
+            (package-install package)))
+      myPackages)
 
 ;; text filling (line wrapping)
 (setq-default fill-column 80)
@@ -223,7 +223,7 @@ is binary, activate `hexl-mode'."
         " --pad-header"
         " --keep-one-line-blocks"
         " --align-pointer=type"
-        " --align-reference=name"
+        " --align-reference=type"
         " --suffix=none")
        (current-buffer) t
        (get-buffer-create "*Astyle Errors*") t)
