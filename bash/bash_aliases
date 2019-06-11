@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ -x /usr/bin/dircolors ]; then
-    test -r ${HOME}/.bash.d/dircolors && eval "$(dircolors -b ${HOME}/.bash.d/dircolors)" || eval "$(dircolors -b)"
+    test -r ${HOME}/.dotfiles/bash/dircolors && eval "$(dircolors -b ${HOME}/.dotfiles/bash/dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias l='ls -CF'
     alias la='ls -A'
@@ -12,8 +12,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-if [[ -f ${HOME}/.bash.d/HostIP ]]; then
-    source ${HOME}/.bash.d/HostIP
+if [[ -f ${HOME}/.dotfiles/local/HostIP ]]; then
+    source ${HOME}/.dotfiles/local/HostIP
 fi
 if [[ $(hostname -s) == "p859561" ]]; then
     alias agi="apt-get -s install"

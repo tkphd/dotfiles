@@ -19,8 +19,8 @@ if [[ -d /opt/beegfs ]]; then
     export PATH=${PATH}:/opt/beegfs/sbin
 fi
 # === Conda ===
-if [[ -f ${HOME}/.bash.d/conda.sh ]]; then
-    . ${HOME}/.bash.d/conda.sh
+if [[ -f ${HOME}/.dotfiles/bash/conda.sh ]]; then
+    . ${HOME}/.dotfiles/bash/conda.sh
 fi
 # === CUDA ===
 # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
@@ -115,6 +115,6 @@ if [[ $(hostname -s) == "p859561" ]]; then
     export MPI_PATH=${HOME}/.conda/envs/mmsp/include
     export LIBGL_ALWAYS_INDIRECT=1
 fi
-if [[ -f ${HOME}/.bash.d/tokens ]]; then
-    . ${HOME}/.bash.d/tokens
+if [[ -f ${HOME}/.dotfiles/local/tokens ]]; then
+    . ${HOME}/.dotfiles/local/tokens
 fi
