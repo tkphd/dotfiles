@@ -11,4 +11,4 @@ emacs/*.last
 emacs/elpa
 emacs/places
 
-i3/machine.py
+i3wm/machine.py
