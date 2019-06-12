@@ -86,21 +86,12 @@ if [ "$PS1" ]; then
 fi
 
 # === Aliased! ===
-if [ -f "${HOME}/.bash.d/bash_aliases" ]
+if [ -f "${HOME}/.dotfiles/bash/bash_aliases" ]
 then
-    source "${HOME}/.bash.d/bash_aliases"
+    source "${HOME}/.dotfiles/bash/bash_aliases"
 fi
 # === Environmental! ===
-if [ -f "${HOME}/.bash.d/bash_envs" ]
+if [ -f "${HOME}/.dotfiles/bash/bash_envs" ]
 then
-    source "${HOME}/.bash.d/bash_envs"
+    source "${HOME}/.dotfiles/bash/bash_envs"
 fi
-if [ -f "${HOME}/.bash.d/conda.sh" ]
-then
-    source "${HOME}/.bash.d/conda.sh"
-fi
-if [[ -f "${HOME}/repositories/OpenFOAM-dev/etc/bashrc" ]]
-then
-        source "${HOME}/repositories/OpenFOAM-dev/etc/bashrc"
-fi
-

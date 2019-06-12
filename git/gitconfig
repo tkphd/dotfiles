@@ -1,0 +1,58 @@
+[user]
+  name = Trevor Keller
+  email = trevor.keller@nist.gov
+  signingkey = 0x210CD7CA9908C3F6
+
+[alias]
+  br = branch
+  cm = commit
+  cms = commit -S
+  co = checkout
+  hist = log --graph --full-history --all --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset %G? %GK' --date=short
+  lg =   log --graph                      --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset %G? %GK' --date=short
+  lgg =  log --graph --oneline --decorate --all
+  st = status
+
+[color]
+  ui = auto
+  branch = auto
+  diff = auto
+  status = auto
+
+[color "branch"]
+  current = bold
+
+[color "diff"]
+  meta = cyan
+  frag = cyan
+  old = red
+  new = green
+
+[color "status"]
+  added = green bold
+  changed = red bold
+  untracked = blue bold
+
+[core]
+  editor = "/usr/bin/emacsclient -t"
+  pager = diff-so-fancy | less --tabs=4 -RFX
+
+[diff]
+  tool = meld
+  path = "/usr/bin/meld"
+
+[merge]
+  tool = "/usr/bin/meld"
+
+[push]
+  default = simple
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+
+[credential]
+  helper = netrc -f ~/.netrc -v
+

@@ -1,0 +1,56 @@
+!  ██     ██      ██           ████                    ██   ██
+! ░░██   ██      ░██          ░██░                    ░██  ░██          
+!  ░░██ ██       ░██  █████  ██████  ██████   ██   ██ ░██ ██████  ██████
+!   ░░███     ██████ ██░░░██░░░██░  ░░░░░░██ ░██  ░██ ░██░░░██░  ██░░░░ 
+!    ██░██   ██░░░██░███████  ░██    ███████ ░██  ░██ ░██  ░██  ░░█████ 
+!   ██ ░░██ ░██  ░██░██░░░░   ░██   ██░░░░██ ░██  ░██ ░██  ░██   ░░░░░██
+!  ██   ░░██░░██████░░██████  ░██  ░░████████░░██████ ███  ░░██  ██████ 
+! ░░     ░░  ░░░░░░  ░░░░░░   ░░    ░░░░░░░░  ░░░░░░ ░░░    ░░  ░░░░░░  
+! Modified from <http://github.com/xero/dotfiles/urxvt>
+
+! █▓▒░ foundation
+*.termName:  konsole
+*.iso14755:  false
+*.saveLines: 10000
+
+! █▓▒░ color scheme
+#include ".config/i3/Xcolors/dark/material"
+
+! █▓▒░ preferred fonts
+*.font:       xft:fira code:pixelsize=14
+*.boldFont:   xft:fira code:pixelsize=14:style=Bold
+*.italicFont: xft:fira code:pixelsize=14:style=Italic
+Emacs.font:   Fira Code-14
+
+! █▓▒░ Xft settings
+#if WIDTH > 3000
+Xft.dpi:       192
+#else
+Xft.dpi:       96
+#endif
+Xft.antialias: true
+Xft.rgba:      rgb
+Xft.hinting:   true
+Xft.hintstyle: hintfull
+
+! █▓▒░ appearance
+Urxvt.letterSpace: -2
+*.lineSpace:   0
+*.urlLauncher: google-chrome
+*.allow_bold:  true
+*.buffered:    true
+*.visualBell:  true
+*.scrollBar:   off
+*.scrollStyle: rxvt
+
+! █▓▒░ interaction
+URxvt.perl-ext-common: ...,font-size
+Xcursor.size:        32
+*.scrollStyle:       rxvt
+*.jumpScroll:        true
+*.scrollTtyOutput:   false 
+*.scrollTtyKeypress: true 
+*.scrollWithBuffer:  true 
+*.secondaryScreen:   true
+*.secondaryScroll:   true
+*.secondaryWheel:    true
