@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 from i3pystatus import Status
@@ -6,16 +5,19 @@ from os import environ
 
 ### Notice:
 # Create "machine.py" in this directory with key-value pairs, e.g.
+#
 #    ifce = "eth0"
-#    disks = [["/", ""], ["/home", ""], ["/data", ""]]
+#    disks = [["/data", ""], ["/home", ""], ["/", ""]]
+#    battery = False
+#
 # to feed local machine configuration variables into this script
 
 try:
     from machine import *
 except:
-    # Defaults! Renders a penguin for '' and a house for '' (Font Awesome)
+    # By default, renders a penguin '' for '/' and a house '' for /home (Font Awesome)
     ifce = "eth0"
-    disks = [["/", ""], ["/home", ""]]
+    disks = [["/home", ""], ["/", ""]]
     battery = False
 
 home = environ['HOME']
@@ -35,7 +37,7 @@ status.register("mem_bar",
                 color = "#FFFFFF",
                 hints = {'markup': 'pango'},
                 multi_colors = True,
-                format = " {used_mem_bar}"
+                format = "　{used_mem_bar}"
 )
 
 # Shows the average load of the last minute and the last 5 minutes
@@ -47,9 +49,8 @@ status.register("temp",
                 hints = {"markup": "pango"}
 )
 
-# Shows disk usage of /
-# Format:
-# 42/128G [86G]
+# Shows available disk space
+# Format: 86 TB
 for disk, icon in disks:
     status.register("disk",
                     path = disk,
