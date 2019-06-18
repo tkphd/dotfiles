@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # === Manage search paths ===
-export PATH=${PATH}:/usr/local/bin:$HOME/research/projects/mmsp/utility
+export PATH=${PATH}:/usr/local/bin
 if [[ ${LD_LIBRARY_PATH} == "" ]]; then
     export LD_LIBRARY_PATH=/usr/lib/paraview
 else
