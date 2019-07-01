@@ -17,6 +17,9 @@
 #include ".config/i3/Xcolors/dark/material"
 
 ! █▓▒░ preferred fonts
+XTerm*font:   *-fixed-*-*-*-18-*
+XTerm*faceName: Inconsolata
+XTerm*faceSize: 14
 *.font:       xft:fira code:pixelsize=14
 *.boldFont:   xft:fira code:pixelsize=14:style=Bold
 *.italicFont: xft:fira code:pixelsize=14:style=Italic
