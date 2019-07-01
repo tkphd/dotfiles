@@ -32,23 +32,6 @@ status.register("clock",
                 format = "%a %-d %b %I:%M %p",
 )
 
-# Shows memory usage
-status.register("mem_bar",
-                color = "#FFFFFF",
-                hints = {'markup': 'pango'},
-                multi_colors = True,
-                format = "　{used_mem_bar}"
-)
-
-# Shows the average load of the last minute and the last 5 minutes
-# (the default value for format is used)
-status.register("load")
-
-# Shows your CPU temperature, if you have a Intel CPU
-status.register("temp",
-                hints = {"markup": "pango"}
-)
-
 # Shows available disk space
 # Format: 86 TB
 for disk, icon in disks:
@@ -59,6 +42,23 @@ for disk, icon in disks:
                     round_size = 3,
                     format = "<span size = \"x-small\">%s</span> {avail} TB"%icon
     )
+
+# Shows your CPU temperature, if you have a Intel CPU
+status.register("temp",
+                hints = {"markup": "pango"}
+)
+
+# Shows memory usage
+status.register("mem_bar",
+                color = "#FFFFFF",
+                hints = {'markup': 'pango'},
+                multi_colors = True,
+                format = "{used_mem_bar}"
+)
+
+# Shows the average load of the last minute and the last 5 minutes
+# (the default value for format is used)
+status.register("load")
 
 try:
     ## Shows pulseaudio default sink volume
