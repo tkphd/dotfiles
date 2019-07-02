@@ -65,6 +65,13 @@ if [[ ! -d $EMACSD ]]; then
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# === Intel ===
+if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
+    export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
+elif [[ -d /usr/local/${USER}/opt/intelFPGA_pro/19.1 ]]; then
+    export INTELFPGAOCLSDKROOT=/usr/local/${USER}/opt/intelFPGA_pro/19.1/hld
+    export QSYS_ROOTDIR=/usr/local/${USER}/opt/intelFPGA_pro/19.1/qsys/bin
+fi
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
@@ -75,9 +82,13 @@ export PATH=${PATH}:${MMSP_PATH}/utility
 if [[ -d ${HOME}/.nix-profile/etc/profile.d ]]; then
     . ${HOME}/.nix-profile/etc/profile.d/nix.sh
 fi
-# OpenARC (Accelerator Research Compiler)
+# === OpenARC === (Accelerator Research Compiler)
 if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
     export openarc=${HOME}/repositories/OpenARC
+fi
+# === PETSc ===
+if [[ -d ${HOME}/repositories/petsc ]]; then
+    export PETSC_DIR=${HOME}/repositories/petsc
 fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
@@ -92,10 +103,6 @@ fi
 # === Qt ===
 if [[ -d /usr/local/lib/plugins ]]; then
     export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
-fi
-# === Quartus ===
-if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
-    export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
 fi
 # === Ruby ===
 if [[ -d ${HOME}/gems ]]; then
