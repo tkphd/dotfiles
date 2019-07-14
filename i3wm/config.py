@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from i3pystatus import Status
-from os import environ, stat
+from os import environ, path, stat
 
 ### Notice:
 # Create "machine.py" in this directory with key-value pairs, e.g.
@@ -86,13 +86,12 @@ if battery:
     )
 
 # Notify when reboot is required
-if stat("/var/run/reboot-required").st_size != 0:
-        status.register("text",
-                        text = "reboot me",
-                        hints = {'markup': 'pango'},
-                        color = "red"
-        )
-
+if path.isfile("/var/run/reboot-required") and stat("/var/run/reboot-required").st_size != 0:
+    status.register("text",
+                    text = "reboot me",
+                    hints = {'markup': 'pango'},
+                    color = "red"
+    )
 
 # Shows the address and up/down state of eth0. If it is up the address is
 # shown in green (the default value of color_up) and the CIDR-address is
