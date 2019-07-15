@@ -90,6 +90,10 @@ fi
 if [[ -d ${HOME}/repositories/petsc ]]; then
     export PETSC_DIR=${HOME}/repositories/petsc
 fi
+if [[ -d ${HOME}/repositories/tau ]]; then
+    export TAU_DIR=${HOME}/repositories/tau/x86_64
+    export TAU_MAKEFILE=${TAU_DIR}/lib/Makefile.tau
+fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi
