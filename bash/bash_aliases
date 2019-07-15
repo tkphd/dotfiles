@@ -60,8 +60,8 @@ alias rsync="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
-alias sq="squeue -o \"%7i %10j %10P %9Q %6D %5C %11R %o\""
-alias ss="squeue --start -u $USER"
+alias sq="squeue -o \"%7i %10j %10P %9Q %6D %5C %11R %o\" -u ${USER}"
+alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -o ProxyJump=mr-french"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
@@ -82,6 +82,9 @@ fi
 if [[ $(hostname -s) == "enki" ]]; then
     alias  sbash="srun -p debug -t 30 -n 1 --x11 --pty bash"
     alias squart="srun -p debug -t 30 -n 20 --x11 --gres=gpu:1 --pty bash"
+elif [[ $(hostname -s) == "ruth" ]]; then
+    alias  sbash="srun -p gpu -t 30 -n 1  --pty bash"
+    alias squart="srun -p gpu -t 30 -n 16 --gres=gpu:1 --pty bash"
 fi
 
 whoareu () {
