@@ -19,7 +19,7 @@ if [[ $(hostname -s) == "p859561" ]]; then
     alias agi="apt-get -s install"
 elif [[ $(hostname -s) == "huginn" ]]; then
         alias agi="sudo apt-get install"
-        alias aguu="sudo apt update; sudo apt upgrade -y"
+        alias aguu="sudo apt update; sudo apt dist-upgrade -y"
 else
     alias agi="sudo apt install"
     alias aguu="sudo apt update; sudo apt upgrade -y"
