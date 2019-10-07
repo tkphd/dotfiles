@@ -93,8 +93,9 @@
       myPackages)
 
 ;; text filling (line wrapping)
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 (setq sentence-end-double-space nil)
+(setq compilation-scroll-output 'first-error)
 
 (defun unfill-paragraph (&optional region)
   "Takes a multi-line paragraph and makes it into a single line of text."
