@@ -106,7 +106,8 @@ elif [[ -f /usr/local/pgi/license.dat ]]; then
 fi
 # === Qt ===
 if [[ -d /usr/local/lib/plugins ]]; then
-    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms
+    QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
 fi
 # === Ruby ===
 if [[ -d ${HOME}/gems ]]; then

@@ -5,8 +5,7 @@
 
 [alias]
   br = branch
-  cm = commit
-  cms = commit -S
+  cm = commit -m
   co = checkout
   hist = log --graph --full-history --all --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset %G? %GK' --date=short
   lg =   log --graph                      --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset %G? %GK' --date=short
