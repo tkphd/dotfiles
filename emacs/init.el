@@ -206,6 +206,9 @@ is binary, activate `hexl-mode'."
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
+(require 'typescript-mode)
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+
 (defun astyle-this-buffer ()
   ;; from https://gist.github.com/blueabysm/e69ceb62e41d68cc81ea2c6791db25c2
   "Use astyle command to auto format C/C++ code."
