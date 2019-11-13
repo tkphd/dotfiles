@@ -89,6 +89,7 @@ fi
 # === PETSc ===
 if [[ -d ${HOME}/repositories/petsc ]]; then
     export PETSC_DIR=${HOME}/repositories/petsc
+    export PETSC_ARCH=arch-linux2-c-debug
 fi
 if [[ -d ${HOME}/repositories/tau ]]; then
     export TAU_DIR=${HOME}/repositories/tau/x86_64
