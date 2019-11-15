@@ -56,10 +56,6 @@ status.register("mem_bar",
                 format = "{used_mem_bar}"
 )
 
-# Shows the average load of the last minute and the last 5 minutes
-# (the default value for format is used)
-status.register("load")
-
 try:
     ## Shows pulseaudio default sink volume
     ## Note: requires libpulseaudio from PyPI
@@ -71,6 +67,17 @@ except:
     ## Note: requires pyalsaaudio from PyPI
     ##       and libalsaaudio-dev
     status.register("alsa")
+
+# Shows the average load of the last minute and the last 5 minutes
+# (the default value for format is used)
+# status.register("load")
+status.register("cpu_usage_graph",
+                cpu="usage",
+                format="{cpu_graph}",
+                hints = {'markup': 'pango'},
+                # graph_style="braille-fill",
+                graph_width=60
+)
 
 # Battery status
 if battery:
