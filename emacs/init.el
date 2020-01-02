@@ -253,3 +253,4 @@ is binary, activate `hexl-mode'."
 
 ;; disable vc-git
 (setq vc-handled-backends ())
+(put 'downcase-region 'disabled nil)

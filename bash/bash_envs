@@ -101,13 +101,9 @@ if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
 fi
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
-    export PGI_PATH=/opt/pgi
+    export PGI_PATH=/opt/pgi/linux86-64-llvm/19.10
     export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH=${PATH}:/opt/pgi/linux86-64/$(ls -r -1 /opt/pgi/linux86-64 | head -n 1)/bin
-elif [[ -f /usr/local/pgi/license.dat ]]; then
-    export PGI_PATH=/usr/local/pgi
-    export LM_LICENSE_FILE=/usr/local/pgi/license.dat
-    export PATH=${PATH}:/usr/local/pgi/linux86-64/2016/bin
+    export PATH=${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin
 fi
 # === Qt ===
 if [[ -d /usr/local/lib/plugins ]]; then
