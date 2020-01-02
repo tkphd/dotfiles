@@ -60,7 +60,7 @@ alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTa
 alias sa="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -u ${USER}"
 alias sq="squeue -o \"%7i %10j %10P %9Q %6D %5C %11R %o\" -u ${USER}"
 alias ss="squeue --start -u ${USER}"
-alias sshop="ssh -o ProxyJump=mr-french -o UserKnownHostsFile=~/.ssh/known_hosts_hop"
+alias sshop="ssh -i ${HOME}/.ssh/id_rsa -o ProxyJump=mr-french -o UserKnownHostsFile=~/.ssh/known_hosts_hop"
 alias ssr="ssh -l root -o ProxyJump=mr-french -o UserKnownHostsFile=~/.ssh/known_hosts_su"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"

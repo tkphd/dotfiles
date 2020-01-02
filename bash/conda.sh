@@ -1,5 +1,13 @@
-_CONDA_EXE="${HOME}/anaconda/bin/conda"
+#!/bin/bash
+
 _CONDA_ROOT="${HOME}/anaconda"
+_CONDA_EXE="${_CONDA_ROOT}/bin/conda"
+
+if [[ -d "/working/tnk10/miniconda3" ]]; then
+    _CONDA_ROOT="/working/tnk10/miniconda3"
+    _CONDA_EXE="${_CONDA_ROOT}/bin/conda"
+fi
+
 _conda_set_vars() {
     # set _CONDA_SHELL_FLAVOR
     if [ -n "${BASH_VERSION:+x}" ]; then
@@ -76,7 +84,6 @@ _conda_reactivate() {
     _conda_hashr
 }
 
-
 conda() {
     if [ "$#" -lt 1 ]; then
         $_CONDA_EXE
@@ -99,7 +106,6 @@ conda() {
         esac
     fi
 }
-
 
 _conda_set_vars
 
