@@ -13,6 +13,12 @@ if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/bash/bashrc ${HOME}/.bashrc
 
+    # === conda ===
+    if [[ -f ${HOME}/.condarc || -L ${HOME}/.condarc ]]; then
+        rm ${HOME}/.condarc
+    fi
+    ln -s ${DIR}/conda/condarc ${HOME}/.condarc
+
     # === emacs ===
     if [[ -d ${HOME}/.emacs.d ]]; then
         rm -rf ${HOME}/.emacs.d
