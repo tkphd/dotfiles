@@ -43,7 +43,6 @@ _conda_set_vars() {
 
 }
 
-
 _conda_hashr() {
     case "$_CONDA_SHELL_FLAVOR" in
         zsh) \rehash;;
