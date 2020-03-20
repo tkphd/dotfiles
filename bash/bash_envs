@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 # === Manage search paths ===
 export PATH=${PATH}:/usr/local/bin
 if [[ ${LD_LIBRARY_PATH} == "" ]]; then
@@ -21,19 +22,6 @@ fi
 # === Conda ===
 if [[ -f ${HOME}/.dotfiles/bash/conda.sh ]]; then
     . ${HOME}/.dotfiles/bash/conda.sh
-fi
-if [[ -d "/working/tnk10/miniconda3" ]]; then
-    __conda_setup="$('/working/tnk10/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/working/tnk10/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "/working/tnk10/miniconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="/working/tnk10/miniconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
 fi
 # === CUDA ===
 # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
@@ -85,6 +73,12 @@ elif [[ -d /usr/local/${USER}/opt/intelFPGA_pro/19.1 ]]; then
     export INTELFPGAOCLSDKROOT=/usr/local/${USER}/opt/intelFPGA_pro/19.1/hld
     export QSYS_ROOTDIR=/usr/local/${USER}/opt/intelFPGA_pro/19.1/qsys/bin
 fi
+if [[ -d /opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64 ]]; then
+   export PATH=$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64
+fi
+if [[ -d /opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin ]]; then
+   export PATH=$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin
+fi
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
@@ -106,9 +100,11 @@ if [[ -f /opt/pgi/license.dat ]]; then
     export PATH=${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin
 fi
 # === Qt ===
-if [[ -d /usr/local/lib/plugins ]]; then
-    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms
-    QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+if [[ -d /usr/local/lib/plugins/platforms ]]; then
+   export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins/platforms
+elif [[ -d /usr/lib/x86_64-linux-gnu/qt5/plugins/platforms ]]; then
+   export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms
 fi
 # === Ruby ===
 if [[ -d ${HOME}/gems ]]; then
@@ -117,6 +113,8 @@ if [[ -d ${HOME}/gems ]]; then
 fi
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
+# === XDG ===
+export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
 
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then

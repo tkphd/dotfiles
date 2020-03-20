@@ -1,0 +1,7 @@
+auto_activate_base: false
+report_errors: false
+channels:
+  - defaults
+  - conda-forge
+envs_dirs:
+  - /opt/miniconda/envs
