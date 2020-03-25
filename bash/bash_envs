@@ -113,6 +113,11 @@ if [[ -d ${HOME}/gems ]]; then
 fi
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
+# === Thermo-Calc ===
+export TC20A_HOME=${HOME}/Thermo-Calc/2020a/
+export PATH=$PATH:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ
+export LSERVRC="${HOME}/Thermo-Calc/lservrc"
+export LSHOST="NO-NET"
 # === XDG ===
 export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
 
