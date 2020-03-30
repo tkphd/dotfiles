@@ -131,7 +131,7 @@ if [[ $(hostname -s) == "p859561" ]]; then
     export MPI_PATH=${HOME}/.conda/envs/mmsp/include
     export LIBGL_ALWAYS_INDIRECT=1
 fi
-if [[ grep enki $(hostname -s) != "" ]]; then
+if [[ $(hostname -s | grep enki)  != "" ]]; then
 	export PKG_CONFIG_PATH=/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/Ipopt
 fi
 if [[ -f ${HOME}/.dotfiles/local/tokens ]]; then
