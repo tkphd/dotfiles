@@ -94,20 +94,33 @@ fi
 
 function pomodoro {
     # https://en.wikipedia.org/wiki/Pomodoro_Technique
-    wrk=$((25 * 60)) # work interval
-    srt=$((5 * 60))  # short break
-    lng=$((20 * 60)) # long break
-    for i in {1..3}; do
-        if [[ $i != 1 ]]; then
-            kdialog --msgbox 'Take a short break ^_^'
-            sleep ${srt}
-        fi
-        kdialog --msgbox 'Back to work -_-'
-        sleep ${wrk}
-    done
-    kdialog --msgbox 'Take a long break *_*'
-    sleep ${lng}
-    kdialog --msgbox 'Back to work ~_~'
+    if [[ $(which kdialog) == "" ]]; then
+        echo "You must install kdialog!"
+    else
+        wrk=$((25 * 60)) # work interval
+        srt=$((5 * 60))  # short break
+        lng=$((20 * 60)) # long break
+        n=4 # number of pomodoros per long break
+        start=$(date +%s)
+        for i in $(seq 1 ${n}); do
+            pomstart=$(date +%s)
+            if [[ $i != 1 ]]; then
+                kdialog --msgbox 'Take a short break ^_^'
+                sleep ${srt}
+            fi
+            kdialog --msgbox 'Back to work -_-'
+            sleep ${wrk}
+            pomfinish=$(date +%s)
+            pomrun=$(python -c "print('{0:5.2f}'.format((${pomfinish} - ${pomstart})/60.))")
+            echo "Pomodoro ${i} ran ${pomrun} min"
+        done
+        kdialog --msgbox 'Take a long break *_*'
+        sleep ${lng}
+        kdialog --msgbox 'Wrap up, or start another cycle ~_~'
+        finish=$(date +%s)
+        cycrun=$(python -c "print('{0:5.2f}'.format((${finish} - ${start})/60.))")
+        echo "Quartet of pomodoros ran ${cycrun} min"
+    fi
 }
 
 function tea {
