@@ -16,6 +16,7 @@ if [[ -f ${HOME}/.dotfiles/local/HostIP ]]; then
     source ${HOME}/.dotfiles/local/HostIP
 fi
 alias acs="apt-cache search"
+alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
 alias aguu="sudo apt update; sudo apt upgrade -y"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 10h /root/.ssh/id_rsa; stty echo'"
@@ -51,6 +52,7 @@ alias pss="pacman -Ss"
 alias psi="sudo pacman -S"
 alias psu="sudo pacman -Syu"
 alias pvrc="pvserver -rc --client-host=${HostIP}"
+alias rockstar="node ~/repositories/rockstar/satriani/rockstar.js"
 alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=mr-french -o UserKnownHostsFile=~/.ssh/known_hosts_hop\""
 alias rs="rsync -Pavz"
 alias rsynquickly="rsync -aHAXxv --numeric-ids --delete --progress -e 'ssh -T -c arcfour128 -o Compression=no -x'"
@@ -88,7 +90,27 @@ elif [[ $(hostname -s) == "ruth" ]]; then
     alias svquart="srun -p gpu -t 30 -n 16 --gres=gpu:volta:1  --pty bash"
 fi
 
-whoareu () {
+# === Custom Functions ===
+
+function tea {
+    countdown=300 # default: 5 minutes
+    if [[ $(which kdialog) == "" ]]; then
+        echo "You must install kdialog!"
+        countdown=0
+    fi
+    if [[ $# == 1 ]]; then
+        countdown=$1
+    else
+        echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 180 # 3 min"
+        countdown=0
+    fi
+    if [[ $countdown > 0 ]]; then
+        sleep $countdown
+        kdialog --msgbox "Your tea is ready."
+    fi
+}
+
+function whoareu {
     local user=$(id -u $1)
     local info=$(getent passwd $user)
     echo $info | awk -F':' '{print $5}' | awk -F',' '{print $1}'
