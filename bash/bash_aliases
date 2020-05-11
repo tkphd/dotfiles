@@ -92,6 +92,24 @@ fi
 
 # === Custom Functions ===
 
+function pomodoro {
+    # https://en.wikipedia.org/wiki/Pomodoro_Technique
+    wrk=$((25 * 60)) # work interval
+    srt=$((5 * 60))  # short break
+    lng=$((20 * 60)) # long break
+    for i in {1..3}; do
+        if [[ $i != 1 ]]; then
+            kdialog --msgbox 'Take a short break ^_^'
+            sleep ${srt}
+        fi
+        kdialog --msgbox 'Back to work -_-'
+        sleep ${wrk}
+    done
+    kdialog --msgbox 'Take a long break *_*'
+    sleep ${lng}
+    kdialog --msgbox 'Back to work ~_~'
+}
+
 function tea {
     countdown=300 # default: 5 minutes
     if [[ $(which kdialog) == "" ]]; then
