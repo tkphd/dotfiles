@@ -1,7 +1,7 @@
 [user]
-  name = Trevor Keller
-  email = trevor.keller@nist.gov
   signingkey = 0x210CD7CA9908C3F6
+[include]
+  path = ~/.gitcontact
 
 [alias]
   br = branch
