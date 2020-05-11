@@ -93,7 +93,7 @@
       myPackages)
 
 ;; text filling (line wrapping)
-(setq-default fill-column 100)
+(setq-default fill-column 72)
 (setq sentence-end-double-space nil)
 (setq compilation-scroll-output 'first-error)
 
