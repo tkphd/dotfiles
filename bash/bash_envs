@@ -67,8 +67,9 @@ fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GSL ===
-export GSL_PATH=${HOME}/.conda/envs/py3/include
-export GSL_LIB=${HOME}/.conda/envs/py3/lib64
+export GSL_PATH=${HOME}/.conda/envs/py2/include
+export GSL_LIB=${HOME}/.conda/envs/py2/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
 # === Intel ===
 if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
     export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
@@ -137,8 +138,9 @@ fi
 if [[ $(hostname -s | grep enki)  != "" ]]; then
 	export PKG_CONFIG_PATH=/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt
     export CUDA_HDR_PATH=/usr/local/cuda-10.0/targets/ppc64le-linux/include
-    export GSL_PATH=/wrk/tnk10/.conda/envs/py3/include/
-    export GSL_LIB=/wrk/tnk10/.conda/envs/py3/lib
+    export GSL_PATH=/wrk/tnk10/.conda/envs/py2/include/
+    export GSL_LIB=/wrk/tnk10/.conda/envs/py2/lib
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
 fi
 if [[ -f ${HOME}/.dotfiles/local/tokens ]]; then
     . ${HOME}/.dotfiles/local/tokens
