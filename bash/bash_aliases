@@ -92,6 +92,31 @@ fi
 
 # === Custom Functions ===
 
+function countdown {
+    # https://www.putorius.net/how-to-make-countdown-timer-in-bash.html
+    min=0
+    sec=0
+
+    if [[ $1 != "" ]]; then
+        min=$(($1 / 60))
+        sec=$(($1 % 60))
+    fi
+
+    tput civis
+
+    while [ $min -ge 0 ]; do
+        while [ $sec -ge 0 ]; do
+            echo -ne "$(printf "%02d" $min):$(printf "%02d" $sec)\r"
+            let "sec=sec-1"
+            sleep 1
+        done
+        sec=59
+        let "min=min-1"
+    done
+
+    tput cnorm
+}
+
 function pomodoro {
     # https://en.wikipedia.org/wiki/Pomodoro_Technique
     if [[ $(which kdialog) == "" ]]; then
@@ -109,13 +134,13 @@ function pomodoro {
                 sleep ${srt}
             fi
             kdialog --msgbox 'Back to work -_-'
-            sleep ${wrk}
+            countdown ${wrk}
             pomfinish=$(date +%s)
             pomrun=$(python -c "print('{0:5.2f}'.format((${pomfinish} - ${pomstart})/60.))")
             echo "Pomodoro ${i} ran ${pomrun} min"
         done
         kdialog --msgbox 'Take a long break *_*'
-        sleep ${lng}
+        countdown ${lng}
         kdialog --msgbox 'Wrap up, or start another cycle ~_~'
         finish=$(date +%s)
         cycrun=$(python -c "print('{0:5.2f}'.format((${finish} - ${start})/60.))")
@@ -124,19 +149,19 @@ function pomodoro {
 }
 
 function tea {
-    countdown=300 # default: 5 minutes
+    timer=300 # default: 5 minutes
     if [[ $(which kdialog) == "" ]]; then
         echo "You must install kdialog!"
-        countdown=0
+        timer=0
     fi
     if [[ $# == 1 ]]; then
-        countdown=$1
+        timer=$1
     else
         echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 180 # 3 min"
-        countdown=0
+        timer=0
     fi
-    if [[ $countdown > 0 ]]; then
-        sleep $countdown
+    if [[ $timer > 0 ]]; then
+        sleep $timer
         kdialog --msgbox "Your tea is ready."
     fi
 }
