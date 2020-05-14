@@ -136,14 +136,14 @@ function pomodoro {
             kdialog --msgbox 'Back to work -_-'
             countdown ${wrk}
             pomfinish=$(date +%s)
-            pomrun=$(python -c "print('{0:5.2f}'.format((${pomfinish} - ${pomstart})/60.))")
+            pomrun=$(python -c "print('{0:2.0f}'.format((${pomfinish} - ${pomstart}) / 60.))")
             echo "Pomodoro ${i} ran ${pomrun} min"
         done
         kdialog --msgbox 'Take a long break *_*'
         countdown ${lng}
         kdialog --msgbox 'Wrap up, or start another cycle ~_~'
         finish=$(date +%s)
-        cycrun=$(python -c "print('{0:5.2f}'.format((${finish} - ${start})/60.))")
+        cycrun=$(python -c "print('{0:3.0f}'.format((${finish} - ${start}) / 60.))")
         echo "Quartet of pomodoros ran ${cycrun} min"
     fi
 }
