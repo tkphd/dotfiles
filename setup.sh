@@ -37,6 +37,10 @@ if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
     if [[ -f ${HOME}/.gitconfig || -L ${HOME}/.gitconfig ]]; then
         rm ${HOME}/.gitconfig
     fi
+    if [[ ! -d ${HOME}/.config/git/template ]]; then
+        mkdir -p ${HOME}/.config/git/template
+        echo "ref: refs/heads/main" > ${HOME}/.config/git/template/HEAD
+    fi
     ln -s ${DIR}/git/gitconfig ${HOME}/.gitconfig
 
     # === i3wm ===
