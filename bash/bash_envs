@@ -114,6 +114,10 @@ fi
 if [[ -d ${HOME}/gems ]]; then
     export GEM_HOME=${HOME}/gems
     export PATH=${HOME}/gems/bin:${PATH}
+elif [[ -d ${HOME}/.rvm ]]; then
+    # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+    export PATH="$PATH:${HOME}/.rvm/bin"
+    source ${HOME}/.rvm/scripts/rvm
 fi
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
