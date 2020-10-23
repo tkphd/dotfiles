@@ -41,6 +41,11 @@
   tool = meld
   path = "/usr/bin/meld"
 
+[init]
+  # If this folder does not already exist, please
+  # echo "ref: refs/heads/main" > ~/.config/git/template/HEAD
+  templateDir = ~/.config/git/template/
+
 [merge]
   tool = "/usr/bin/meld"
 
