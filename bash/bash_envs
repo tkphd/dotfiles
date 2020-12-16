@@ -32,8 +32,9 @@ elif [[ $(hostname -s) == "rgpu3" ]]; then
 else
     export CUDARCH=sm_50
 fi
-if [[ ${CUDA_HDR_PATH} == "" ]]; then
-    NVCCBIN=$(dirname $(ls -t $(find /usr/local/cuda* -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
+CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
+if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
+    NVCCBIN=$(dirname $(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1))
     if [[ $NVCCBIN != "" ]]; then
         export PATH=${PATH}:${NVCCBIN}
         export CUDA_HDR_PATH=$(dirname ${NVCCBIN})/targets/x86_64-linux/include
