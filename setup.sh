@@ -56,6 +56,8 @@ if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
         rm -rf ${HOME}/.urxvt/ext/font-size
     elif [[ -f ${HOME}/.urxvt/ext/font-size || -L ${HOME}/.urxvt/ext/font-size ]]; then
         rm ${HOME}/.urxvt/ext/font-size
+    else
+        mkdir -p ${HOME}/.urxvt/ext/font-size
     fi
     ln -s ${DIR}/i3wm/urxvt-font-size/font-size ${HOME}/.urxvt/ext/font-size
 
