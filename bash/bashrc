@@ -84,7 +84,8 @@ if [ "$PS1" ]; then
             fi
     esac
 fi
-
+# === Unsuspenseful! ===
+stty -ixon # (disable Ctrl-S, per https://twitter.com/thingskatedid/status/1348860793618456581)
 # === Aliased! ===
 if [ -f "${HOME}/.dotfiles/bash/bash_aliases" ]
 then
