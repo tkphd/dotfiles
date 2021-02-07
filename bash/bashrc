@@ -33,6 +33,10 @@ if [[ -z "$Environ_Sourced" && -f /etc/profile ]]; then
     source /etc/profile
 fi
 # === Prompt! ===
+if [ -f "${HOME}/.dotfiles/bash/local_prompt" ]
+then
+    source "${HOME}/.dotfiles/bash/local_prompt"
+fi
 if [ "$PS1" ]; then
     # colorize if at all possible
     force_color_prompt=yes
@@ -72,7 +76,15 @@ if [ "$PS1" ]; then
             str_git() {
                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
             }
-	        PS1="${MAGENTA}«${RED}\D{%H:%M}${MAGENTA}@${BLUE}\h${MAGENTA}:${CYANL}\W${MAGENTA}\$(sep_git)${RED}\$(str_git)${MAGENTA}»${GREENL}\$${NONE} "
+            # Customizable prompt settings
+            DIV_HUE=${MAGENTA}
+            HOST_HUE=${BLUE}
+            QUOT_HUE=${MAGENTA}
+            if [ -f "${HOME}/.dotfiles/bash/local_prompt" ]
+            then
+                source "${HOME}/.dotfiles/bash/local_prompt"
+            fi
+	        PS1="${QUOT_HUE}«${RED}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${CYANL}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${GREENL}\$${NONE} "
                 PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
