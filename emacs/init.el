@@ -17,7 +17,6 @@
 (unless (package-installed-p 'use-package) (package-install 'use-package))
 (require 'use-package)
 (setq use-package-always-ensure t)
-(setq column-number-mode t)
 
 (add-to-list 'load-path "~/.emacs.d/custom")
 (setq exec-path (cons "/usr/local/bin" exec-path))
@@ -32,6 +31,7 @@
 
 (require 'setup-cedet)
 (require 'setup-editing)
+
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 
@@ -107,8 +107,15 @@
 
 ;; linting
 ;; (global-flycheck-mode)
+
+;; Display columns, and set default wrap width
+(setq-default major-mode 'text-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(setq-default column-number-mode t)
+(setq-default fill-column 79)
+(setq fill-column 79)
+(setq-default require-final-newline t)
 (setq require-final-newline t)
-(setq column-number-mode t)
 
 ;; line endings
 (defun unix-file ()
