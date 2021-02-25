@@ -77,9 +77,9 @@ alias ysu="yaourt -Syu"
 
 if [[ $(hostname -s) == "huginn" ]]
 then
-	alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
-	alias wihome="nmcli con up home"
-	alias wiwork="nmcli con up work passwd-file ${HOME}/.wifi"
+   alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
+    alias wihome="nmcli con up home"
+    alias wiwork="nmcli con up work passwd-file ${HOME}/.wifi"
 fi
 
 if [[ $(hostname -s) == "enki" ]]; then

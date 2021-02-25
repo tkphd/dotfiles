@@ -77,19 +77,19 @@ if [ "$PS1" ]; then
                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
             }
             # Customizable prompt settings
-	        DIV_HUE=${MAGENTAB}
-	        GIT_HUE=${RED}
-    	    HOST_HUE=${BLUE}
-    	    PATH_HUE=${CYANL}
-    	    PROM_HUE=${GREENL}
-        	QUOT_HUE=${MAGENTAB}
-        	TIME_HUE=${RED}
+            DIV_HUE=${MAGENTAB}
+            GIT_HUE=${RED}
+            HOST_HUE=${BLUE}
+            PATH_HUE=${CYANL}
+            PROM_HUE=${GREENL}
+            QUOT_HUE=${MAGENTAB}
+            TIME_HUE=${RED}
             if [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]]
             then
                 source "${HOME}/.dotfiles/bash/local_prompt"
             fi
-	        PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${NONE} "
-                PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
+            PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${NONE} "
+            PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
             if [ $UID = $EUID -a $UID -ne 0 ]

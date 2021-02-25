@@ -60,4 +60,3 @@
 
 [credential]
   helper = netrc -f ~/.netrc -v
-

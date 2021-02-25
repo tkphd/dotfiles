@@ -141,7 +141,7 @@ if [[ $(hostname -s) == "p859561" ]]; then
     export LIBGL_ALWAYS_INDIRECT=1
 fi
 if [[ $(hostname -s | grep enki)  != "" ]]; then
-	export PKG_CONFIG_PATH=/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt
+    export PKG_CONFIG_PATH=/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt
     export CUDA_HDR_PATH=/usr/local/cuda-10.0/targets/ppc64le-linux/include
     export GSL_PATH=/wrk/tnk10/.conda/envs/py2/include/
     export GSL_LIB=/wrk/tnk10/.conda/envs/py2/lib

@@ -111,4 +111,3 @@ _conda_set_vars
 if [ -z "${CONDA_SHLVL+x}" ]; then
     \export CONDA_SHLVL=0
 fi
-

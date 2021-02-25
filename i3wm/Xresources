@@ -51,9 +51,9 @@ URxvt.perl-ext-common: ...,font-size
 Xcursor.size:        32
 *.scrollStyle:       rxvt
 *.jumpScroll:        true
-*.scrollTtyOutput:   false 
-*.scrollTtyKeypress: true 
-*.scrollWithBuffer:  true 
+*.scrollTtyOutput:   false
+*.scrollTtyKeypress: true
+*.scrollWithBuffer:  true
 *.secondaryScreen:   true
 *.secondaryScroll:   true
 *.secondaryWheel:    true
