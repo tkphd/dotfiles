@@ -1,3 +1,5 @@
+;;; init.el --- configuration for emacs
+;;
 ;;  ██             ██   ██               ██
 ;; ░░             ░░   ░██              ░██
 ;; ███ █████████  ███ ██████      █████ ░██
@@ -88,6 +90,7 @@
 
 (defvar myPackages
   '(better-defaults
+    flycheck
     py-autopep8)
   )
 
@@ -96,8 +99,13 @@
             (package-install package)))
       myPackages)
 
+;; linting
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 ;; text filling (line wrapping)
-(setq-default fill-column 72)
+(setq-default fill-column 79)
 (setq sentence-end-double-space nil)
 (setq compilation-scroll-output 'first-error)
 
@@ -220,7 +228,6 @@ is binary, activate `hexl-mode'."
 (add-hook 'c-mode-common-hook (lambda () (add-hook 'before-save-hook 'astyle-before-save)))
 
 ;; Python, after https://realpython.com/emacs-the-best-python-editor/#configuration-and-packages
-
 ;; (elpy-enable)
 ;;# (require 'py-autopep8)
 ;;# (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
@@ -229,3 +236,6 @@ is binary, activate `hexl-mode'."
 (setq vc-handled-backends ())
 (put 'downcase-region 'disabled nil)
 
+
+;;; Commentary:
+;; flycheck is a bit of a nuisance
