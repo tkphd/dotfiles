@@ -8,6 +8,17 @@
 ;; ░░░ ░░     ░░░ ░░░   ░░  ░░    ░░░░  ░░
 
 (add-to-list 'exec-path "~/bin") ;; put global in there
+(add-to-list 'load-path "~/.emacs.d/custom")
+(setq exec-path (cons "/usr/local/bin" exec-path))
+(require 'subr-x)
+
+(when (and (version<  "25" emacs-version)
+           (version< emacs-version "26.3"))
+  ;; Hack to prevent TLS error with Emacs 26.1 and 26.2 and gnutls 3.6.4 and above
+  ;; see https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
+  (with-current-buffer (url-retrieve-synchronously "https://api.github.com/users/syl20bnr/repos")
+    (when (string-empty-p (buffer-string))
+      (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -18,16 +29,13 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(add-to-list 'load-path "~/.emacs.d/custom")
-(setq exec-path (cons "/usr/local/bin" exec-path))
-
-(require 'setup-general)
-
 (if (version< emacs-version "24.4")
   (require 'setup-ivy-counsel)
   (require 'setup-helm)
   (require 'setup-helm-gtags)
 )
+
+(require 'setup-general)
 
 (require 'setup-cedet)
 (require 'setup-editing)
@@ -69,7 +77,7 @@
     ("c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" default)))
  '(package-selected-packages
    (quote
-    (night-owl-theme rust-mode zygospore helm-gtags helm yasnippet ws-butler dtrt-indent volatile-highlights use-package undo-tree iedit counsel-projectile company clean-aindent-mode anzu))))
+    (fill-column-indicator night-owl-theme rust-mode zygospore helm-gtags helm yasnippet ws-butler dtrt-indent volatile-highlights use-package undo-tree iedit counsel-projectile company clean-aindent-mode anzu))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -80,8 +88,6 @@
 
 (defvar myPackages
   '(better-defaults
-    elpy
-    flycheck
     py-autopep8)
   )
 
@@ -104,9 +110,6 @@
     (fill-paragraph nil region)))
 
 (define-key global-map "\M-Q" 'unfill-paragraph)
-
-;; linting
-;; (global-flycheck-mode)
 
 ;; Display columns, and set default wrap width
 (setq-default major-mode 'text-mode)
@@ -218,14 +221,11 @@ is binary, activate `hexl-mode'."
 
 ;; Python, after https://realpython.com/emacs-the-best-python-editor/#configuration-and-packages
 
-(elpy-enable)
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;; (elpy-enable)
+;;# (require 'py-autopep8)
+;;# (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; disable vc-git
 (setq vc-handled-backends ())
 (put 'downcase-region 'disabled nil)
+
