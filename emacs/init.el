@@ -94,7 +94,7 @@
     ("c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" default)))
  '(package-selected-packages
    (quote
-    (fill-column-indicator night-owl-theme rust-mode zygospore helm-gtags helm yasnippet ws-butler dtrt-indent volatile-highlights use-package undo-tree iedit counsel-projectile company clean-aindent-mode anzu))))
+    (v-mode fill-column-indicator night-owl-theme rust-mode zygospore helm-gtags helm yasnippet ws-butler dtrt-indent volatile-highlights use-package undo-tree iedit counsel-projectile company clean-aindent-mode anzu))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
