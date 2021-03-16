@@ -93,6 +93,18 @@ fi
 
 # === Custom Functions ===
 
+update-conda() {
+    # Update Anaconda Python and all its virtual environments
+    echo "=== Updating conda ==="
+    conda update --yes conda
+
+    for name in base $(ls ~/.conda/anaconda/envs/)
+    do
+        echo "=== Updating ${base} env ==="
+        conda update -n ${name} --all --yes
+    done
+}
+
 function countdown {
     # https://www.putorius.net/how-to-make-countdown-timer-in-bash.html
     min=0

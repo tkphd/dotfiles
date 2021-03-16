@@ -4,4 +4,4 @@ channels:
   - defaults
   - conda-forge
 envs_dirs:
-  - ~/.conda/envs
+  - ~/.conda/anaconda/envs

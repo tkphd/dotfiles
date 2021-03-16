@@ -31,14 +31,6 @@ else
     fi
 fi
 unset __conda_setup
-update-conda() {
-    conda update --yes conda
-
-    for name in base $(ls ~/.conda/anaconda/envs/)
-    do
-        conda update -n ${name} --all --yes
-    done
-}
 # === CUDA ===
 # See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
 if [[ $(hostname -s) == "p859561" ]]; then
