@@ -111,3 +111,12 @@ _conda_set_vars
 if [ -z "${CONDA_SHLVL+x}" ]; then
     \export CONDA_SHLVL=0
 fi
+
+update-conda() {
+    conda update --yes conda
+
+    for name in base $(ls ~/.conda/envs/)
+    do
+        conda update -n ${name} --all --yes
+    done
+}
