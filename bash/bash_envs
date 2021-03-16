@@ -34,7 +34,7 @@ unset __conda_setup
 update-conda() {
     conda update --yes conda
 
-    for name in base $(ls ~/.conda/envs/)
+    for name in base $(ls ~/.conda/anaconda/envs/)
     do
         conda update -n ${name} --all --yes
     done
