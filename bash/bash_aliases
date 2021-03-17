@@ -100,7 +100,7 @@ update-conda() {
 
     for name in base $(ls ~/.conda/anaconda/envs/)
     do
-        echo "=== Updating ${base} env ==="
+        echo "=== Updating ${name} env ==="
         conda update -n ${name} --all --yes
     done
 }
