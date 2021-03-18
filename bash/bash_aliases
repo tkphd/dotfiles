@@ -1,5 +1,41 @@
 #!/bin/bash
 
+function tea {
+    # Set a timer for your tea. Time is measured in seconds.
+    timer=300 # default: 5 minutes
+    if [[ $(which kdialog) == "" ]]; then
+        echo "You must install kdialog!"
+        timer=0
+    fi
+    if [[ $# == 1 ]]; then
+        timer=$1
+    else
+        echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 180 # 3 min"
+        timer=0
+    fi
+    if [[ $timer > 0 ]]; then
+        sleep $timer
+        kdialog --msgbox "Your tea is ready."
+    fi
+}
+
+function update-conda() {
+    # Update Anaconda Python and all its virtual environments
+    echo "=== Updating conda ==="
+    conda update --yes conda
+    for name in base $(ls ~/.conda/anaconda/envs/); do
+        echo -e "=== Updating ${name} env ===\n"
+        conda update -n ${name} --all --yes
+    done
+}
+
+function whoareu {
+    # Print the name of the person assigned the specified ID
+    local user=$(id -u $1)
+    local info=$(getent passwd $user)
+    echo $info | awk -F':' '{print $5}' | awk -F',' '{print $1}'
+}
+
 if [ -x /usr/bin/dircolors ]; then
     test -r ${HOME}/.dotfiles/bash/dircolors && eval "$(dircolors -b ${HOME}/.dotfiles/bash/dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -18,7 +54,7 @@ fi
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
-alias aguu="sudo apt update; sudo apt full-upgrade -y"
+alias aguu="sudo apt update; sudo apt full-upgrade -y; update-conda"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 10h /root/.ssh/id_rsa; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
@@ -77,7 +113,7 @@ alias ysu="yaourt -Syu"
 
 if [[ $(hostname -s) == "huginn" ]]
 then
-   alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
+    alias airplanemode="if [[ $(nmcli n connectivity) == 'none' ]]; then nmcli n on; elif [[ $(nmcli n connectivity) == 'full' ]]; then nmcli n off; fi"
     alias wihome="nmcli con up home"
     alias wiwork="nmcli con up work passwd-file ${HOME}/.wifi"
 fi
@@ -91,19 +127,7 @@ elif [[ $(hostname -s) == "ruth" ]]; then
     alias svquart="srun -p gpu -t 60 -n 16 --gres=gpu:volta:1  --pty bash"
 fi
 
-# === Custom Functions ===
-
-update-conda() {
-    # Update Anaconda Python and all its virtual environments
-    echo "=== Updating conda ==="
-    conda update --yes conda
-
-    for name in base $(ls ~/.conda/anaconda/envs/)
-    do
-        echo "=== Updating ${name} env ==="
-        conda update -n ${name} --all --yes
-    done
-}
+# === Pomodoro Method ===
 
 function countdown {
     # https://www.putorius.net/how-to-make-countdown-timer-in-bash.html
@@ -159,28 +183,4 @@ function pomodoro {
         cycrun=$(python -c "print('{0:3.0f}'.format((${finish} - ${start}) / 60.))")
         echo "Quartet of pomodoros ran ${cycrun} min"
     fi
-}
-
-function tea {
-    timer=300 # default: 5 minutes
-    if [[ $(which kdialog) == "" ]]; then
-        echo "You must install kdialog!"
-        timer=0
-    fi
-    if [[ $# == 1 ]]; then
-        timer=$1
-    else
-        echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 180 # 3 min"
-        timer=0
-    fi
-    if [[ $timer > 0 ]]; then
-        sleep $timer
-        kdialog --msgbox "Your tea is ready."
-    fi
-}
-
-function whoareu {
-    local user=$(id -u $1)
-    local info=$(getent passwd $user)
-    echo $info | awk -F':' '{print $5}' | awk -F',' '{print $1}'
 }
