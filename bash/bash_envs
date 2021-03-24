@@ -24,10 +24,10 @@ __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "~/.conda/anaconda/etc/profile.d/conda.sh" ]; then
-        . "~/.conda/anaconda/etc/profile.d/conda.sh"
+    if [ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]; then
+        source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
     else
-        export PATH="~/.conda/anaconda/bin:$PATH"
+        export PATH="${HOME}/.conda/anaconda/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -42,21 +42,21 @@ else
 fi
 CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
 if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
-    NVCCBIN=$(dirname $(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1))
+    NVCCBIN=$(dirname "$(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1)")
     if [[ $NVCCBIN != "" ]]; then
         export PATH=${PATH}:${NVCCBIN}
-        export CUDA_HDR_PATH=$(dirname ${NVCCBIN})/targets/x86_64-linux/include
-        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib)
+        export CUDA_HDR_PATH="$(dirname ${NVCCBIN})"/targets/x86_64-linux/include
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
     fi
     if [[ $CUDA_HDR_PATH == "" ]]; then
-        NVCCBIN=$(dirname $(ls -t $(find /opt/cuda -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
+        NVCCBIN=$(dirname $(ls -t "$(find /opt/cuda -name nvcc 2>/dev/null)" 2>/dev/null | head -n 1))
         if [[ $NVCCBIN != "" ]]; then
             export PATH=${PATH}:${NVCCBIN}
-            export CUDA_HDR_PATH=$(dirname ${NVCCBIN})/targets/x86_64-linux/include
-            export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib)
+            export CUDA_HDR_PATH="$(dirname ${NVCCBIN})"/targets/x86_64-linux/include
+            export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
         fi
     fi
-    if [[ $CUDA_HDR_PATH == "" ]]; then
+    if [[ ${CUDA_HDR_PATH} == "" ]]; then
         export CUDA_HDR_PATH=/usr/include
     fi
 fi
@@ -68,10 +68,10 @@ export TERMINAL=/usr/bin/konsole
 export EMACSD=/tmp/emacs-${USER}
 export EMACSBD=${EMACSD}/backups
 export EMACSSD=${EMACSD}/saves
-if [[ ! -d $EMACSD ]]; then
-    mkdir -p $EMACSD
-    mkdir -p $EMACSBD
-    mkdir -p $EMACSSD
+if [[ ! -d ${EMACSD} ]]; then
+    mkdir -p ${EMACSD}
+    mkdir -p ${EMACSBD}
+    mkdir -p ${EMACSSD}
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -100,7 +100,7 @@ export MMSP_PATH=${HOME}/research/projects/mmsp
 export PATH=${PATH}:${MMSP_PATH}/utility
 # === NIX ===
 if [[ -d ${HOME}/.nix-profile/etc/profile.d ]]; then
-    . ${HOME}/.nix-profile/etc/profile.d/nix.sh
+    source ${HOME}/.nix-profile/etc/profile.d/nix.sh
 fi
 # === OpenARC === (Accelerator Research Compiler)
 if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
@@ -115,7 +115,7 @@ if [[ -f /opt/pgi/license.dat ]]; then
     export PATH=${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin
 fi
 # === Qt ===
-QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
 if [[ -d /usr/local/lib/plugins/platforms ]]; then
    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins/platforms
 elif [[ -d /usr/lib/x86_64-linux-gnu/qt5/plugins/platforms ]]; then
@@ -162,5 +162,5 @@ if [[ $(hostname -s | grep enki)  != "" ]]; then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
 fi
 if [[ -f ${HOME}/.dotfiles/local/tokens ]]; then
-    . ${HOME}/.dotfiles/local/tokens
+    source ${HOME}/.dotfiles/local/tokens                        
 fi

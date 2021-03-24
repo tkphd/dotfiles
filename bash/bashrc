@@ -92,7 +92,7 @@ if [ "$PS1" ]; then
             PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
-            if [ $UID = $EUID -a $UID -ne 0 ]
+            if [ $UID = $EUID ] && [ $UID -ne 0 ]
             then
                 PS1="\${ERRPROMPT}\! \h$% "
             else
