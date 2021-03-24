@@ -33,13 +33,14 @@ if [[ -z "$Environ_Sourced" && -f /etc/profile ]]; then
     source /etc/profile
 fi
 # === Prompt! ===
-if [ -f "${HOME}/.dotfiles/bash/local_prompt" ]
-then
+if [ -f "${HOME}/.dotfiles/bash/local_prompt" ]; then
     source "${HOME}/.dotfiles/bash/local_prompt"
 fi
 if [ "$PS1" ]; then
     # colorize if at all possible
     force_color_prompt=yes
+    # disable Ctrl-S, per https://twitter.com/thingskatedid/status/1348860793618456581
+    stty -ixon
     # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
     # append rather than overwrite history, update window size after each command
     shopt -s cdspell checkhash checkwinsize cmdhist histappend
@@ -100,8 +101,6 @@ if [ "$PS1" ]; then
             fi
     esac
 fi
-# === Unsuspenseful! ===
-stty -ixon # (disable Ctrl-S, per https://twitter.com/thingskatedid/status/1348860793618456581)
 # === Aliased! ===
 if [ -f "${HOME}/.dotfiles/bash/bash_aliases" ]
 then
