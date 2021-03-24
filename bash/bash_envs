@@ -106,6 +106,8 @@ fi
 if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
     export openarc=${HOME}/repositories/OpenARC
 fi
+# === OpenMPI ===
+export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
 if [[ -f /opt/pgi/license.dat ]]; then
     export PGI_PATH=/opt/pgi/linux86-64-llvm/19.10
@@ -127,6 +129,10 @@ elif [[ -d ${HOME}/.rvm ]]; then
     # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
     export PATH="$PATH:${HOME}/.rvm/bin"
     source ${HOME}/.rvm/scripts/rvm
+fi
+# === Rust ===
+if [[ -d ${HOME}/.cargo/env ]]; then
+    source "${HOME}/.cargo/env"
 fi
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
