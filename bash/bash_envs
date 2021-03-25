@@ -1,30 +1,16 @@
 #!/bin/bash
 
-# === Manage search paths ===
-export PATH=${PATH}:/usr/local/bin
-if [[ ${LD_LIBRARY_PATH} == "" ]]; then
-    export LD_LIBRARY_PATH=/usr/lib/paraview
-else
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/paraview
-fi
-if [[ -d ${HOME}/bin ]];then
-    export PATH=${PATH}:${HOME}/bin
-fi
-if [[ -d /usr/local/${USER} ]]; then
-    export PATH=${PATH}:/usr/local/${USER}/bin
-fi
 # === AUR ===
 export gaur="https://aur.archlinux.org"
 # === BeeGFS ===
-if [[ -d /opt/beegfs ]]; then
-    export PATH=${PATH}:/opt/beegfs/sbin
-fi
+[ -d /opt/beegfs ] && export PATH="${PATH}:/opt/beegfs/sbin"
 # === Conda ===
 __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]; then
+    if [ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]
+    then
         source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
     else
         export PATH="${HOME}/.conda/anaconda/bin:$PATH"
@@ -79,6 +65,8 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 export GSL_PATH=${HOME}/.conda/envs/py2/include
 export GSL_LIB=${HOME}/.conda/envs/py2/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
+# === Haskell ===
+[ -f "/home/thor/.ghcup/env" ] && source "/home/thor/.ghcup/env" # ghcup-env
 # === Intel ===
 if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
     export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
@@ -99,13 +87,9 @@ export KDEWM=/usr/bin/i3
 export MMSP_PATH=${HOME}/research/projects/mmsp
 export PATH=${PATH}:${MMSP_PATH}/utility
 # === NIX ===
-if [[ -d ${HOME}/.nix-profile/etc/profile.d ]]; then
-    source ${HOME}/.nix-profile/etc/profile.d/nix.sh
-fi
+[ -d ${HOME}/.nix-profile/etc/profile.d ] && source ${HOME}/.nix-profile/etc/profile.d/nix.sh
 # === OpenARC === (Accelerator Research Compiler)
-if [[ -d ${HOME}/repositories/OpenARC/ ]]; then
-    export openarc=${HOME}/repositories/OpenARC
-fi
+[ -d ${HOME}/repositories/OpenARC/ ] && export openarc=${HOME}/repositories/OpenARC
 # === OpenMPI ===
 export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
@@ -131,9 +115,7 @@ elif [[ -d ${HOME}/.rvm ]]; then
     source ${HOME}/.rvm/scripts/rvm
 fi
 # === Rust ===
-if [[ -d ${HOME}/.cargo/env ]]; then
-    source "${HOME}/.cargo/env"
-fi
+[ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Thermo-Calc ===
@@ -141,9 +123,14 @@ export TC20A_HOME=${HOME}/Thermo-Calc/2020a/
 export PATH=$PATH:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ
 export LSERVRC="${HOME}/Thermo-Calc/lservrc"
 export LSHOST="NO-NET"
+# === VTK ===
+if [[ ${LD_LIBRARY_PATH} == "" ]]; then
+    export LD_LIBRARY_PATH=/usr/lib/paraview
+else
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/paraview
+fi
 # === XDG ===
 export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
-
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
@@ -161,6 +148,4 @@ if [[ $(hostname -s | grep enki)  != "" ]]; then
     export GSL_LIB=/wrk/tnk10/.conda/envs/py2/lib
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
 fi
-if [[ -f ${HOME}/.dotfiles/local/tokens ]]; then
-    source ${HOME}/.dotfiles/local/tokens                        
-fi
+[ -f ${HOME}/.dotfiles/local/tokens ] && source ${HOME}/.dotfiles/local/tokens

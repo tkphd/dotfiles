@@ -70,6 +70,12 @@ if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xresources
     ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xdefaults
+
+    ## === Xsession ===
+    if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
+        rm ${HOME}/.xsessionrc
+    fi
+    ln -s ${DIR}/bash/xsessionrc ${HOME}/.xsessionrc
 else
     echo "No changes were made."
 fi
