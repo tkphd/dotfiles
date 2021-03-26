@@ -4,6 +4,8 @@
 export gaur="https://aur.archlinux.org"
 # === BeeGFS ===
 [ -d /opt/beegfs ] && export PATH="${PATH}:/opt/beegfs/sbin"
+# === Borg ===
+export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
 __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -131,6 +133,7 @@ else
 fi
 # === XDG ===
 export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
+[ -d "${XDG_RUNTIME_DIR}" ] || mkdir "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
