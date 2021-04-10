@@ -11,6 +11,9 @@ __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
+    # === Ruby Version Manager ===
+    [ -d ${HOME}/.rvm ] && export PATH="${HOME}/.rvm/bin:${PATH}"
+
     if [ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]
     then
         source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
@@ -111,10 +114,10 @@ fi
 if [[ -d ${HOME}/gems ]]; then
     export GEM_HOME=${HOME}/gems
     export PATH=${HOME}/gems/bin:${PATH}
-elif [[ -d ${HOME}/.rvm ]]; then
-    # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-    export PATH="$PATH:${HOME}/.rvm/bin"
-    source ${HOME}/.rvm/scripts/rvm
+fi
+# === Ruby Version Manager ===
+if [[ -d ${HOME}/.rvm ]]; then
+    export PATH="${PATH}:${HOME}/.rvm/bin"
 fi
 # === Rust ===
 [ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
