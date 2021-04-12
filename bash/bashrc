@@ -38,7 +38,7 @@ if [ "$PS1" ]; then
     # colorize if at all possible
     force_color_prompt=yes
     # disable Ctrl-S, per https://twitter.com/thingskatedid/status/1348860793618456581
-    stty -ixon
+    [[ $- == *i* ]] && stty -ixon
     # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
     # append rather than overwrite history, update window size after each command
     shopt -s cdspell checkhash checkwinsize cmdhist histappend
