@@ -121,6 +121,8 @@ if [[ -d ${HOME}/.rvm ]]; then
 fi
 # === Rust ===
 [ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
+# === SUDO ===
+export SUDO_PROMPT=$(echo -e "\e[0;31m[sudo]\e[0m password for ${USER}:")
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Thermo-Calc ===
