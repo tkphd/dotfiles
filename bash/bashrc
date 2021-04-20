@@ -1,43 +1,17 @@
 #!/bin/bash
-# === Colorful! ===
-    NONE='\[\e[0m\]'
-   BLACK='\[\e[0;30m\]'
-     RED='\[\e[0;31m\]'
-   GREEN='\[\e[0;32m\]'
-  YELLOW='\[\e[0;33m\]'
-    BLUE='\[\e[0;34m\]'
- MAGENTA='\[\e[0;35m\]'
-    CYAN='\[\e[0;36m\]'
-    GREY='\[\e[0;37m\]'
- DEFAULT='\[\e[0;39m\]'
-   GREYD='\[\e[0;90m\]'
-   WHITE='\[\e[0;97m\]'
-# === Light! ===
-    REDL='\[\e[0;91m\]'
-  GREENL='\[\e[0;92m\]'
- YELLOWL='\[\e[0;93m\]'
-   BLUEL='\[\e[0;94m\]'
-MAGENTAL='\[\e[0;95m\]'
-   CYANL='\[\e[0;96m\]'
-# === Bold! ===
-  BLACKB='\[\e[1;30m\]'
-    REDB='\[\e[1;31m\]'
-   BROWN='\[\e[1;32m\]'
-  BROWNB='\[\e[1;33m\]'
-   BLUEB='\[\e[1;34m\]'
-MAGENTAB='\[\e[1;35m\]'
-   CYANB='\[\e[1;36m\]'
-   GREYB='\[\e[1;37m\]'
-[ -f "${HOME}/.dotfiles/bash/local_prompt" ] && source "${HOME}/.dotfiles/bash/local_prompt"
-# === Non-Interactive! ===
+# === Non-Interactive? ===
 if [[ -z "${Environ_Sourced}" && -f /etc/profile ]]; then
     source /etc/profile
 fi
+# === Colorful! === (Black, Red, Green, Yellow, Blue, Magenta, Cyan, Gray)
+[ -f "${HOME}/.dotfiles/bash/colors.sh" ] && source "${HOME}/.dotfiles/bash/colors.sh"
 # === Prompt! ===
+[ -f "${HOME}/.dotfiles/bash/local_prompt" ] && source "${HOME}/.dotfiles/bash/local_prompt"
 if [ "$PS1" ]; then
     # colorize if at all possible
     force_color_prompt=yes
-    # disable Ctrl-S, per https://twitter.com/thingskatedid/status/1348860793618456581
+    # disable Ctrl-S in interactive shells (only), per
+    # https://twitter.com/thingskatedid/status/1348860793618456581
     [[ $- == *i* ]] && stty -ixon
     # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
     # append rather than overwrite history, update window size after each command
@@ -55,18 +29,8 @@ if [ "$PS1" ]; then
         fi
     }
     PROMPT_COMMAND=prompt_command
-    # Color Codes:
-    #         Color Light
-    #   Black 30    90
-    #     Red 31    91
-    #   Green 32    92
-    #  Yellow 33    93
-    #    Blue 34    94
-    # Magenta 35    95
-    #    Cyan 36    96
-    #    Gray 37    97
     case $TERM in
-        iris-ansi*|konsole|*rxvt*|*xterm*|screen)
+        iris-ansi*|konsole|*rxvt*|screen|*xterm*)
             # Put user@machine:/directory on headline of xterms
             PS="${RED}\${ERRPROMPT}${BLUE}\!"
             sep_git() {
