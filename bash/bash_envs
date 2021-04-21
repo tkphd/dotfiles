@@ -66,12 +66,14 @@ if [[ ! -d ${EMACSD} ]]; then
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# === GITHUB ===
+[ -f "${HOME}/.github" ] && source "${HOME}/.github" # personal access token(s)
 # === GSL ===
 export GSL_PATH=${HOME}/.conda/envs/py2/include
 export GSL_LIB=${HOME}/.conda/envs/py2/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
 # === Haskell ===
-[ -f "/home/thor/.ghcup/env" ] && source "/home/thor/.ghcup/env" # ghcup-env
+[ -f "${HOME}/.ghcup/env" ] && source "${HOME}/.ghcup/env" # ghcup-env
 # === Intel ===
 if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
     export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
