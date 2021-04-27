@@ -1,39 +1,51 @@
 # -*- coding: utf-8 -*-
 
-from i3pystatus import Status
-from os import environ, path, stat
-
 ### Notice:
-# Create "machine.py" in this directory with key-value pairs, e.g.
+# To feed local machine configuration variables into this script,
+# create "machine.py" in this directory with key-value pairs, e.g.
 #
 #    ifce = "eth0"
 #    disks = [["/data", ""], ["/home", ""], ["/", ""]]
 #    battery = False
 #
-# to feed local machine configuration variables into this script
+# Use pango markup to modify fonts per item. Valid font sizes are
+# 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
+
+from i3pystatus import Status
+from os import environ, path, stat
 
 try:
     from machine import *
 except:
-    # By default, renders a penguin '' for '/' and a house '' for /home (Font Awesome)
+    # Defaults render a penguin '' for '/'
+    # and a house '' for /home (Font Awesome)
     ifce = "eth0"
-    disks = [["/home", ""], ["/", ""]]
+    disks = [["/home", ""],
+             ["/", ""]]
     battery = False
 
 home = environ["HOME"]
 status = Status()
 
-# Use pango markup to modify fonts per item. Valid font sizes are
-# 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
-
 # Displays clock like this:
 # Tue 30 Jul 11:59 PM
 status.register(
-    "clock", format="%a %-d %b %I:%M %p",
+    "clock",
+    format="%a %-d %b %I:%M %p",
 )
 
+# Notify when reboot is required
+if (
+    path.isfile("/var/run/reboot-required")
+    and stat("/var/run/reboot-required").st_size != 0
+):
+    status.register("text",
+                    text="reboot me",
+                    hints={"markup": "pango"},
+                    color="red")
+
 # Shows available disk space
-# Format: 86 TB
+# Format: 2.015 TB
 for disk, icon in disks:
     status.register(
         "disk",
@@ -45,7 +57,8 @@ for disk, icon in disks:
     )
 
 # Shows your CPU temperature, if you have a Intel CPU
-status.register("temp", hints={"markup": "pango"})
+status.register("temp",
+                hints={"markup": "pango"})
 
 # Shows memory usage
 status.register(
@@ -60,7 +73,9 @@ try:
     ## Shows pulseaudio default sink volume
     ## Note: requires libpulseaudio from PyPI
     status.register(
-        "pulseaudio", format="♪ {volume}",
+        "pulseaudio",
+        format="♪ {volume}",
+        hints={"markup": "pango"},
     )
 except:
     ## Shows alsaaudio default sink volume
@@ -68,16 +83,13 @@ except:
     ##       and libalsaaudio-dev
     status.register("alsa")
 
-# Shows the average load of the last minute and the last 5 minutes
-# (the default value for format is used)
-# status.register("load")
+# Plots the average load of the last 5 minutes
 status.register(
     "cpu_usage_graph",
     cpu="usage",
-    format="{cpu_graph}",
     hints={"markup": "pango"},
-    # graph_style="braille-fill",
     graph_width=60,
+    format="{cpu_graph}",
 )
 
 # Battery status
@@ -89,13 +101,6 @@ if battery:
         alert_percentage=5,
         status={"DIS": "↓", "CHR": "↑", "FULL": " = ",},
     )
-
-# Notify when reboot is required
-if (
-    path.isfile("/var/run/reboot-required")
-    and stat("/var/run/reboot-required").st_size != 0
-):
-    status.register("text", text="reboot me", hints={"markup": "pango"}, color="red")
 
 # Shows the address and up/down state of eth0. If it is up the address is
 # shown in green (the default value of color_up) and the CIDR-address is

@@ -124,7 +124,7 @@ fi
 # === Rust ===
 [ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
 # === SUDO ===
-export SUDO_PROMPT=$(echo -e "Enter \e[1;32m${USER}\e[0m's password to \e[1;32m[sudo]\e[0m: ")
+export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter ${USER}'s password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Thermo-Calc ===
