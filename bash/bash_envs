@@ -66,12 +66,14 @@ if [[ ! -d ${EMACSD} ]]; then
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# === GITHUB ===
+[ -f "${HOME}/.github" ] && source "${HOME}/.github" # personal access token(s)
 # === GSL ===
 export GSL_PATH=${HOME}/.conda/envs/py2/include
 export GSL_LIB=${HOME}/.conda/envs/py2/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
 # === Haskell ===
-[ -f "/home/thor/.ghcup/env" ] && source "/home/thor/.ghcup/env" # ghcup-env
+[ -f "${HOME}/.ghcup/env" ] && source "${HOME}/.ghcup/env" # ghcup-env
 # === Intel ===
 if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
     export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
@@ -122,7 +124,7 @@ fi
 # === Rust ===
 [ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
 # === SUDO ===
-export SUDO_PROMPT=$(echo -e "Enter \e[1;32m${USER}\e[0m's password to \e[1;32m[sudo]\e[0m: ")
+export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter ${USER}'s password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
 export SSH_ASKPASS=/usr/bin/ssh-askpass
 # === Thermo-Calc ===

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo -ne "DANGER! This script will overwrite ~/.bashrc, and other config files.\n\nType \"yes\" to continue: "
-read EULA
+read DISCLAIMER
 
-if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
+if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     DIR=$(pwd)
 
@@ -61,21 +61,27 @@ if [[ "${EULA}" == "yes" || "${EULA}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/i3wm/urxvt-font-size/font-size ${HOME}/.urxvt/ext/font-size
 
-    ## === Xresources ===
+    ## === X session ===
     if [[ -f ${HOME}/.Xresources || -L ${HOME}/.Xresources ]]; then
         rm ${HOME}/.Xresources
     fi
+    ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xresources
+
     if [[ -f ${HOME}/.Xdefaults ]]; then
         rm ${HOME}/.Xdefaults
     fi
-    ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xresources
     ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xdefaults
 
-    ## === Xsession ===
+    if [[ -f ${HOME}/.keyboard || -L ${HOME}/.keyboard ]]; then
+        rm ${HOME}/.keyboard
+    fi
+    ln -s ${DIR}/i3wm/keyboard ${HOME}/.keyboard
+
     if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
         rm ${HOME}/.xsessionrc
     fi
     ln -s ${DIR}/bash/xsessionrc ${HOME}/.xsessionrc
+
 else
     echo "No changes were made."
 fi
