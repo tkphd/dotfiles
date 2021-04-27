@@ -4,12 +4,14 @@
 *.#*
 *.orig
 
-local/
+bash/local_prompt
+
 emacs/*.el
 emacs/*.eld
 emacs/*.last
 emacs/elpa
 emacs/places
+emacs/semanticdb/
 
 i3wm/machine.py
 
