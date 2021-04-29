@@ -123,6 +123,8 @@ if [[ -d ${HOME}/.rvm ]]; then
 fi
 # === Rust ===
 [ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
+# === Spack ===
+[ -d ${HOME}/repositories/spack/share/spack ] && source "/${HOME}/repositories/spack/share/spack/setup-env.sh"
 # === SUDO ===
 export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter ${USER}'s password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
