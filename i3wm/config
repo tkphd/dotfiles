@@ -7,8 +7,9 @@
 
 set $mod Mod4
 
-# set background
+# set background color, transparency, and wallpaper
 exec --no-startup-id xsetroot -solid "#6d38aa"
+exec --no-startup-id xcompmgr -c -f -n
 exec --no-startup-id feh --bg-fill "${HOME}/.config/i3/canvas.jpg"
 
 # start systray apps
@@ -23,7 +24,7 @@ font pango:LM Sans 12, Font Awesome 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec "/usr/bin/konsole --hide-menubar --hide-tabbar"
+bindsym $mod+Return exec kitty
 
 # screenshot
 bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
