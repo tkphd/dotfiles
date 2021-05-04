@@ -51,6 +51,14 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/i3wm ${HOME}/.config/i3
 
+    # === kitty ===
+    if [[ -d ${HOME}/.config/kitty ]]; then
+        rm -rf ${HOME}/.config/kitty
+    elif [[ -f ${HOME}/.config/kitty || -L ${HOME}/.config/kitty ]]; then
+        rm ${HOME}/.config/kitty
+    fi
+    ln -s ${DIR}/kitty ${HOME}/.config/kitty
+
     ## === urxvt ===
     if [[ -d ${HOME}/.urxvt/ext/font-size ]]; then
         rm -rf ${HOME}/.urxvt/ext/font-size
