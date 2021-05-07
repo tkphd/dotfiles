@@ -93,7 +93,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/x11/xsessionrc ${HOME}/.xsessionrc
 
-    xrdb -merge
+    xrdb -merge ${HOME}/.Xresources
 else
     echo "No changes were made."
 fi

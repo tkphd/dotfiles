@@ -14,7 +14,7 @@
 *.saveLines: 10000
 
 ! █▓▒░ color scheme
-#include ".config/i3/Xcolors/dark/material"
+#include ".dotfiles/x11/Xcolors/dark/material"
 
 ! █▓▒░ preferred fonts
 XTerm*font:   *-fixed-*-*-*-18-*
