@@ -44,11 +44,11 @@ Urxvt.letterSpace: -2
 *.buffered:    true
 *.visualBell:  true
 *.scrollBar:   off
-*.scrollStyle: rxvt
 
 ! █▓▒░ interaction
 URxvt.perl-ext-common: ...,font-size
 Xcursor.size:        32
+Xcursor.theme:       volantes
 *.scrollStyle:       rxvt
 *.jumpScroll:        true
 *.scrollTtyOutput:   false

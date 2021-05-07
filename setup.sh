@@ -69,27 +69,31 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/i3wm/urxvt-font-size/font-size ${HOME}/.urxvt/ext/font-size
 
+    # === volantes cursor theme ===
+    sudo cp -r ${DIR}/x11/volantes /usr/share/icons/
+
     ## === X session ===
     if [[ -f ${HOME}/.Xresources || -L ${HOME}/.Xresources ]]; then
         rm ${HOME}/.Xresources
     fi
-    ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xresources
+    ln -s ${DIR}/x11/Xresources ${HOME}/.Xresources
 
-    if [[ -f ${HOME}/.Xdefaults ]]; then
+    if [[ -f ${HOME}/.Xdefaults || -L ${HOME}/.Xdefaults ]]; then
         rm ${HOME}/.Xdefaults
     fi
-    ln -s ${DIR}/i3wm/Xresources ${HOME}/.Xdefaults
+    ln -s ${DIR}/x11/Xresources ${HOME}/.Xdefaults
 
     if [[ -f ${HOME}/.keyboard || -L ${HOME}/.keyboard ]]; then
         rm ${HOME}/.keyboard
     fi
-    ln -s ${DIR}/i3wm/keyboard ${HOME}/.keyboard
+    ln -s ${DIR}/x11/keyboard ${HOME}/.keyboard
 
     if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
         rm ${HOME}/.xsessionrc
     fi
-    ln -s ${DIR}/bash/xsessionrc ${HOME}/.xsessionrc
+    ln -s ${DIR}/x11/xsessionrc ${HOME}/.xsessionrc
 
+    xrdb -merge
 else
     echo "No changes were made."
 fi
