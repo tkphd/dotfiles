@@ -56,7 +56,7 @@ fi
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
-export TERMINAL=/usr/bin/konsole
+export TERMINAL="${HOME}/bin/kitty"
 export EMACSD=/tmp/emacs-${USER}
 export EMACSBD=${EMACSD}/backups
 export EMACSSD=${EMACSD}/saves

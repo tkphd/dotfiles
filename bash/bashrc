@@ -30,7 +30,7 @@ if [ "$PS1" ]; then
     }
     PROMPT_COMMAND=prompt_command
     case $TERM in
-        iris-ansi*|konsole|*rxvt*|screen|*xterm*)
+        iris-ansi*|konsole|*rxvt*|screen|xterm*)
             # Put user@machine:/directory on headline of xterms
             PS="${RED}\${ERRPROMPT}${BLUE}\!"
             sep_git() {
