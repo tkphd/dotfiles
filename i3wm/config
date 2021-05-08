@@ -7,10 +7,13 @@
 
 set $mod Mod4
 
+# refresh application cache
+exec --no-startup-id rm ~/.cache/dmenu_run && dmenu_path > /dev/null
+
 # set background color, transparency, and wallpaper
 exec --no-startup-id xsetroot -solid "#6d38aa"
 exec --no-startup-id xcompmgr -c -f -n
-exec --no-startup-id feh --bg-fill "${HOME}/.config/i3/canvas.jpg"
+exec --no-startup-id feh --bg-fill "${HOME}/.config/i3/canvas.png"
 
 # start systray apps
 exec --no-startup-id nm-applet
