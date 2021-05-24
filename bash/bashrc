@@ -4,9 +4,9 @@ if [[ -z "${Environ_Sourced}" && -f /etc/profile ]]; then
     source /etc/profile
 fi
 # === Colorful! === (Black, Red, Green, Yellow, Blue, Magenta, Cyan, Gray)
-[ -f "${HOME}/.dotfiles/bash/colors.sh" ] && source "${HOME}/.dotfiles/bash/colors.sh"
+[[ -f "${HOME}/.dotfiles/bash/colors.sh" ]] && source "${HOME}/.dotfiles/bash/colors.sh"
 # === Prompt! ===
-[ -f "${HOME}/.dotfiles/bash/local_prompt" ] && source "${HOME}/.dotfiles/bash/local_prompt"
+[[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && source "${HOME}/.dotfiles/bash/local_prompt"
 if [ "$PS1" ]; then
     # colorize if at all possible
     force_color_prompt=yes
@@ -47,7 +47,7 @@ if [ "$PS1" ]; then
             PROM_HUE=${GREENL}
             QUOT_HUE=${MAGENTAB}
             TIME_HUE=${RED}
-            [ -f "${HOME}/.dotfiles/bash/local_prompt" ] && source "${HOME}/.dotfiles/bash/local_prompt"
+            [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && source "${HOME}/.dotfiles/bash/local_prompt"
             PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${NONE} "
             PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
@@ -62,8 +62,8 @@ if [ "$PS1" ]; then
 fi
 
 # === User-friendly! ===
-[ -f "${HOME}/.dotfiles/bash/xsessionrc" ]   && source "${HOME}/.dotfiles/bash/xsessionrc"
+[[ -f "${HOME}/.dotfiles/bash/xsessionrc" ]]   && source "${HOME}/.dotfiles/bash/xsessionrc"
 # === Aliased! ===
-[ -f "${HOME}/.dotfiles/bash/bash_aliases" ] && source "${HOME}/.dotfiles/bash/bash_aliases"
+[[ -f "${HOME}/.dotfiles/bash/bash_aliases" ]] && source "${HOME}/.dotfiles/bash/bash_aliases"
 # === Environmental! ===
-[ -f "${HOME}/.dotfiles/bash/bash_envs" ]    && source "${HOME}/.dotfiles/bash/bash_envs"
+[[ -f "${HOME}/.dotfiles/bash/bash_envs" ]]    && source "${HOME}/.dotfiles/bash/bash_envs"
