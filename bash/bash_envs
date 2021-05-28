@@ -101,7 +101,6 @@ export KDEWM=/usr/bin/i3
 # === LESS ===
 LESS_HIGHLIGHTER=$(dpkg -S src-hilite-lesspipe.sh | awk '{print $2}')
 export LESSOPEN="| ${LESS_HIGHLIGHTER} %s"
-export LESS=' -R '
 # === MMSP ===
 export MMSP_PATH=${HOME}/research/projects/mmsp
 export PATH=${PATH}:${MMSP_PATH}/utility
