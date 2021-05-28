@@ -59,6 +59,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/kitty ${HOME}/.config/kitty
 
+    mkdir -p ~/.terminfo/x
+    if [[ -f ${HOME}/.terminfo/x/xterm-kitty || -L ${HOME}/.terminfo/x/xterm-kitty ]]; then
+        rm ${HOME}/.terminfo/x/xterm-kitty
+    fi
+    ln -s ${DIR}/kitty/terminfo ${HOME}/.terminfo/x/xterm-kitty
+
     ## === urxvt ===
     if [[ -d ${HOME}/.urxvt/ext/font-size ]]; then
         rm -rf ${HOME}/.urxvt/ext/font-size
