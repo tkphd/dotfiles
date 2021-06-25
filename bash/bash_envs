@@ -97,8 +97,7 @@ fi
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
-[ "${TERM}" == "xterm-kitty" ] && source <(kitty + complete setup bash)
-export TERM=xterm
+[[ "${TERM}" == "xterm-kitty" ]] && source <(kitty + complete setup bash)
 # === LESS ===
 LESS_HIGHLIGHTER=$(dpkg -S src-hilite-lesspipe.sh | awk '{print $2}')
 export LESSOPEN="| ${LESS_HIGHLIGHTER} %s"
