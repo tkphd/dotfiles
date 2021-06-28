@@ -61,9 +61,9 @@ if [ "$PS1" ]; then
     esac
 fi
 
-# === User-friendly! ===
-[[ -f "${HOME}/.dotfiles/bash/xsessionrc" ]]   && source "${HOME}/.dotfiles/bash/xsessionrc"
-# === Aliased! ===
-[[ -f "${HOME}/.dotfiles/bash/bash_aliases" ]] && source "${HOME}/.dotfiles/bash/bash_aliases"
 # === Environmental! ===
 [[ -f "${HOME}/.dotfiles/bash/bash_envs" ]]    && source "${HOME}/.dotfiles/bash/bash_envs"
+# === Aliased! ===
+[[ -f "${HOME}/.dotfiles/bash/bash_aliases" ]] && source "${HOME}/.dotfiles/bash/bash_aliases"
+# === User-friendly! ===
+[[ -f "${HOME}/.dotfiles/bash/xsessionrc" ]]   && source "${HOME}/.dotfiles/bash/xsessionrc"
