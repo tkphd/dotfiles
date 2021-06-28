@@ -97,10 +97,12 @@ fi
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
-[[ "${TERM}" == "xterm-kitty" ]] && source <(kitty + complete setup bash)
+[[ "${TERM}" == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]] && source <(kitty + complete setup bash)
 # === LESS ===
-LESS_HIGHLIGHTER=$(dpkg -S src-hilite-lesspipe.sh | awk '{print $2}')
-export LESSOPEN="| ${LESS_HIGHLIGHTER} %s"
+if [[ "$(locate src-hilite-lesspipe.sh)" != "" ]]; then
+    LESS_HIGHLIGHTER=$(dpkg -S src-hilite-lesspipe.sh | awk '{print $2}')
+    export LESSOPEN="| ${LESS_HIGHLIGHTER} %s"
+fi
 # === MMSP ===
 export MMSP_PATH=${HOME}/research/projects/mmsp
 export PATH=${PATH}:${MMSP_PATH}/utility

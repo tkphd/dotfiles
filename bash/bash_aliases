@@ -108,10 +108,12 @@ alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTa
 alias sa="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -u ${USER}"
 alias sq="squeue -o \"%14i %10j %4t %8q %8u %10P %10Q %8D %4C %11l %11L %R\" -u ${USER}"
 alias ss="squeue --start -u ${USER}"
-alias ssh="[[ \"${TERM}\" == \"xterm-kitty\" ]] && TERM=xterm ssh"
-alias sshop="[[ \"${TERM}\" == \"xterm-kitty\" ]] && TERM=xterm ssh -i ${HOME}/.ssh/id_rsa -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
-alias ssr="[[ \"${TERM}\" == \"xterm-kitty\" ]] && TERM=xterm ssh -l root -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su"
-alias ssm="[[ \"${TERM}\" == \"xterm-kitty\" ]] && TERM=xterm ssh -l machine -i ${HOME}/.ssh/machine_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine"
+if [[ ${TERM} == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]]; then
+    alias ssh="kitty +kitten ssh -i ${HOME}/.ssh/id_ed25519"
+fi
+alias sshop="ssh -i ${HOME}/.ssh/id_rsa -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
+alias ssr="ssh -l root -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su"
+alias ssm="ssh -l machine -i ${HOME}/.ssh/machine_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wget="wget -d -c --tries=0 --read-timeout=30"
