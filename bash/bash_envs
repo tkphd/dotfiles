@@ -134,8 +134,11 @@ fi
 # === Rust ===
 [[ -d ${HOME}/.cargo/env ]] && source "${HOME}/.cargo/env"
 # === Spack ===
-[[ -d ${HOME}/repositories/spack/share/spack ]] && source "${HOME}/repositories/spack/share/spack/setup-env.sh"
-[[ -d /working/repositories/spack ]] && source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+if [[ -d "/working/${USER}/repositories/spack" ]]; then
+    source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
+elif [[ -d ${HOME}/repositories/spack/share/spack ]]; then
+    source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+fi
 if [[ $(which spack) != "" ]]; then
     export MPLBACKEND=agg
     export OPENBLAS_NUM_THREADS=1
