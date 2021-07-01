@@ -1,24 +1,23 @@
 #!/bin/bash
 
 # === Local Binaries ===
-[ -d "${HOME}/bin" ] && export PATH="${HOME}/bin:${PATH}"
+[[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:${PATH}"
 # === Crypto Tokens ===
-[ -f ${HOME}/.dotfiles/local/tokens ] && source ${HOME}/.dotfiles/local/tokens
+[[ -f ${HOME}/.dotfiles/local/tokens ]] && source ${HOME}/.dotfiles/local/tokens
 
 # === BeeGFS ===
-[ -d /opt/beegfs ] && export PATH="${PATH}:/opt/beegfs/sbin"
+[[ -d /opt/beegfs ]] && export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
 __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]]; then
     eval "$__conda_setup"
 else
     # === Ruby Version Manager ===
-    [ -d ${HOME}/.rvm ] && export PATH="${HOME}/.rvm/bin:${PATH}"
+    [[ -d ${HOME}/.rvm ]] && export PATH="${HOME}/.rvm/bin:${PATH}"
 
-    if [ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]
-    then
+    if [[ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]]; then
         source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
     else
         export PATH="${HOME}/.conda/anaconda/bin:$PATH"
@@ -73,13 +72,13 @@ fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
-[ -f "${HOME}/.github" ] && source "${HOME}/.github" # personal access token(s)
+[[ -f "${HOME}/.github" ]] && source "${HOME}/.github" # personal access token(s)
 # === GSL ===
 export GSL_PATH=${HOME}/.conda/envs/py2/include
 export GSL_LIB=${HOME}/.conda/envs/py2/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
 # === Haskell ===
-[ -f "${HOME}/.ghcup/env" ] && source "${HOME}/.ghcup/env" # ghcup-env
+[[ -f "${HOME}/.ghcup/env" ]] && source "${HOME}/.ghcup/env" # ghcup-env
 # === Intel ===
 if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
     export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
@@ -107,9 +106,9 @@ fi
 export MMSP_PATH=${HOME}/research/projects/mmsp
 export PATH=${PATH}:${MMSP_PATH}/utility
 # === NIX ===
-[ -d ${HOME}/.nix-profile/etc/profile.d ] && source ${HOME}/.nix-profile/etc/profile.d/nix.sh
+[[ -d ${HOME}/.nix-profile/etc/profile.d ]] && source ${HOME}/.nix-profile/etc/profile.d/nix.sh
 # === OpenARC === (Accelerator Research Compiler)
-[ -d ${HOME}/repositories/OpenARC/ ] && export openarc=${HOME}/repositories/OpenARC
+[[ -d ${HOME}/repositories/OpenARC/ ]] && export openarc=${HOME}/repositories/OpenARC
 # === OpenMPI ===
 export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
@@ -131,11 +130,21 @@ if [[ -d ${HOME}/gems ]]; then
     export PATH=${HOME}/gems/bin:${PATH}
 fi
 # === Ruby Version Manager ===
-[ -d ${HOME}/.rvm ] && export PATH="${PATH}:${HOME}/.rvm/bin"
+[[ -d ${HOME}/.rvm ]] && export PATH="${PATH}:${HOME}/.rvm/bin"
 # === Rust ===
-[ -d ${HOME}/.cargo/env ] && source "${HOME}/.cargo/env"
+[[ -d ${HOME}/.cargo/env ]] && source "${HOME}/.cargo/env"
 # === Spack ===
-[ -d ${HOME}/repositories/spack/share/spack ] && source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+[[ -d ${HOME}/repositories/spack/share/spack ]] && source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+[[ -d /working/repositories/spack ]] && source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+if [[ $(which spack) != "" ]]; then
+    export MPLBACKEND=agg
+    export OPENBLAS_NUM_THREADS=1
+    export OMPI_MCA_rmaps_base_oversubscribe=1
+    export OMPI_MCA_plm=isolated
+    export OMPI_MCA_btl_vader_single_copy_mechanism=none
+    export OMPI_MCA_mpi_yield_when_idle=1
+    export OMPI_MCA_hwloc_base_binding_policy=none
+fi
 # === SUDO ===
 export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter ${USER}'s password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
@@ -153,7 +162,7 @@ else
 fi
 # === XDG ===
 export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
-[ ! -d "${XDG_RUNTIME_DIR}" ] && mkdir "${XDG_RUNTIME_DIR}"
+[[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL

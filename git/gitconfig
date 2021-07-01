@@ -36,6 +36,7 @@
 [core]
   editor = "/usr/bin/emacsclient -t"
   pager = diff-so-fancy | less --tabs=4 -RFX
+  autocrlf = input
 
 [diff]
   tool = meld
