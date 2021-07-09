@@ -132,6 +132,9 @@ fi
 [[ -d ${HOME}/.rvm ]] && export PATH="${PATH}:${HOME}/.rvm/bin"
 # === Rust ===
 [[ -d ${HOME}/.cargo/env ]] && source "${HOME}/.cargo/env"
+# === Singularity ===
+export SINGULARITY_TMPDIR=/tmp/${USER}/singularity
+export SINGULARITY_CACHEDIR=${HOME}/scratch/singularity/cache
 # === Spack ===
 export SPACK_SKIP_MODULES=1
 if [[ -d "/working/${USER}/repositories/spack" ]]; then
