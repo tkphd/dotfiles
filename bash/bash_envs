@@ -73,6 +73,8 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && source "${HOME}/.github" # personal access token(s)
+# === Go ===
+[[ -d "${HOME}/repositories/go-lang" ]] && export PATH="${HOME}/repositories/go-lang/bin:${PATH}"
 # === GSL ===
 export GSL_PATH=${HOME}/.conda/envs/py2/include
 export GSL_LIB=${HOME}/.conda/envs/py2/lib
@@ -131,6 +133,7 @@ fi
 # === Rust ===
 [[ -d ${HOME}/.cargo/env ]] && source "${HOME}/.cargo/env"
 # === Spack ===
+export SPACK_SKIP_MODULES=1
 if [[ -d "/working/${USER}/repositories/spack" ]]; then
     source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
 elif [[ -d ${HOME}/repositories/spack/share/spack ]]; then
