@@ -64,7 +64,11 @@ status.register("temp",
 status.register(
     "mem_bar",
     color="#FFFFFF",
+    warn_color="#FFEE44",
+    alert_color="#FF4444",
     hints={"markup": "pango"},
+    warn_percentage=80,
+    alert_percentage=90,
     multi_colors=True,
     format="{used_mem_bar}",
 )
@@ -88,8 +92,8 @@ status.register(
     "cpu_usage_graph",
     cpu="usage",
     hints={"markup": "pango"},
-    graph_width=60,
-    format="{cpu_graph}",
+    graph_width=25,
+    format="{cpu_graph} ",
 )
 
 # Battery status
@@ -112,6 +116,7 @@ if battery:
 status.register(
     "network",
     interface=ifce,
+    graph_width=25,
     hints={"markup": "pango"},
     format_up="↘ {bytes_recv}k ↗ {bytes_sent}k",
 )
