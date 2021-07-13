@@ -14,9 +14,6 @@ __conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)
 if [[ $? -eq 0 ]]; then
     eval "$__conda_setup"
 else
-    # === Ruby Version Manager ===
-    [[ -d ${HOME}/.rvm ]] && export PATH="${HOME}/.rvm/bin:${PATH}"
-
     if [[ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]]; then
         source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
     else
@@ -133,8 +130,8 @@ fi
 # === Rust ===
 [[ -d "${HOME}/.cargo/env" ]] && source "${HOME}/.cargo/env"
 # === Singularity ===
-export SINGULARITY_TMPDIR="/tmp/${USER}/singularity"
-export SINGULARITY_CACHEDIR="${HOME}/scratch/singularity/cache"
+export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
+export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
 [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 # === Spack ===

@@ -1,7 +1,13 @@
+always_yes: true
 auto_activate_base: false
-report_errors: false
 channels:
   - defaults
   - conda-forge
+create_default_packages:
+  - matplotlib
+  - numpy
+  - scipy
+  - mpi4py
 envs_dirs:
   - ~/.conda/anaconda/envs
+report_errors: false
