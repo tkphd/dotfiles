@@ -61,13 +61,13 @@ export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
 export TERMINAL="${HOME}/bin/kitty"
-export EMACSD=/tmp/emacs-${USER}
-export EMACSBD=${EMACSD}/backups
-export EMACSSD=${EMACSD}/saves
+export EMACSD="/tmp/emacs-${USER}"
+export EMACSBD="${EMACSD}/backups"
+export EMACSSD="${EMACSD}/saves"
 if [[ ! -d ${EMACSD} ]]; then
-    mkdir -p ${EMACSD}
-    mkdir -p ${EMACSBD}
-    mkdir -p ${EMACSSD}
+    mkdir -p "${EMACSD}"
+    mkdir -p "${EMACSBD}"
+    mkdir -p "${EMACSSD}"
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -76,23 +76,23 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === Go ===
 [[ -d "${HOME}/repositories/go-lang" ]] && export PATH="${HOME}/repositories/go-lang/bin:${PATH}"
 # === GSL ===
-export GSL_PATH=${HOME}/.conda/envs/py2/include
-export GSL_LIB=${HOME}/.conda/envs/py2/lib
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GSL_LIB}
+#export GSL_PATH="${HOME}/.conda/envs/py2/include"
+#export GSL_LIB="${HOME}/.conda/envs/py2/lib"
+#export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GSL_LIB}"
 # === Haskell ===
 [[ -f "${HOME}/.ghcup/env" ]] && source "${HOME}/.ghcup/env" # ghcup-env
 # === Intel ===
-if [[ -d /opt/intelFPGA_lite/18.1/quartus/bin ]]; then
-    export PATH=${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin
-elif [[ -d /usr/local/${USER}/opt/intelFPGA_pro/19.1 ]]; then
-    export INTELFPGAOCLSDKROOT=/usr/local/${USER}/opt/intelFPGA_pro/19.1/hld
-    export QSYS_ROOTDIR=/usr/local/${USER}/opt/intelFPGA_pro/19.1/qsys/bin
+if [[ -d "/opt/intelFPGA_lite/18.1/quartus/bin" ]]; then
+    export PATH="${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin"
+elif [[ -d "/usr/local/${USER}/opt/intelFPGA_pro/19.1" ]]; then
+    export INTELFPGAOCLSDKROOT="/usr/local/${USER}/opt/intelFPGA_pro/19.1/hld"
+    export QSYS_ROOTDIR="/usr/local/${USER}/opt/intelFPGA_pro/19.1/qsys/bin"
 fi
-if [[ -d /opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64 ]]; then
-   export PATH=$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64
+if [[ -d "/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64" ]]; then
+   export PATH="$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64"
 fi
-if [[ -d /opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin ]]; then
-   export PATH=$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin
+if [[ -d "/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin" ]]; then
+   export PATH="$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin"
 fi
 # === KDE ===
 export KDE_FULL_SESSION=false
@@ -102,44 +102,46 @@ export KDEWM=/usr/bin/i3
 # === LESS ===
 export LESSOPEN="| pygmentize -g %s"
 # === MMSP ===
-export MMSP_PATH=${HOME}/research/projects/mmsp
-export PATH=${PATH}:${MMSP_PATH}/utility
+export MMSP_PATH="${HOME}/research/projects/mmsp"
+export PATH="${PATH}:${MMSP_PATH}/utility"
 # === NIX ===
-[[ -d ${HOME}/.nix-profile/etc/profile.d ]] && source ${HOME}/.nix-profile/etc/profile.d/nix.sh
+[[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # === OpenARC === (Accelerator Research Compiler)
-[[ -d ${HOME}/repositories/OpenARC/ ]] && export openarc=${HOME}/repositories/OpenARC
+[[ -d "${HOME}/repositories/OpenARC" ]] && export openarc="${HOME}/repositories/OpenARC"
 # === OpenMPI ===
 export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
-if [[ -f /opt/pgi/license.dat ]]; then
-    export PGI_PATH=/opt/pgi/linux86-64-llvm/19.10
-    export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH=${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin
+if [[ -f "/opt/pgi/license.dat" ]]; then
+    export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"
+    export LM_LICENSE_FILE="/opt/pgi/license.dat"
+    export PATH="${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin"
 fi
 # === Qt ===
-export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
-if [[ -d /usr/local/lib/plugins/platforms ]]; then
-   export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/local/lib/plugins/platforms
-elif [[ -d /usr/lib/x86_64-linux-gnu/qt5/plugins/platforms ]]; then
-   export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms
+export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb"
+if [[ -d "/usr/local/lib/plugins/platforms" ]]; then
+   export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/local/lib/plugins/platforms"
+elif [[ -d "/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms" ]]; then
+   export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms"
 fi
 # === Ruby ===
-if [[ -d ${HOME}/gems ]]; then
-    export GEM_HOME=${HOME}/gems
-    export PATH=${HOME}/gems/bin:${PATH}
+if [[ -d "${HOME}/gems" ]]; then
+    export GEM_HOME="${HOME}/gems"
+    export PATH="${HOME}/gems/bin:${PATH}"
 fi
 # === Ruby Version Manager ===
-[[ -d ${HOME}/.rvm ]] && export PATH="${PATH}:${HOME}/.rvm/bin"
+[[ -d "${HOME}/.rvm" ]] && export PATH="${PATH}:${HOME}/.rvm/bin"
 # === Rust ===
-[[ -d ${HOME}/.cargo/env ]] && source "${HOME}/.cargo/env"
+[[ -d "${HOME}/.cargo/env" ]] && source "${HOME}/.cargo/env"
 # === Singularity ===
-export SINGULARITY_TMPDIR=/tmp/${USER}/singularity
-export SINGULARITY_CACHEDIR=${HOME}/scratch/singularity/cache
+export SINGULARITY_TMPDIR="/tmp/${USER}/singularity"
+export SINGULARITY_CACHEDIR="${HOME}/scratch/singularity/cache"
+[[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+[[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 # === Spack ===
 export SPACK_SKIP_MODULES=1
 if [[ -d "/working/${USER}/repositories/spack" ]]; then
     source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
-elif [[ -d ${HOME}/repositories/spack/share/spack ]]; then
+elif [[ -d "${HOME}/repositories/spack/share/spack" ]]; then
     source "${HOME}/repositories/spack/share/spack/setup-env.sh"
 fi
 if [[ $(which spack) != "" ]]; then
@@ -152,37 +154,37 @@ if [[ $(which spack) != "" ]]; then
     export OMPI_MCA_hwloc_base_binding_policy=none
 fi
 # === SUDO ===
-export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter ${USER}'s password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
+export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
-export SSH_ASKPASS=/usr/bin/ssh-askpass
+export SSH_ASKPASS="/usr/bin/ssh-askpass"
 # === Thermo-Calc ===
-export TC20A_HOME=${HOME}/Thermo-Calc/2020a/
-export PATH=$PATH:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ
+export TC20A_HOME="${HOME}/Thermo-Calc/2020a/"
+export PATH="${PATH}:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ"
 export LSERVRC="${HOME}/Thermo-Calc/lservrc"
 export LSHOST="NO-NET"
 # === VTK ===
 if [[ ${LD_LIBRARY_PATH} == "" ]]; then
-    export LD_LIBRARY_PATH=/usr/lib/paraview
+    export LD_LIBRARY_PATH="/usr/lib/paraview"
 else
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/paraview
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/paraview"
 fi
 # === XDG ===
-export XDG_RUNTIME_DIR=/tmp/runtime-${USER}
-[[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir "${XDG_RUNTIME_DIR}"
+export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
+[[ -d "${XDG_RUNTIME_DIR}" ]] || mkdir -p "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
-    export CHROME_CONFIG_HOME=/usr/local/${USER}
-    export CHROME_USER_DATA_HOME=/usr/local/${USER}/google-chrome
-    export AMGX_DIR=/usr/local/${USER}/opt/AMGX
-    export GSL_PATH=${HOME}/.conda/envs/mmsp/include
-    export MPI_PATH=${HOME}/.conda/envs/mmsp/include
+    export CHROME_CONFIG_HOME="/usr/local/${USER}"
+    export CHROME_USER_DATA_HOME="/usr/local/${USER}/google-chrome"
+    export AMGX_DIR="/usr/local/${USER}/opt/AMGX"
+    #export GSL_PATH="${HOME}/.conda/envs/mmsp/include"
+    #export MPI_PATH="${HOME}/.conda/envs/mmsp/include"
     export LIBGL_ALWAYS_INDIRECT=1
 fi
-if [[ $(hostname -s | grep enki)  != "" ]]; then
-    export PKG_CONFIG_PATH=/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt
-    export CUDA_HDR_PATH=/usr/local/cuda-10.0/targets/ppc64le-linux/include
-    export GSL_PATH=/wrk/tnk10/.conda/envs/py2/include/
-    export GSL_LIB=/wrk/tnk10/.conda/envs/py2/lib
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
-fi
+#if [[ $(hostname -s | grep enki)  != "" ]]; then
+#    export PKG_CONFIG_PATH="/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt"
+#    export CUDA_HDR_PATH="/usr/local/cuda-10.0/targets/ppc64le-linux/include"
+#    export GSL_PATH="/wrk/tnk10/.conda/envs/py2/include/"
+#    export GSL_LIB="/wrk/tnk10/.conda/envs/py2/lib"
+#    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
+#fi

@@ -19,6 +19,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/conda/condarc ${HOME}/.condarc
 
+    if [[ -f ${HOME}/.mambarc || -L ${HOME}/.mambarc ]]; then
+        rm ${HOME}/.mambarc
+    fi
+    ln -s ${DIR}/conda/mambarc ${HOME}/.mambarc
+
+
     # === emacs ===
     if [[ -d ${HOME}/.emacs.d ]]; then
         rm -rf ${HOME}/.emacs.d
