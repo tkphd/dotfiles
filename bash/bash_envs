@@ -133,22 +133,22 @@ export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
 export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
 [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
-# === Spack ===
-export SPACK_SKIP_MODULES=1
-if [[ -d "/working/${USER}/repositories/spack" ]]; then
-    source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
-elif [[ -d "${HOME}/repositories/spack/share/spack" ]]; then
-    source "${HOME}/repositories/spack/share/spack/setup-env.sh"
-fi
-if [[ $(which spack) != "" ]]; then
-    export MPLBACKEND=agg
-    export OPENBLAS_NUM_THREADS=1
-    export OMPI_MCA_rmaps_base_oversubscribe=1
-    export OMPI_MCA_plm=isolated
-    export OMPI_MCA_btl_vader_single_copy_mechanism=none
-    export OMPI_MCA_mpi_yield_when_idle=1
-    export OMPI_MCA_hwloc_base_binding_policy=none
-fi
+## === Spack ===
+#export SPACK_SKIP_MODULES=1
+#if [[ -d "/working/${USER}/repositories/spack" ]]; then
+#    source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
+#elif [[ -d "${HOME}/repositories/spack/share/spack" ]]; then
+#    source "${HOME}/repositories/spack/share/spack/setup-env.sh"
+#fi
+#if [[ $(which spack) != "" ]]; then
+#    export MPLBACKEND=agg
+#    export OPENBLAS_NUM_THREADS=1
+#    export OMPI_MCA_rmaps_base_oversubscribe=1
+#    export OMPI_MCA_plm=isolated
+#    export OMPI_MCA_btl_vader_single_copy_mechanism=none
+#    export OMPI_MCA_mpi_yield_when_idle=1
+#    export OMPI_MCA_hwloc_base_binding_policy=none
+#fi
 # === SUDO ===
 export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
