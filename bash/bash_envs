@@ -10,15 +10,12 @@
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
-__conda_setup="$(${HOME}/.conda/anaconda/bin/conda shell.bash hook 2> /dev/null)"
+export CONDAHOME="${HOME}/.conda/anaconda"
+__conda_setup="$(${CONDAHOME}/bin/conda shell.bash hook 2> /dev/null)"
 if [[ $? -eq 0 ]]; then
     eval "$__conda_setup"
 else
-    if [[ -f "${HOME}/.conda/anaconda/etc/profile.d/conda.sh" ]]; then
-        source "${HOME}/.conda/anaconda/etc/profile.d/conda.sh"
-    else
-        export PATH="${HOME}/.conda/anaconda/bin:$PATH"
-    fi
+    [[ -f "${CONDAHOME}/etc/profile.d/conda.sh" ]] && source "${CONDAHOME}/etc/profile.d/conda.sh"
 fi
 unset __conda_setup
 # === CUDA ===
@@ -105,6 +102,8 @@ export PATH="${PATH}:${MMSP_PATH}/utility"
 [[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # === OpenARC === (Accelerator Research Compiler)
 [[ -d "${HOME}/repositories/OpenARC" ]] && export openarc="${HOME}/repositories/OpenARC"
+# === OpenMP ===
+export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
 # === OpenMPI ===
 export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
