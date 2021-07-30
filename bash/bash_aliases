@@ -27,7 +27,7 @@ function update-conda() {
         conda update -n base --all --yes
         for name in $(ls ~/.conda/anaconda/envs/); do
             echo -e "\n=== Updating ${name} env ===\n"
-            mamba update -n ${name} --all --yes
+            mamba update -n ${name} --quiet --all --yes
         done
     fi
 }
@@ -48,7 +48,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
     alias l='ls -CF'
     alias la='ls -A'
-    alias ll='ls -l'
+    alias ll='ls -hal'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
     alias grep='grep --color=auto'
