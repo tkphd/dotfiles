@@ -46,6 +46,9 @@
 
 (load-theme 'tsdh-dark)
 
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+  
 (when (>= emacs-major-version 27)
   (require 'display-line-numbers)
   (defcustom display-line-numbers-exempt-modes '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
@@ -59,9 +62,9 @@
     (if (and
          (not (member major-mode display-line-numbers-exempt-modes))
          (not (minibufferp)))
-        (display-line-numbers-mode))))
+        (display-line-numbers-mode)))
+  (global-display-line-numbers-mode))
 
-(global-display-line-numbers-mode)
 
 ;; Put backup files neatly away (https://emacs.stackexchange.com/a/36)
 (let ((backup-dir (getenv "EMACSBD"))
