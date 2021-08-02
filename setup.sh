@@ -95,12 +95,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/x11/Xresources ${HOME}/.Xdefaults
 
-    if [[ -f ${HOME}/.keyboard || -L ${HOME}/.keyboard ]]; then
-        rm ${HOME}/.keyboard
-    fi
-    ln -s ${DIR}/x11/keyboard ${HOME}/.keyboard
-
-    if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
+   if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
         rm ${HOME}/.xsessionrc
     fi
     ln -s ${DIR}/x11/xsessionrc ${HOME}/.xsessionrc

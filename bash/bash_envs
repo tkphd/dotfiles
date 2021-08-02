@@ -54,7 +54,7 @@ fi
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
-export TERMINAL="${HOME}/bin/kitty"
+[[ -a "${HOME}/bin/kitty" ]] && export TERMINAL="${HOME}/bin/kitty"
 export EMACSD="/tmp/emacs-${USER}"
 export EMACSBD="${EMACSD}/backups"
 export EMACSSD="${EMACSD}/saves"
@@ -94,7 +94,7 @@ export KDEWM=/usr/bin/i3
 # === Kitty ===
 [[ "${TERM}" == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]] && source <(kitty + complete setup bash)
 # === LESS ===
-export LESSOPEN="| pygmentize -g %s"
+[[ $(which pygmentize) != "" ]] && export LESSOPEN="| pygmentize -g %s"
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
