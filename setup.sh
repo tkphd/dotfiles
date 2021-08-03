@@ -13,6 +13,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s ${DIR}/bash/bashrc ${HOME}/.bashrc
 
+    ## === binaries ===
+    [[ -d ${HOME}/bin ]] || mkdir ${HOME}/bin
+    for f in bin/*; do
+        ln -s "$(pwd)/$f" "${HOME}/$f"
+    done
+
     # === conda ===
     if [[ -f ${HOME}/.condarc || -L ${HOME}/.condarc ]]; then
         rm ${HOME}/.condarc
