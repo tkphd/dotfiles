@@ -1,112 +1,95 @@
 #!/bin/bash
 
-echo -ne "DANGER! This script will overwrite ~/.bashrc, and other config files.\n\nType \"yes\" to continue: "
-read DISCLAIMER
+echo -ne 'DANGER! This script will overwrite ~/.bashrc, and other config files.\n\nType "yes" to continue: '
+read -r DISCLAIMER
 
 if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
-    DIR=$(pwd)
+    DIR="${PWD}"
 
     # === bash ===
-    if [[ -f ${HOME}/.bashrc || -L ${HOME}/.bashrc ]]; then
-        rm ${HOME}/.bashrc
-    fi
-    ln -s ${DIR}/bash/bashrc ${HOME}/.bashrc
+    [[ -f "${HOME}"/.bashrc || -L "${HOME}"/.bashrc ]] && rm "${HOME}"/.bashrc
+    ln -s "${DIR}"/bash/bashrc "${HOME}"/.bashrc
 
     ## === binaries ===
-    [[ -d ${HOME}/bin ]] || mkdir ${HOME}/bin
+    [[ -d "${HOME}"/bin ]] || mkdir "${HOME}"/bin
     for f in bin/*; do
-        ln -s "$(pwd)/$f" "${HOME}/$f"
+        link="${HOME}/${f/.sh/}"
+        [[ -f "${link}" || -L "${link}" ]] && rm "${link}"
+        ln -s "$(pwd)/${f}" "${link}"
     done
 
     # === conda ===
-    if [[ -f ${HOME}/.condarc || -L ${HOME}/.condarc ]]; then
-        rm ${HOME}/.condarc
-    fi
-    ln -s ${DIR}/conda/condarc ${HOME}/.condarc
+    [[ -f "${HOME}"/.condarc || -L "${HOME}"/.condarc ]] && rm "${HOME}"/.condarc
+    ln -s "${DIR}"/conda/condarc "${HOME}"/.condarc
 
-    if [[ -f ${HOME}/.mambarc || -L ${HOME}/.mambarc ]]; then
-        rm ${HOME}/.mambarc
-    fi
-    ln -s ${DIR}/conda/mambarc ${HOME}/.mambarc
-
+    [[ -f "${HOME}"/.mambarc || -L "${HOME}"/.mambarc ]] && rm "${HOME}"/.mambarc
+    ln -s "${DIR}"/conda/mambarc "${HOME}"/.mambarc
 
     # === emacs ===
-    if [[ -d ${HOME}/.emacs.d ]]; then
-        rm -rf ${HOME}/.emacs.d
-    elif [[ -f ${HOME}/.emacs.d || -L ${HOME}/.emacs.d ]]; then
-        rm ${HOME}/.emacs.d
+    if [[ -d "${HOME}"/.emacs.d ]]; then
+        rm -rf "${HOME}"/.emacs.d
+    elif [[ -f "${HOME}"/.emacs.d || -L "${HOME}"/.emacs.d ]]; then
+        rm "${HOME}"/.emacs.d
     fi
-    ln -s ${DIR}/emacs ${HOME}/.emacs.d
+    ln -s "${DIR}"/emacs "${HOME}"/.emacs.d
 
     # === gdb ===
-    if [[ -f ${HOME}/.gdbinit || -L ${HOME}/.gdbinit ]]; then
-        rm ${HOME}/.gdbinit
-    fi
-    ln -s ${DIR}/gdb/gdbinit ${HOME}/.gdbinit
+    [[ -f "${HOME}"/.gdbinit || -L "${HOME}"/.gdbinit ]] && rm "${HOME}"/.gdbinit
+    ln -s "${DIR}"/gdb/gdbinit "${HOME}"/.gdbinit
 
     # === git ===
-    if [[ -f ${HOME}/.gitconfig || -L ${HOME}/.gitconfig ]]; then
-        rm ${HOME}/.gitconfig
+    [[ -f "${HOME}"/.gitconfig || -L "${HOME}"/.gitconfig ]] && rm "${HOME}"/.gitconfig
+    if [[ ! -d "${HOME}"/.config/git/template ]]; then
+        mkdir -p "${HOME}"/.config/git/template
+        echo "ref: refs/heads/main" > "${HOME}"/.config/git/template/HEAD
     fi
-    if [[ ! -d ${HOME}/.config/git/template ]]; then
-        mkdir -p ${HOME}/.config/git/template
-        echo "ref: refs/heads/main" > ${HOME}/.config/git/template/HEAD
-    fi
-    ln -s ${DIR}/git/gitconfig ${HOME}/.gitconfig
+    ln -s "${DIR}"/git/gitconfig "${HOME}"/.gitconfig
 
     # === i3wm ===
-    if [[ -d ${HOME}/.config/i3 ]]; then
-        rm -rf ${HOME}/.config/i3
-    elif [[ -f ${HOME}/.config/i3 || -L ${HOME}/.config/i3 ]]; then
-        rm ${HOME}/.config/i3
+    if [[ -d "${HOME}"/.config/i3 ]]; then
+        rm -rf "${HOME}"/.config/i3
+    elif [[ -f "${HOME}"/.config/i3 || -L "${HOME}"/.config/i3 ]]; then
+        rm "${HOME}"/.config/i3
     fi
-    ln -s ${DIR}/i3wm ${HOME}/.config/i3
+    ln -s "${DIR}"/i3wm "${HOME}"/.config/i3
 
     # === kitty ===
-    if [[ -d ${HOME}/.config/kitty ]]; then
-        rm -rf ${HOME}/.config/kitty
-    elif [[ -f ${HOME}/.config/kitty || -L ${HOME}/.config/kitty ]]; then
-        rm ${HOME}/.config/kitty
+    if [[ -d "${HOME}"/.config/kitty ]]; then
+        rm -rf "${HOME}"/.config/kitty
+    elif [[ -f "${HOME}"/.config/kitty || -L "${HOME}"/.config/kitty ]]; then
+        rm "${HOME}"/.config/kitty
     fi
-    ln -s ${DIR}/kitty ${HOME}/.config/kitty
+    ln -s "${DIR}"/kitty "${HOME}"/.config/kitty
 
     mkdir -p ~/.terminfo/x
-    if [[ -f ${HOME}/.terminfo/x/xterm-kitty || -L ${HOME}/.terminfo/x/xterm-kitty ]]; then
-        rm ${HOME}/.terminfo/x/xterm-kitty
-    fi
-    ln -s ${HOME}/.local/kitty.app/share/terminfo/x/xterm-kitty ${HOME}/.terminfo/x/xterm-kitty
+    [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && rm "${HOME}"/.terminfo/x/xterm-kitty
+    ln -s "${HOME}"/.local/kitty.app/share/terminfo/x/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
 
     ## === urxvt ===
-    if [[ -d ${HOME}/.urxvt/ext/font-size ]]; then
-        rm -rf ${HOME}/.urxvt/ext/font-size
-    elif [[ -f ${HOME}/.urxvt/ext/font-size || -L ${HOME}/.urxvt/ext/font-size ]]; then
-        rm ${HOME}/.urxvt/ext/font-size
+    if [[ -d "${HOME}"/.urxvt/ext/font-size ]]; then
+        rm -rf "${HOME}"/.urxvt/ext/font-size
+    elif [[ -f "${HOME}"/.urxvt/ext/font-size || -L "${HOME}"/.urxvt/ext/font-size ]]; then
+        rm "${HOME}"/.urxvt/ext/font-size
     else
-        mkdir -p ${HOME}/.urxvt/ext/font-size
+        mkdir -p "${HOME}"/.urxvt/ext/font-size
     fi
-    ln -s ${DIR}/i3wm/urxvt-font-size/font-size ${HOME}/.urxvt/ext/font-size
+    ln -s "${DIR}"/i3wm/urxvt-font-size/font-size "${HOME}"/.urxvt/ext/font-size
 
     # === volantes cursor theme ===
-    sudo cp -r ${DIR}/x11/volantes /usr/share/icons/
+    sudo cp -r "${DIR}"/x11/volantes /usr/share/icons/
 
     ## === X session ===
-    if [[ -f ${HOME}/.Xresources || -L ${HOME}/.Xresources ]]; then
-        rm ${HOME}/.Xresources
-    fi
-    ln -s ${DIR}/x11/Xresources ${HOME}/.Xresources
+    [[ -f "${HOME}"/.Xresources || -L "${HOME}"/.Xresources ]] && rm "${HOME}"/.Xresources
+    ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xresources
 
-    if [[ -f ${HOME}/.Xdefaults || -L ${HOME}/.Xdefaults ]]; then
-        rm ${HOME}/.Xdefaults
-    fi
-    ln -s ${DIR}/x11/Xresources ${HOME}/.Xdefaults
+    [[ -f "${HOME}"/.Xdefaults || -L "${HOME}"/.Xdefaults ]] && rm "${HOME}"/.Xdefaults
+    ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xdefaults
 
-   if [[ -f ${HOME}/.xsessionrc || -L ${HOME}/.xsessionrc ]]; then
-        rm ${HOME}/.xsessionrc
-    fi
-    ln -s ${DIR}/x11/xsessionrc ${HOME}/.xsessionrc
+    [[ -f "${HOME}"/.xsessionrc || -L "${HOME}"/.xsessionrc ]] rm "${HOME}"/.xsessionrc
+    ln -s "${DIR}"/x11/xsessionrc "${HOME}"/.xsessionrc
 
-    xrdb -merge ${HOME}/.Xresources
+    xrdb -merge "${HOME}"/.Xresources
 else
     echo "No changes were made."
 fi
