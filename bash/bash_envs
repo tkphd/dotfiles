@@ -5,6 +5,11 @@
 # === Crypto Tokens ===
 [[ -f ${HOME}/.dotfiles/local/tokens ]] && source ${HOME}/.dotfiles/local/tokens
 
+# === Astro ===
+if [[ -d "${HOME}/repositories/astro/astronomy-with-python" ]]; then
+    export PYTHONPATH=$PYTHONPATH:${HOME}/repositories/astro/astronomy-with-python/src/python_tools
+    export AWP=${HOME}/repositories/astro/astronomy-with-python
+fi
 # === BeeGFS ===
 [[ -d /opt/beegfs ]] && export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
@@ -133,8 +138,10 @@ fi
 # === Singularity ===
 export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
 export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
-[[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
-[[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+if [[ -d "/working" ]]; then
+    [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+    [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+fi
 ## === Spack ===
 #export SPACK_SKIP_MODULES=1
 #if [[ -d "/working/${USER}/repositories/spack" ]]; then
