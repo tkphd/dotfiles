@@ -71,7 +71,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     mkdir -p "${HOME}"/.terminfo/x
     [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && rm "${HOME}"/.terminfo/x/xterm-kitty
-    ln -s "${HOME}"/.local/kitty.app/share/terminfo/x/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
+    ln -s "${DIR}"/kitty/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
 
     # === nano ===
     if [[ ! -d "${HOME}/.nano" ]]; then
