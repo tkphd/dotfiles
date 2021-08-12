@@ -14,7 +14,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     # === rc files ===
     for f in rc/*rc; do
         RC="${HOME}"/.$(basename "${f}")
-        echo "${RC}"
         [[ -f "${RC}" || -L "${RC}" ]] && rm "${RC}"
         ln -s "${PWD}/${f}" "${RC}"
     done
