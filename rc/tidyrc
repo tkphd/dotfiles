@@ -1,0 +1,9 @@
+indent: yes
+indent-attributes: yes
+indent-spaces: 2
+char-encoding: utf8
+wrap: 80
+wrap-asp: no
+wrap-jste: no
+wrap-php: no
+wrap-sections: yes

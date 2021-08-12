@@ -11,6 +11,14 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     [[ -f "${HOME}"/.bashrc || -L "${HOME}"/.bashrc ]] && rm "${HOME}"/.bashrc
     ln -s "${DIR}"/bash/bashrc "${HOME}"/.bashrc
 
+    # === rc files ===
+    for f in rc/*rc; do
+        RC="${HOME}"/.$(basename "${f}")
+        echo "${RC}"
+        [[ -f "${RC}" || -L "${RC}" ]] && rm "${RC}"
+        ln -s "${PWD}/${f}" "${RC}"
+    done
+
     ## === binaries ===
     [[ -d "${HOME}"/bin ]] || mkdir "${HOME}"/bin
     for f in bin/*; do
@@ -62,9 +70,21 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s "${DIR}"/kitty "${HOME}"/.config/kitty
 
-    mkdir -p ~/.terminfo/x
+    mkdir -p "${HOME}"/.terminfo/x
     [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && rm "${HOME}"/.terminfo/x/xterm-kitty
     ln -s "${HOME}"/.local/kitty.app/share/terminfo/x/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
+
+    # === nano ===
+    if [[ ! -d "${HOME}/.nano" ]]; then
+        NANO_TMP="/tmp/nanorc.zip"
+        NANO_DIR="${HOME}/.nano"
+
+        wget -O "${NANO_TMP}" https://github.com/scopatz/nanorc/archive/master.zip
+        mkdir -p "${NANO_DIR}" || exit
+        "${HOME}"/bin/unpack "${NANO_TMP}" "${NANO_DIR}"
+        mv "${NANO_DIR}"/nanorc-master/* "${NANO_DIR}/"
+        rm -rf "${NANO_DIR}/nanorc-master"
+    fi
 
     ## === urxvt ===
     if [[ -d "${HOME}"/.urxvt/ext/font-size ]]; then
@@ -76,9 +96,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s "${DIR}"/i3wm/urxvt-font-size/font-size "${HOME}"/.urxvt/ext/font-size
 
-    # === volantes cursor theme ===
-    sudo cp -r "${DIR}"/x11/volantes /usr/share/icons/
-
     ## === X session ===
     [[ -f "${HOME}"/.Xresources || -L "${HOME}"/.Xresources ]] && rm "${HOME}"/.Xresources
     ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xresources
@@ -86,8 +103,11 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     [[ -f "${HOME}"/.Xdefaults || -L "${HOME}"/.Xdefaults ]] && rm "${HOME}"/.Xdefaults
     ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xdefaults
 
-    [[ -f "${HOME}"/.xsessionrc || -L "${HOME}"/.xsessionrc ]] rm "${HOME}"/.xsessionrc
+    [[ -f "${HOME}"/.xsessionrc || -L "${HOME}"/.xsessionrc ]] && rm "${HOME}"/.xsessionrc
     ln -s "${DIR}"/x11/xsessionrc "${HOME}"/.xsessionrc
+
+    # === volantes cursor theme ===
+    sudo cp -r "${DIR}"/x11/volantes /usr/share/icons/
 
     xrdb -merge "${HOME}"/.Xresources
 else

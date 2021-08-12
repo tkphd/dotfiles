@@ -48,7 +48,7 @@
 
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
-  
+
 (when (>= emacs-major-version 27)
   (require 'display-line-numbers)
   (defcustom display-line-numbers-exempt-modes '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
@@ -245,11 +245,6 @@ is binary, activate `hexl-mode'."
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
 (add-hook 'c-mode-common-hook (lambda () (add-hook 'before-save-hook 'astyle-before-save)))
-
-;; Python, after https://realpython.com/emacs-the-best-python-editor/#configuration-and-packages
-;; (elpy-enable)
-;;# (require 'py-autopep8)
-;;# (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; disable vc-git
 (setq vc-handled-backends ())
