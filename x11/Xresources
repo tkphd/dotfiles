@@ -9,7 +9,7 @@
 ! Modified from <http://github.com/xero/dotfiles/urxvt>
 
 ! █▓▒░ foundation
-*.termName:  konsole
+*.termName:  xterm
 *.iso14755:  false
 *.saveLines: 10000
 
@@ -18,12 +18,10 @@
 
 ! █▓▒░ preferred fonts
 XTerm*font:   *-fixed-*-*-*-18-*
-XTerm*faceName: Inconsolata
+XTerm*faceName: FiraCode Nerd Font Mono
 XTerm*faceSize: 14
-*.font:       xft:fira code:pixelsize=14
-*.boldFont:   xft:fira code:pixelsize=14:style=Bold
-*.italicFont: xft:fira code:pixelsize=14:style=Italic
-Emacs.font:   Fira Code-14
+*.font:       xft:FiraCode Nerd Font Mono:pixelsize=14
+Emacs.font:   FiraCode Nerd Font Mono-14
 
 ! █▓▒░ Xft settings
 #if WIDTH > 3000
