@@ -97,4 +97,4 @@ set trimblanks
 ## color will use a transparent color.  If you don't want this, be sure
 ## to set the background color to black or white.
 
-include "~/nano/*.nanorc"
+include "~/.nano/*.nanorc"

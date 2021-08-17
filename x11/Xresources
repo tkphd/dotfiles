@@ -17,11 +17,10 @@
 #include ".dotfiles/x11/Xcolors/dark/material"
 
 ! █▓▒░ preferred fonts
-XTerm*font:   *-fixed-*-*-*-18-*
-XTerm*faceName: FiraCode Nerd Font Mono
+XTerm*font:   *-fixed-*-*-*-14-*
+XTerm*faceName: Fira Code Retina Nerd Font Complete
 XTerm*faceSize: 14
-*.font:       xft:FiraCode Nerd Font Mono:pixelsize=14
-Emacs.font:   FiraCode Nerd Font Mono-14
+*.font:       xft:Fira Code Retina Nerd Font Complete:pixelsize=14
 
 ! █▓▒░ Xft settings
 #if WIDTH > 3000

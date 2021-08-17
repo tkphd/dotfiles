@@ -22,9 +22,9 @@ function tea {
 function update-conda() {
     # Update Anaconda Python and all its virtual environments
     if [[ -d ~/.conda ]]; then
-        echo "=== Updating conda ==="
-        conda update --yes conda
-        conda update -n base --all --yes
+        echo "=== Updating conda base ==="
+        mamba update --yes conda
+        mamba update -n base --all --yes
         for name in $(ls ~/.conda/anaconda/envs/); do
             echo -e "\n=== Updating ${name} env ===\n"
             mamba update -n ${name} --quiet --all --yes

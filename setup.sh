@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 echo -ne 'DANGER! This script will overwrite ~/.bashrc, and other config files.\n\nType "yes" to continue: '
 read -r DISCLAIMER
 
