@@ -99,10 +99,10 @@ export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
 if [[ "$(which kitty)" != "" ]]; then
-    export TERM="${HOME}/bin/kitty"
+    export TERM="xterm-kitty"
     export TERMINAL="xterm-kitty"
 else
-    export TERM=xterm-256color
+    export TERM="xterm-256color"
     export TERMINAL="xterm-256color"
 fi
 [[ "${TERM}" == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]] && source <(kitty + complete setup bash)
