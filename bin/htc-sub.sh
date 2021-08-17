@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 SUB=job.sub
 
 if [[ $# == 1 ]]; then

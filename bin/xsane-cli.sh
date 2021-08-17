@@ -3,7 +3,7 @@
 # Scan size assumes standard letter paper:
 # W = 8.5 in = 216 mm
 # H = 11  in = 279 mm
-
+set -e
 if [[ $# != 1 ]]; then
     echo "Usage: $0 filename.png"
 else

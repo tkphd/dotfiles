@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 if [[ $# -eq 2 ]]; then
     fname=$1
     dname=$2

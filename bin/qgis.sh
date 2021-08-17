@@ -7,6 +7,6 @@ source "${CONDAPATH}/etc/profile.d/conda.sh"
 
 conda activate apps
 
-freecad &> "${HOME}/log/freecad.log"
+qgis &> "${HOME}/log/qgis.log"
 
 conda deactivate
