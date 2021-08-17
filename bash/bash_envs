@@ -61,7 +61,6 @@ fi
 export ALTERNATE_EDITOR=""
 export EDITOR="/usr/bin/emacsclient -nw"
 export VISUAL="/usr/bin/emacsclient -nw"
-[[ -a "${HOME}/bin/kitty" ]] && export TERMINAL="${HOME}/bin/kitty"
 export EMACSD="/tmp/emacs-${USER}"
 export EMACSBD="${EMACSD}/backups"
 export EMACSSD="${EMACSD}/saves"
@@ -99,6 +98,13 @@ fi
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
+if [[ "$(which kitty)" != "" ]]; then
+    export TERM="${HOME}/bin/kitty"
+    export TERMINAL="xterm-kitty"
+else
+    export TERM=xterm-256color
+    export TERMINAL="xterm-256color"
+fi
 [[ "${TERM}" == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]] && source <(kitty + complete setup bash)
 # === LESS ===
 [[ $(which pygmentize) != "" ]] && export LESSOPEN="| pygmentize -g %s"
