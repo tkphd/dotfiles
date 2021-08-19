@@ -3,9 +3,12 @@ auto_activate_base: false
 channels:
   - conda-forge
 create_default_packages:
+  - jupyter
   - matplotlib
   - mpi4py
+  - notebook
   - numpy
+  - pandas
   - scipy
   - sympy
 envs_dirs:
