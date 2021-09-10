@@ -123,9 +123,6 @@
   :ensure t
   :init (global-flycheck-mode))
 
-;; text filling (line wrapping)
-(setq-default fill-column 79)
-(setq sentence-end-double-space nil)
 (setq compilation-scroll-output 'first-error)
 
 (defun unfill-paragraph (&optional region)
@@ -142,10 +139,11 @@
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq-default column-number-mode t)
-(setq-default fill-column 79)
-(setq fill-column 79)
+(setq-default fill-column 69)
+(setq fill-column 69)
 (setq-default require-final-newline t)
 (setq require-final-newline t)
+(setq sentence-end-double-space nil)
 
 ;; line endings
 (defun unix-file ()
@@ -166,7 +164,7 @@
 ;; Mutt
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 (defun mail-mode-fill-col ()
-    (setq fill-column 72))
+    (setq fill-column 69))
 (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
 (add-hook 'mail-mode-hook          'turn-on-auto-fill)
 (add-hook 'mail-mode-hook          'mail-mode-fill-col)

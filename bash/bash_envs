@@ -7,7 +7,7 @@
 
 # === Astro ===
 if [[ -d "${HOME}/repositories/astro/astronomy-with-python" ]]; then
-    export PYTHONPATH=$PYTHONPATH:${HOME}/repositories/astro/astronomy-with-python/src/python_tools
+    # export PYTHONPATH=$PYTHONPATH:${HOME}/repositories/astro/astronomy-with-python/src/python_tools
     export AWP=${HOME}/repositories/astro/astronomy-with-python
 fi
 # === BeeGFS ===
@@ -42,14 +42,14 @@ if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
     NVCCBIN=$(dirname "$(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1)")
     if [[ $NVCCBIN != "" ]]; then
         export PATH=${PATH}:${NVCCBIN}
-        export CUDA_HDR_PATH="$(dirname ${NVCCBIN})"/targets/x86_64-linux/include
+        export CUDA_HDR_PATH="$(dirname ${NVCCBIN})/targets/x86_64-linux/include"
         export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
     fi
     if [[ $CUDA_HDR_PATH == "" ]]; then
         NVCCBIN=$(dirname $(ls -t "$(find /opt/cuda -name nvcc 2>/dev/null)" 2>/dev/null | head -n 1))
         if [[ $NVCCBIN != "" ]]; then
             export PATH=${PATH}:${NVCCBIN}
-            export CUDA_HDR_PATH="$(dirname ${NVCCBIN})"/targets/x86_64-linux/include
+            export CUDA_HDR_PATH="$(dirname ${NVCCBIN})/targets/x86_64-linux/include"
             export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
         fi
     fi
@@ -98,14 +98,12 @@ fi
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
-if [[ "$(which kitty)" != "" ]]; then
-    export TERM="xterm-kitty"
-    export TERMINAL="xterm-kitty"
+if [[ "$(which kitty)" == "" ]]; then
+     export TERM="xterm-256color"
+     export TERMINAL="xterm-256color"
 else
-    export TERM="xterm-256color"
-    export TERMINAL="xterm-256color"
+    source <(kitty + complete setup bash)
 fi
-[[ "${TERM}" == "xterm-kitty" ]] && [[ "$(which kitty)" != "" ]] && source <(kitty + complete setup bash)
 # === LESS ===
 [[ $(which pygmentize) != "" ]] && export LESSOPEN="| pygmentize -g %s"
 # === MMSP ===
@@ -125,12 +123,19 @@ if [[ -f "/opt/pgi/license.dat" ]]; then
     export LM_LICENSE_FILE="/opt/pgi/license.dat"
     export PATH="${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin"
 fi
+# === Python ===
+export PYTHONBREAKPOINT="pdbr.set_trace"
 # === Qt ===
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb"
 if [[ -d "/usr/local/lib/plugins/platforms" ]]; then
    export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/local/lib/plugins/platforms"
 elif [[ -d "/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms" ]]; then
    export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms"
+fi
+# === RISC V ===
+if [[ -d /opt/riscv ]]; then
+    export PATH="${PATH}:/opt/riscv/bin"
+    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/riscv/lib"
 fi
 # === Ruby ===
 if [[ -d "${HOME}/gems" ]]; then
@@ -181,6 +186,7 @@ else
 fi
 # === XDG ===
 export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
+export XDG_DATA_DIRS="${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS}"
 [[ -d "${XDG_RUNTIME_DIR}" ]] || mkdir -p "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then

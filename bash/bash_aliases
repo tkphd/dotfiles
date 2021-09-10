@@ -23,11 +23,11 @@ function update-conda() {
     # Update Anaconda Python and all its virtual environments
     if [[ -d ~/.conda ]]; then
         echo "=== Updating conda base ==="
-        mamba update --yes conda
-        mamba update -n base --all --yes
+        mamba update --yes --quiet conda
+        mamba update -n base --yes --quiet --all
         for name in $(ls ~/.conda/anaconda/envs/); do
             echo -e "\n=== Updating ${name} env ===\n"
-            mamba update -n ${name} --quiet --all --yes
+            mamba update -n ${name} --yes --quiet --all
         done
     fi
 }
@@ -65,7 +65,6 @@ alias aguu="sudo apt update; sudo apt full-upgrade -y; update-conda"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 10h /root/.ssh/id_rsa; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
-[[ $(which pygmentize) != "" ]] && [[ -f "${HOME}/bin/color-cat" ]] && alias cat="${HOME}/bin/color-cat"
 alias condact="conda activate"
 alias condeact="conda deactivate"
 alias curl="curl -L -C -"
@@ -80,13 +79,17 @@ alias gdb="gdb -q"
 alias guvc="guvcviewer -x 1600x1200"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
+alias mambi="mamba --quiet install"
 alias more="less -mNR"
 alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
-alias p="python -i -c 'from math import pi' 2>/dev/null"
+alias p="python3 -i -c 'from math import pi' 2>/dev/null"
 alias pdf="qpdfview"
 alias ping="ping -c 4"
 alias please="sudo"
-[[ $(which pygmentize) != "" ]] && [[ -f "${HOME}/bin/color-cat" ]] && alias pygmentize="${HOME}/bin/color-cat"
+if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
+    alias cat="${HOME}/bin/color-cat"
+    alias pyg="${HOME}/bin/color-cat"
+fi
 alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
 alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
 alias rs="rsync -Pavz"
