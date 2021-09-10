@@ -5,11 +5,6 @@
 # === Crypto Tokens ===
 [[ -f ${HOME}/.dotfiles/local/tokens ]] && source ${HOME}/.dotfiles/local/tokens
 
-# === Astro ===
-if [[ -d "${HOME}/repositories/astro/astronomy-with-python" ]]; then
-    # export PYTHONPATH=$PYTHONPATH:${HOME}/repositories/astro/astronomy-with-python/src/python_tools
-    export AWP=${HOME}/repositories/astro/astronomy-with-python
-fi
 # === BeeGFS ===
 [[ -d /opt/beegfs ]] && export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
@@ -26,17 +21,7 @@ if [[ -a "${HOME}/.conda/anaconda" ]]; then
     unset __conda_setup
 fi
 # === CUDA ===
-# See https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/
-case "$(hostname -s)" in
-    "p859561")
-        export CUDARCH=sm_35
-        ;;
-    "rgpu3")
-        export CUDARCH=sm_60
-        ;;
-    default)
-        export CUDARCH=sm_50
-esac
+[[ -d "${HOME}/.dotfiles/bash/local" && -f "${HOME}/.dotfiles/bash/local/cuda.sh" ]] && source "${HOME}/.dotfiles/bash/local/cuda.sh"
 CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
 if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
     NVCCBIN=$(dirname "$(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1)")
