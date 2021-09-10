@@ -21,7 +21,7 @@ if [[ -a "${HOME}/.conda/anaconda" ]]; then
     unset __conda_setup
 fi
 # === CUDA ===
-[[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && source "${HOME}/.dotfiles/bash/local/cudarch.sh"
+[[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && source "${HOME}/.dotfiles/local/cudarch.sh"
 CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
 if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
     NVCCBIN=$(dirname "$(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1)")
