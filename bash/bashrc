@@ -29,7 +29,7 @@ if [ "$PS1" ]; then
         fi
     }
     PROMPT_COMMAND=prompt_command
-    case $TERM in
+    case ${TERM} in
         iris-ansi*|konsole|*rxvt*|screen|xterm*)
             # Put user@machine:/directory on headline of xterms
             PS="${RED}\${ERRPROMPT}${BLUE}\!"
@@ -66,4 +66,4 @@ fi
 # === Aliased! ===
 [[ -f "${HOME}/.dotfiles/bash/bash_aliases" ]] && source "${HOME}/.dotfiles/bash/bash_aliases"
 # === User-friendly! ===
-[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]]   && source "${HOME}/.dotfiles/x11/xsessionrc"
+[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]]    && source "${HOME}/.dotfiles/x11/xsessionrc"

@@ -85,6 +85,10 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         rm -rf "${NANO_DIR}/nanorc-master"
     fi
 
+    ## === tmux ===
+    [[ -a "${HOME}/.tmux.conf" ]] && rm "${HOME}/.tmux.conf"
+    ln -s "${DIR}/kitty/tmux.conf" "${HOME}/.tmux.conf"
+
     ## === urxvt ===
     if [[ -d "${HOME}"/.urxvt/ext/font-size ]]; then
         rm -rf "${HOME}"/.urxvt/ext/font-size
