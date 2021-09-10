@@ -61,3 +61,5 @@
 
 [credential]
   helper = netrc -f ~/.netrc -v
+[pull]
+	rebase = false
