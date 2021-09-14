@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function aguu {
+    sudo apt update
+    sudo apt dist-upgrade -y
+    sudo flatpak update
+    update-conda
+}
+
 function tea {
     # Set a timer for your tea. Time is measured in seconds.
     timer=300 # default: 5 minutes
@@ -19,7 +26,7 @@ function tea {
     fi
 }
 
-function update-conda() {
+function update-conda {
     # Update Anaconda Python and all its virtual environments
     if [[ -d ~/.conda ]]; then
         echo "=== Updating conda base ==="
@@ -61,7 +68,6 @@ fi
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
-alias aguu="sudo apt update; sudo apt full-upgrade -y; update-conda"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 10h /root/.ssh/id_rsa; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
