@@ -55,6 +55,13 @@ if [[ ! -d ${EMACSD} ]]; then
     mkdir -p "${EMACSBD}"
     mkdir -p "${EMACSSD}"
 fi
+# === FlatPak ===
+for FILE in /var/lib/flatpak/exports/bin/*; do
+    APP="${FILE//*.}"
+    app="${APP,,}"
+    lnk="${HOME}/bin/${app}"
+    [[ ! -a "${lnk}" ]] && ln -s "${FILE}" "${lnk}"
+done
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===

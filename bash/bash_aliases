@@ -68,14 +68,6 @@ if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
 
-
-if [[ "$(which flatpak)" != "" ]]; then
-    alias freecad="flatpak run org.freecadweb.FreeCAD"
-    alias gimp="flatpak run org.gimp.GIMP"
-    alias paraview="flatpak run org.paraview.ParaView"
-    alias qgis="flatpak run org.qgis.qgis"
-fi
-
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
@@ -111,6 +103,7 @@ alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
 alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
 alias rs="rsync -Pavz"
 alias scancel="scancel -u ${USER}"
+alias shellcheck="shellcheck -e SC1090,SC2139,SC2155"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
 alias sa="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -u ${USER}"
