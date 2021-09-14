@@ -3,7 +3,7 @@
 # === Local Binaries ===
 [[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:${PATH}"
 # === Crypto Tokens ===
-[[ -f ${HOME}/.dotfiles/local/tokens ]] && source ${HOME}/.dotfiles/local/tokens
+[[ -f ${HOME}/.dotfiles/local/tokens ]] && source "${HOME}/.dotfiles/local/tokens"
 
 # === BeeGFS ===
 [[ -d /opt/beegfs ]] && export PATH="${PATH}:/opt/beegfs/sbin"
@@ -12,9 +12,9 @@ export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
 if [[ -a "${HOME}/.conda/anaconda" ]]; then
     export CONDAPATH=$(readlink -f "${HOME}/.conda/anaconda")
-    __conda_setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
+    __conda_setup=$("${CONDAPATH}/bin/conda" shell.bash hook 2> /dev/null)
     if [[ $? -eq 0 ]]; then
-        eval "$__conda_setup"
+        eval "${__conda_setup}"
     else
         [[ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]] && source "${CONDAPATH}/etc/profile.d/conda.sh"
     fi
@@ -24,23 +24,24 @@ fi
 [[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && source "${HOME}/.dotfiles/local/cudarch.sh"
 CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
 if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
-    NVCCBIN=$(dirname "$(ls -t ${CUDA_TEST_PATH} 2>/dev/null | head -n 1)")
+    NVCCBIN=$(dirname $(ls -t "${CUDA_TEST_PATH}" 2>/dev/null | head -n 1))
     if [[ $NVCCBIN != "" ]]; then
         export PATH=${PATH}:${NVCCBIN}
-        export CUDA_HDR_PATH="$(dirname ${NVCCBIN})/targets/x86_64-linux/include"
-        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
+        export CUDA_HDR_PATH=$(dirname "${NVCCBIN}")/targets/x86_64-linux/include
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname "${CUDA_HDR_PATH}/lib")
     fi
     if [[ $CUDA_HDR_PATH == "" ]]; then
-        NVCCBIN=$(dirname $(ls -t "$(find /opt/cuda -name nvcc 2>/dev/null)" 2>/dev/null | head -n 1))
+        NVCCBIN=$(dirname $(ls -t $(find /opt/cuda -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
         if [[ $NVCCBIN != "" ]]; then
             export PATH=${PATH}:${NVCCBIN}
-            export CUDA_HDR_PATH="$(dirname ${NVCCBIN})/targets/x86_64-linux/include"
-            export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:"$(dirname ${CUDA_HDR_PATH}/lib)"
+            export CUDA_HDR_PATH=$(dirname "${NVCCBIN}")/targets/x86_64-linux/include
+            export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname "${CUDA_HDR_PATH}/lib")
         fi
     fi
-    if [[ ${CUDA_HDR_PATH} == "" ]]; then
+    if [[ $CUDA_HDR_PATH == "" && $(which nvcc) != "" ]]; then
         export CUDA_HDR_PATH=/usr/include
     fi
+    [[ $(which nvcc) != "" ]] && export OMPI_MCA_opal_cuda_support=true # enable OpenMPI CUDA awareness
 fi
 # === Emacs ===
 export ALTERNATE_EDITOR=""
@@ -60,30 +61,13 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 [[ -f "${HOME}/.github" ]] && source "${HOME}/.github" # personal access token(s)
 # === Go ===
 [[ -d "${HOME}/repositories/go-lang" ]] && export PATH="${HOME}/repositories/go-lang/bin:${PATH}"
-# === GSL ===
-#export GSL_PATH="${HOME}/.conda/envs/py2/include"
-#export GSL_LIB="${HOME}/.conda/envs/py2/lib"
-#export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GSL_LIB}"
 # === Haskell ===
 [[ -f "${HOME}/.ghcup/env" ]] && source "${HOME}/.ghcup/env" # ghcup-env
-# === Intel ===
-if [[ -d "/opt/intelFPGA_lite/18.1/quartus/bin" ]]; then
-    export PATH="${PATH}:/opt/intelFPGA_lite/18.1/quartus/bin:/opt/intelFPGA/18.1/qprogrammer/bin"
-elif [[ -d "/usr/local/${USER}/opt/intelFPGA_pro/19.1" ]]; then
-    export INTELFPGAOCLSDKROOT="/usr/local/${USER}/opt/intelFPGA_pro/19.1/hld"
-    export QSYS_ROOTDIR="/usr/local/${USER}/opt/intelFPGA_pro/19.1/qsys/bin"
-fi
-if [[ -d "/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64" ]]; then
-   export PATH="$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/bin/intel64"
-fi
-if [[ -d "/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin" ]]; then
-   export PATH="$PATH:/opt/intel/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin"
-fi
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === Kitty ===
-if [[ "$(which kitty)" == "" ]]; then
+if [[ $(which kitty) == "" ]]; then
      export TERM="xterm-256color"
      export TERMINAL="xterm-256color"
 else
@@ -96,12 +80,8 @@ export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
 # === NIX ===
 [[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-# === OpenARC === (Accelerator Research Compiler)
-[[ -d "${HOME}/repositories/OpenARC" ]] && export openarc="${HOME}/repositories/OpenARC"
 # === OpenMP ===
 export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
-# === OpenMPI ===
-export OMPI_MCA_opal_cuda_support=true # enable CUDA awareness
 # === PGI ===
 if [[ -f "/opt/pgi/license.dat" ]]; then
     export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"
@@ -183,10 +163,3 @@ if [[ $(hostname -s) == "p859561" ]]; then
     #export MPI_PATH="${HOME}/.conda/envs/mmsp/include"
     export LIBGL_ALWAYS_INDIRECT=1
 fi
-#if [[ $(hostname -s | grep enki)  != "" ]]; then
-#    export PKG_CONFIG_PATH="/wrk/tnk10/repositories/lapack-3.9.0/build:/wrk/tnk10/repositories/lapack-3.9.0/build/BLAS:/wrk/tnk10/repositories/Ipopt"
-#    export CUDA_HDR_PATH="/usr/local/cuda-10.0/targets/ppc64le-linux/include"
-#    export GSL_PATH="/wrk/tnk10/.conda/envs/py2/include/"
-#    export GSL_LIB="/wrk/tnk10/.conda/envs/py2/lib"
-#    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(dirname ${CUDA_HDR_PATH}/lib):${GSL_LIB}
-#fi
