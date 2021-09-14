@@ -56,6 +56,8 @@ if [[ ! -d ${EMACSD} ]]; then
     mkdir -p "${EMACSSD}"
 fi
 # === FlatPak ===
+# sudo apt install flatpak
+# sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 for FILE in /var/lib/flatpak/exports/bin/*; do
     APP="${FILE//*.}"
     app="${APP,,}"
@@ -67,7 +69,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && source "${HOME}/.github" # personal access token(s)
 # === Go ===
-[[ -d "${HOME}/repositories/go-lang" ]] && export PATH="${HOME}/repositories/go-lang/bin:${PATH}"
+[[ -d "/opt/go" ]] && export PATH="/opt/go/bin:${PATH}"
 # === Haskell ===
 [[ -f "${HOME}/.ghcup/env" ]] && source "${HOME}/.ghcup/env" # ghcup-env
 # === KDE ===
