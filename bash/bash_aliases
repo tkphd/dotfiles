@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function aguu {
+    # Update Debian, FlatPak, and Conda apps
     sudo apt update
     sudo apt dist-upgrade -y
     sudo flatpak update
@@ -46,7 +47,7 @@ function whoareu {
     echo "${info}" | awk -F':' '{print $5}' | awk -F',' '{print $1}'
 }
 
-if [ -x /usr/bin/dircolors ]; then
+if [[ "$(which dircolors)" != "" ]]; then
     if [[ -f "${HOME}/.dotfiles/bash/dircolors" ]]; then
         eval "$(dircolors -b ${HOME}/.dotfiles/bash/dircolors)"
     else
@@ -62,9 +63,19 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
 if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
+
+
+if [[ "$(which flatpak)" != "" ]]; then
+    alias freecad="flatpak run org.freecadweb.FreeCAD"
+    alias gimp="flatpak run org.gimp.GIMP"
+    alias paraview="flatpak run org.paraview.ParaView"
+    alias qgis="flatpak run org.qgis.qgis"
+fi
+
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
