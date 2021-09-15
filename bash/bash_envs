@@ -55,17 +55,6 @@ if [[ ! -d ${EMACSD} ]]; then
     mkdir -p "${EMACSBD}"
     mkdir -p "${EMACSSD}"
 fi
-# === FlatPak ===
-# sudo apt install flatpak
-# sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-if [[ -d /var/lib/flatpak/exports ]]; then
-    for FILE in /var/lib/flatpak/exports/bin/*; do
-        APP="${FILE//*.}"
-        app="${APP,,}"
-        lnk="${HOME}/bin/${app}"
-        [[ ! -a "${lnk}" ]] && ln -s "${FILE}" "${lnk}"
-    done
-fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
@@ -154,16 +143,10 @@ export TC20A_HOME="${HOME}/Thermo-Calc/2020a/"
 export PATH="${PATH}:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ"
 export LSERVRC="${HOME}/Thermo-Calc/lservrc"
 export LSHOST="NO-NET"
-# === VTK ===
-if [[ ${LD_LIBRARY_PATH} == "" ]]; then
-    export LD_LIBRARY_PATH="/usr/lib/paraview"
-else
-    export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/paraview"
-fi
 # === XDG ===
 export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 export XDG_DATA_DIRS="${HOME}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS}"
-[[ -d "${XDG_RUNTIME_DIR}" ]] || mkdir -p "${XDG_RUNTIME_DIR}"
+[[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir -p "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
