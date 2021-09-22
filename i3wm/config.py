@@ -20,8 +20,8 @@ except:
     # Defaults render a penguin '' for '/'
     # and a house '' for /home (Font Awesome)
     ifce = "eth0"
-    disks = [["/home", ""],
-             ["/", ""]]
+    disks = [["/home", "", "GB"],
+             ["/", "", "GB"]]
     battery = False
 
 home = environ["HOME"]
@@ -46,32 +46,19 @@ if (
 
 # Shows available disk space
 # Format: 2.015 TB
-for disk, icon in disks:
+for disk, icon, unit in disks:
     status.register(
         "disk",
         path=disk,
         hints={"markup": "pango"},
-        divisor=1024.0 ** 4,
-        round_size=3,
-        format='<span size = "x-small">%s</span> {avail} TB' % icon,
+        divisor=1024**4 if unit == "TB" else 1024**3,
+        round_size = 3 if unit == "TB" else 1,
+        format='<span size = "x-small">%s</span> {avail} %s' % (icon, unit),
     )
 
 # Shows your CPU temperature, if you have a Intel CPU
 status.register("temp",
                 hints={"markup": "pango"})
-
-# Shows memory usage
-status.register(
-    "mem_bar",
-    color="#FFFFFF",
-    warn_color="#FFEE44",
-    alert_color="#FF4444",
-    hints={"markup": "pango"},
-    warn_percentage=80,
-    alert_percentage=90,
-    multi_colors=True,
-    format="{used_mem_bar}",
-)
 
 try:
     ## Shows pulseaudio default sink volume
@@ -86,6 +73,19 @@ except:
     ## Note: requires pyalsaaudio from PyPI
     ##       and libalsaaudio-dev
     status.register("alsa")
+
+# Shows memory usage
+status.register(
+    "mem_bar",
+    color="#FFFFFF",
+    warn_color="#FFEE44",
+    alert_color="#FF4444",
+    hints={"markup": "pango"},
+    warn_percentage=80,
+    alert_percentage=90,
+    multi_colors=True,
+    format="{used_mem_bar}",
+)
 
 # Plots the average load of the last 5 minutes
 status.register(
