@@ -1,6 +1,7 @@
 always_yes: true
 auto_activate_base: false
 channels:
+  - defaults
   - conda-forge
 create_default_packages:
   - icecream

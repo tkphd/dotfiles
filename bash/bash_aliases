@@ -1,10 +1,9 @@
 #!/bin/bash
 
 function aguu {
-    # Update Debian, FlatPak, and Conda apps
+    # Update Debian and Conda apps
     sudo apt update
     sudo apt dist-upgrade -y
-    sudo flatpak update
     update-conda
 }
 
@@ -33,7 +32,8 @@ function update-conda {
         echo "=== Updating conda base ==="
         mamba update --yes --quiet conda
         mamba update -n base --yes --quiet --all
-        for name in "${HOME}"/.conda/anaconda/envs/*; do
+        for dir in "${HOME}"/.conda/anaconda/envs/*; do
+            name=$(basename "${dir}")
             echo -e "\n=== Updating ${name} env ===\n"
             mamba update -n "${name}" --yes --quiet --all
         done
