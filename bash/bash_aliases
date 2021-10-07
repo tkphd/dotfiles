@@ -112,6 +112,7 @@ alias sa="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTa
 alias sq="squeue -o \"%14i %10j %4t %8q %8u %10P %10Q %8D %4C %11l %11L %R\" -u ${USER}"
 alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
+alias sshkeygen="ssh-keygen -t ed25519 -a 100 -f ${HOME}/.ssh/id_ed25519"
 alias ssr="ssh -l root -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su"
 alias ssm="ssh -l machine -i ${HOME}/.ssh/machine_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"

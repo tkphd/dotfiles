@@ -62,14 +62,16 @@ if [[ ! -d ${EMACSD} ]]; then
     mkdir -p "${EMACSSD}"
 fi
 # # === FEniCS ===
-FENICS_DIR=$(find /working/${USER}/modules -type d -iname fenics\* -print -quit)
-PETSC_DIR=$(find /working/${USER}/modules -type d -iname petsc\* -print -quit)
-SLEPC_DIR=$(find /working/${USER}/modules -type d -iname slepc\* -print -quit)
-export FENICS_PREFIX="${FENICS_DIR}"
-export PETSC_PREFIX="${PETSC_DIR}"
-export SLEPC_PREFIX="${SLEPC_DIR}"
-[[ -f "${HOME}/research/modules/env-fenics.sh" ]] && \
-    source "${HOME}/research/modules/env-fenics.sh"
+if [[ -d /working/${USER}/modules ]]; then
+    FENICS_DIR=$(find /working/${USER}/modules -type d -iname fenics\* -print -quit)
+    PETSC_DIR=$(find /working/${USER}/modules -type d -iname petsc\* -print -quit)
+    SLEPC_DIR=$(find /working/${USER}/modules -type d -iname slepc\* -print -quit)
+    export FENICS_PREFIX="${FENICS_DIR}"
+    export PETSC_PREFIX="${PETSC_DIR}"
+    export SLEPC_PREFIX="${SLEPC_DIR}"
+    [[ -f "${HOME}/research/modules/env-fenics.sh" ]] && \
+        source "${HOME}/research/modules/env-fenics.sh"
+fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
