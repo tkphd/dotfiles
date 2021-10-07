@@ -61,28 +61,15 @@ if [[ ! -d ${EMACSD} ]]; then
     mkdir -p "${EMACSBD}"
     mkdir -p "${EMACSSD}"
 fi
-# === FEniCS ===
-FENICS_PREFIX="/working/${USER}/modules/fenics"
-if [[ -d ${FENICS_PREFIX} ]]; then
-    export FENICS_PREFIX
-    FENICS_LIB="${FENICS_PREFIX}/lib"
-    [[ -v LD_LIBRARY_PATH ]] && [[ -n "${LD_LIBRARY_PATH}" ]] && \
-        FENICS_LIB="${FENICS_LIB}:${LD_LIBRARY_PATH}"
-    export LD_LIBRARY_PATH="${FENICS_LIB}"
-
-    FENICS_PKG="${FENICS_PREFIX}/lib/pkgconfig"
-    [[ -v PKG_CONFIG_PATH ]] && [[ -n "${PKG_CONFIG_PATH}" ]] && \
-        FENICS_PKG="${FENICS_PKG}:${PKG_CONFIG_PATH}"
-    export PKG_CONFIG_PATH="${FENICS_PKG}"
-
-    PYTHON_VERSION=$(python3 -c 'import sys; print(str(sys.version_info[0]) + "." + str(sys.version_info[1]))')
-    FENICS_PYPATH="${FENICS_PREFIX}/lib/python${PYTHON_VERSION}/site-packages"
-    [[ -v PYTHONPATH ]] && [[ -n "${PYTHONPATH}" ]] && \
-        FENICS_PYPATH="${FENICS_PYPATH}:${PYTHONPATH}"
-    export PYTHONPATH="${FENICS_PYPATH}"
-
-    export PATH="${FENICS_PREFIX}/bin:${PATH}"
-fi
+# # === FEniCS ===
+FENICS_DIR=$(find /working/${USER}/modules -type d -iname fenics\* -print -quit)
+PETSC_DIR=$(find /working/${USER}/modules -type d -iname petsc\* -print -quit)
+SLEPC_DIR=$(find /working/${USER}/modules -type d -iname slepc\* -print -quit)
+export FENICS_PREFIX="${FENICS_DIR}"
+export PETSC_PREFIX="${PETSC_DIR}"
+export SLEPC_PREFIX="${SLEPC_DIR}"
+[[ -f "${HOME}/research/modules/env-fenics.sh" ]] && \
+    source "${HOME}/research/modules/env-fenics.sh"
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
@@ -110,12 +97,6 @@ export PATH="${PATH}:${MMSP_PATH}/utility"
 [[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # === OpenMP ===
 export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
-# === PETSc ===
-PETSC_DIR=/working/${USER}/modules/petsc-32
-if [[ -d ${PETSC_DIR} ]]; then
-    export PETSC_DIR
-    export SLEPC_DIR=/working/${USER}/modules/slepc-32
-fi
 # === PGI ===
 if [[ -f "/opt/pgi/license.dat" ]]; then
     export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"

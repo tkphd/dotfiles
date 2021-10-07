@@ -3,19 +3,6 @@ auto_activate_base: false
 channels:
   - defaults
   - conda-forge
-create_default_packages:
-  - icecream
-  - jupyter
-  - matplotlib
-  - mpi4py
-  - notebook
-  - numpy
-  - pandas
-  - pip
-  - rich
-  - scipy
-  - sympy
-  - tqdm
 envs_dirs:
   - ~/.conda/anaconda/envs
 report_errors: true
