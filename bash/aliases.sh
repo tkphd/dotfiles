@@ -7,6 +7,24 @@ function aguu {
     update-conda
 }
 
+function man {
+    LESS_TERMCAP_md=$'\e[01;34m' \
+    LESS_TERMCAP_me=$'\e[0m' \
+    LESS_TERMCAP_se=$'\e[0m' \
+    LESS_TERMCAP_so=$'\e[01;08;08m' \
+    LESS_TERMCAP_ue=$'\e[0m' \
+    LESS_TERMCAP_us=$'\e[01;36m' \
+    command man "$@"
+}
+
+function rot13 {
+	if [[ $# = 0 ]] ; then
+		tr "[a-m][n-z][A-M][N-Z]" "[n-z][a-m][N-Z][A-M]"
+	else
+		tr "[a-m][n-z][A-M][N-Z]" "[n-z][a-m][N-Z][A-M]" < $1
+	fi
+}
+
 function tea {
     # Set a timer for your tea. Time is measured in seconds.
     timer=300 # default: 5 minutes
@@ -47,23 +65,6 @@ function whoareu {
     echo "${info}" | awk -F':' '{print $5}' | awk -F',' '{print $1}'
 }
 
-if [[ "$(which dircolors)" != "" ]]; then
-    if [[ -f "${HOME}/.dotfiles/bash/dircolors" ]]; then
-        eval "$(dircolors -b ${HOME}/.dotfiles/bash/dircolors)"
-    else
-        eval "$(dircolors -b)"
-    fi
-    alias ls='ls --color=auto'
-    alias l='ls -CF'
-    alias la='ls -A'
-    alias ll='ls -hal'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
 if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
@@ -78,6 +79,8 @@ alias condact="conda activate"
 alias condeact="conda deactivate"
 alias curl="curl -L -C -"
 alias ddp="sudo dd bs=4M conv=fsync status=progress"
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
 alias dmesg="/bin/dmesg --color=always | /bin/less -R"
 alias dpgrep="dpkg -l | grep"
 alias e="emacsclient -t"
@@ -86,9 +89,16 @@ alias ff="feh -F --force-aliasing"
 alias fixperm="find . -perm -u=r -a -not -perm -o=r -exec chmod -v a+r {} \; ; find . -perm -u=x -a -not -perm -o=x -exec chmod -v a+x {} \;"
 alias se="sudo emacs -nw"
 alias gdb="gdb -q"
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias guvc="guvcviewer -x 1600x1200"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
+alias ls='ls --group-directories-first --color=auto'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -hal'
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"
@@ -98,12 +108,13 @@ alias pdf="qpdfview"
 alias ping="ping -c 4"
 alias please="sudo"
 if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
-    alias cat="${HOME}/bin/color-cat"
+    alias ccat="${HOME}/bin/color-cat"
     alias pyg="${HOME}/bin/color-cat"
 fi
 alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
-alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
 alias rs="rsync -Pavz"
+alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
+alias rsmop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -l machine -i /root/.ssh/id_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine\""
 alias scancel="scancel -u ${USER}"
 alias shellcheck="shellcheck -e SC1090,SC2139,SC2155"
 alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
@@ -112,7 +123,7 @@ alias sa="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTa
 alias sq="squeue -o \"%14i %10j %4t %8q %8u %10P %10Q %8D %4C %11l %11L %R\" -u ${USER}"
 alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
-alias sshkeygen="ssh-keygen -t ed25519 -a 100 -f ${HOME}/.ssh/id_ed25519"
+alias sshkeygen="ssh-keygen -t ed25519 -a 100"
 alias ssr="ssh -l root -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su"
 alias ssm="ssh -l machine -i ${HOME}/.ssh/machine_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine"
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
@@ -151,8 +162,8 @@ function countdown {
 
     tput civis
 
-    while [ $min -ge 0 ]; do
-        while [ $sec -ge 0 ]; do
+    while [[ $min -ge 0 ]]; do
+        while [[ $sec -ge 0 ]]; do
             echo -ne "$(printf "%02d" $min):$(printf "%02d" $sec)\r"
             (( sec-- ))
             sleep 1
@@ -194,3 +205,5 @@ function pomodoro {
         echo "Quartet of pomodoros ran ${cycrun} min"
     fi
 }
+# to use, kinit root/admin
+alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI"

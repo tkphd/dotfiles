@@ -39,13 +39,14 @@
   autocrlf = input
 
 [diff]
-  tool = meld
+	tool = meld
   path = "/usr/bin/meld"
 
 [init]
   # If this folder does not already exist, please
   # echo "ref: refs/heads/main" > ~/.config/git/template/HEAD
   templateDir = ~/.config/git/template/
+  defaultBranch = main
 
 [merge]
   tool = "/usr/bin/meld"
@@ -62,4 +63,4 @@
 [credential]
   helper = netrc -f ~/.netrc -v
 [pull]
-	rebase = false
+  rebase = false

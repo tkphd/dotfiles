@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo -ne 'DANGER! This script will overwrite ~/.bashrc, and other config files.\n\nType "yes" to continue: '
+echo -ne 'DANGER! This script will overwrite ~/.bashrc and other config files.\n\nType "yes" to continue: '
 read -r DISCLAIMER
 
 if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
@@ -8,13 +8,23 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     DIR="${PWD}"
 
     # === bash ===
-    [[ -f "${HOME}"/.bashrc || -L "${HOME}"/.bashrc ]] && rm "${HOME}"/.bashrc
+    [[ -f "${HOME}"/.bashrc || -L "${HOME}"/.bashrc ]] && \
+        rm "${HOME}"/.bashrc
     ln -s "${DIR}"/bash/bashrc "${HOME}"/.bashrc
+
+    [[ -f "${HOME}"/.bash_profile || -L "${HOME}"/.bash_profile ]] && \
+        rm "${HOME}"/.bash_profile
+    ln -s "${DIR}"/bash/profile "${HOME}"/.bash_profile
+
+    [[ -f "${HOME}"/.dircolors || -L "${HOME}"/.dircolors ]] && \
+        rm "${HOME}"/.dircolors
+    ln -s "${DIR}"/bash/dircolors "${HOME}"/.dircolors
 
     # === rc files ===
     for f in rc/*rc; do
         RC="${HOME}"/.$(basename "${f}")
-        [[ -f "${RC}" || -L "${RC}" ]] && rm "${RC}"
+        [[ -f "${RC}" || -L "${RC}" ]] && \
+            rm "${RC}"
         ln -s "${PWD}/${f}" "${RC}"
     done
 
@@ -22,15 +32,18 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     [[ -d "${HOME}"/bin ]] || mkdir "${HOME}"/bin
     for f in bin/*; do
         link="${HOME}/${f/.sh/}"
-        [[ -f "${link}" || -L "${link}" ]] && rm "${link}"
+        [[ -f "${link}" || -L "${link}" ]] && \
+            rm "${link}"
         ln -s "$(pwd)/${f}" "${link}"
     done
 
     # === conda ===
-    [[ -f "${HOME}"/.condarc || -L "${HOME}"/.condarc ]] && rm "${HOME}"/.condarc
+    [[ -f "${HOME}"/.condarc || -L "${HOME}"/.condarc ]] && \
+        rm "${HOME}"/.condarc
     ln -s "${DIR}"/conda/condarc "${HOME}"/.condarc
 
-    [[ -f "${HOME}"/.mambarc || -L "${HOME}"/.mambarc ]] && rm "${HOME}"/.mambarc
+    [[ -f "${HOME}"/.mambarc || -L "${HOME}"/.mambarc ]] && \
+        rm "${HOME}"/.mambarc
     ln -s "${DIR}"/conda/mambarc "${HOME}"/.mambarc
 
     # === emacs ===
@@ -42,11 +55,13 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/emacs "${HOME}"/.emacs.d
 
     # === gdb ===
-    [[ -f "${HOME}"/.gdbinit || -L "${HOME}"/.gdbinit ]] && rm "${HOME}"/.gdbinit
+    [[ -f "${HOME}"/.gdbinit || -L "${HOME}"/.gdbinit ]] && \
+        rm "${HOME}"/.gdbinit
     ln -s "${DIR}"/gdb/gdbinit "${HOME}"/.gdbinit
 
     # === git ===
-    [[ -f "${HOME}"/.gitconfig || -L "${HOME}"/.gitconfig ]] && rm "${HOME}"/.gitconfig
+    [[ -f "${HOME}"/.gitconfig || -L "${HOME}"/.gitconfig ]] && \
+        rm "${HOME}"/.gitconfig
     if [[ ! -d "${HOME}"/.config/git/template ]]; then
         mkdir -p "${HOME}"/.config/git/template
         echo "ref: refs/heads/main" > "${HOME}"/.config/git/template/HEAD
@@ -70,7 +85,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/kitty "${HOME}"/.config/kitty
 
     mkdir -p "${HOME}"/.terminfo/x
-    [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && rm "${HOME}"/.terminfo/x/xterm-kitty
+    [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && \
+        rm "${HOME}"/.terminfo/x/xterm-kitty
     ln -s "${DIR}"/kitty/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
 
     # === nano ===
@@ -86,7 +102,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
 
     ## === tmux ===
-    [[ -a "${HOME}/.tmux.conf" ]] && rm "${HOME}/.tmux.conf"
+    [[ -a "${HOME}/.tmux.conf" ]] && \
+        rm "${HOME}/.tmux.conf"
     ln -s "${DIR}/kitty/tmux.conf" "${HOME}/.tmux.conf"
 
     ## === urxvt ===
@@ -100,13 +117,16 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/i3wm/urxvt-font-size/font-size "${HOME}"/.urxvt/ext/font-size
 
     ## === X session ===
-    [[ -f "${HOME}"/.Xresources || -L "${HOME}"/.Xresources ]] && rm "${HOME}"/.Xresources
+    [[ -f "${HOME}"/.Xresources || -L "${HOME}"/.Xresources ]] && \
+        rm "${HOME}"/.Xresources
     ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xresources
 
-    [[ -f "${HOME}"/.Xdefaults || -L "${HOME}"/.Xdefaults ]] && rm "${HOME}"/.Xdefaults
+    [[ -f "${HOME}"/.Xdefaults || -L "${HOME}"/.Xdefaults ]] && \
+        rm "${HOME}"/.Xdefaults
     ln -s "${DIR}"/x11/Xresources "${HOME}"/.Xdefaults
 
-    [[ -f "${HOME}"/.xsessionrc || -L "${HOME}"/.xsessionrc ]] && rm "${HOME}"/.xsessionrc
+    [[ -f "${HOME}"/.xsessionrc || -L "${HOME}"/.xsessionrc ]] && \
+        rm "${HOME}"/.xsessionrc
     ln -s "${DIR}"/x11/xsessionrc "${HOME}"/.xsessionrc
 
     # === volantes cursor theme ===

@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # === Local Binaries ===
-[[ -d "${HOME}/bin" ]] && export PATH="${HOME}/bin:${PATH}"
+[[ -d "${HOME}/bin" ]] && \
+    export PATH="${HOME}/bin:${PATH}"
 # === Crypto Tokens ===
-[[ -f ${HOME}/.dotfiles/local/tokens ]] && source "${HOME}/.dotfiles/local/tokens"
+[[ -f ${HOME}/.dotfiles/local/tokens ]] && \
+    source "${HOME}/.dotfiles/local/tokens"
 
 # === BeeGFS ===
-[[ -d /opt/beegfs ]] && export PATH="${PATH}:/opt/beegfs/sbin"
+[[ -d /opt/beegfs ]] && \
+    export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
@@ -16,12 +19,14 @@ if [[ -a "${HOME}/.conda/anaconda" ]]; then
     if [[ $? -eq 0 ]]; then
         eval "${__conda_setup}"
     else
-        [[ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]] && source "${CONDAPATH}/etc/profile.d/conda.sh"
+        [[ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]] && \
+            source "${CONDAPATH}/etc/profile.d/conda.sh"
     fi
     unset __conda_setup
 fi
 # === CUDA ===
-[[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && source "${HOME}/.dotfiles/local/cudarch.sh"
+[[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
+    source "${HOME}/.dotfiles/local/cudarch.sh"
 CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
 if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
     NVCCBIN=$(dirname $(ls -t "${CUDA_TEST_PATH}" 2>/dev/null | head -n 1))
@@ -47,39 +52,29 @@ if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
     if [[ $CUDA_HDR_PATH == "" && $(which nvcc) != "" ]]; then
         export CUDA_HDR_PATH=/usr/include
     fi
-    [[ $(which nvcc) != "" ]] && export OMPI_MCA_opal_cuda_support=true # enable OpenMPI CUDA awareness
+    [[ $(which nvcc) != "" ]] && \
+        export OMPI_MCA_opal_cuda_support=true # enable OpenMPI CUDA awareness
 fi
 # === Emacs ===
-export ALTERNATE_EDITOR=""
-export EDITOR="/usr/bin/emacsclient -nw"
-export VISUAL="/usr/bin/emacsclient -nw"
 export EMACSD="/tmp/emacs-${USER}"
 export EMACSBD="${EMACSD}/backups"
 export EMACSSD="${EMACSD}/saves"
-if [[ ! -d ${EMACSD} ]]; then
+if [[ ! -d "${EMACSD}" ]]; then
     mkdir -p "${EMACSD}"
     mkdir -p "${EMACSBD}"
     mkdir -p "${EMACSSD}"
 fi
-# # === FEniCS ===
-if [[ -d /working/${USER}/modules ]]; then
-    FENICS_DIR=$(find /working/${USER}/modules -type d -iname fenics\* -print -quit)
-    PETSC_DIR=$(find /working/${USER}/modules -type d -iname petsc\* -print -quit)
-    SLEPC_DIR=$(find /working/${USER}/modules -type d -iname slepc\* -print -quit)
-    export FENICS_PREFIX="${FENICS_DIR}"
-    export PETSC_PREFIX="${PETSC_DIR}"
-    export SLEPC_PREFIX="${SLEPC_DIR}"
-    [[ -f "${HOME}/research/modules/env-fenics.sh" ]] && \
-        source "${HOME}/research/modules/env-fenics.sh"
-fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # === GITHUB ===
-[[ -f "${HOME}/.github" ]] && source "${HOME}/.github" # personal access token(s)
+[[ -f "${HOME}/.github" ]] && \
+    source "${HOME}/.github" # personal access token(s)
 # === Go ===
-[[ -d "/opt/go" ]] && export PATH="/opt/go/bin:${PATH}"
+[[ -d "/opt/go" ]] && \
+    export PATH="/opt/go/bin:${PATH}"
 # === Haskell ===
-[[ -f "${HOME}/.ghcup/env" ]] && source "${HOME}/.ghcup/env" # ghcup-env
+[[ -f "${HOME}/.ghcup/env" ]] && \
+    source "${HOME}/.ghcup/env" # ghcup-env
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
@@ -91,12 +86,16 @@ else
     source <(kitty + complete setup bash)
 fi
 # === LESS ===
-[[ $(which pygmentize) != "" ]] && export LESSOPEN="| pygmentize -g %s"
+[[ $(which pygmentize) != "" ]] && \
+    export LESSOPEN="| pygmentize -g %s"
+#[[ -f "${HOME}/.dotfiles/bash/ls-colors.sh" ]] && \
+#    source "${HOME}/.dotfiles/bash/ls-colors.sh"
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
 # === NIX ===
-[[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+[[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && \
+    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # === OpenMP ===
 export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
 # === PGI ===
@@ -118,7 +117,8 @@ fi
 if [[ -d /opt/riscv ]]; then
     export PATH="${PATH}:/opt/riscv/bin"
     RISCV_LIB="/opt/riscv/lib"
-    [[ -v LD_LIBRARY_PATH ]] && [[ -n "${LD_LIBRARY_PATH}" ]] && \
+    [[ -v LD_LIBRARY_PATH ]] && \
+    [[ -n "${LD_LIBRARY_PATH}" ]] && \
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
@@ -128,9 +128,11 @@ if [[ -d "${HOME}/gems" ]]; then
     export PATH="${HOME}/gems/bin:${PATH}"
 fi
 # === Ruby Version Manager ===
-[[ -d "${HOME}/.rvm" ]] && export PATH="${PATH}:${HOME}/.rvm/bin"
+[[ -d "${HOME}/.rvm" ]] && \
+    export PATH="${PATH}:${HOME}/.rvm/bin"
 # === Rust ===
-[[ -d "${HOME}/.cargo/env" ]] && source "${HOME}/.cargo/env"
+[[ -e "${HOME}/.cargo/env" ]] && \
+    source "${HOME}/.cargo/env"
 # === Singularity ===
 export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
 export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
@@ -158,14 +160,24 @@ fi
 export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
 export SSH_ASKPASS="/usr/bin/ssh-askpass"
+# === Systemd ===
+# Disable systemctl's auto-paging feature:
+export SYSTEMD_PAGER=
 # === Thermo-Calc ===
-export TC20A_HOME="${HOME}/Thermo-Calc/2020a/"
-export PATH="${PATH}:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ"
-export LSERVRC="${HOME}/Thermo-Calc/lservrc"
-export LSHOST="NO-NET"
+if [[ -d "${HOME}/Thermo-Calc/2020a/" ]]; then
+    export TC20A_HOME="${HOME}/Thermo-Calc/2020a/"
+    export PATH="${PATH}:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ"
+    export LSERVRC="${HOME}/Thermo-Calc/lservrc"
+    export LSHOST="NO-NET"
+fi
 # === XDG ===
-export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
-[[ ! -d "${XDG_RUNTIME_DIR}" ]] && mkdir -p "${XDG_RUNTIME_DIR}"
+#
+# *N.B.:* PAM_SYSTEMD sets XDG_RUNTIME_DIR <https://askubuntu.com/a/928979>
+# Make sure it really does not exist before making a tmpdir for it.
+[[ ! -v XDG_RUNTIME_DIR ]] && \
+    export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
+[[ ! -d "${XDG_RUNTIME_DIR}" ]] && \
+    mkdir -p "${XDG_RUNTIME_DIR}"
 # === Machine-specific Tasks ===
 if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
