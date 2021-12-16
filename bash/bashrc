@@ -1,69 +1,42 @@
 #!/bin/bash
-# === Non-Interactive? ===
-if [[ -z "${Environ_Sourced}" && -f /etc/profile ]]; then
-    source /etc/profile
-fi
-# === Colorful! === (Black, Red, Green, Yellow, Blue, Magenta, Cyan, Gray)
-[[ -f "${HOME}/.dotfiles/bash/colors.sh" ]] && source "${HOME}/.dotfiles/bash/colors.sh"
-# === Prompt! ===
-[[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && source "${HOME}/.dotfiles/bash/local_prompt"
-if [ "$PS1" ]; then
-    # colorize if at all possible
-    force_color_prompt=yes
-    # disable Ctrl-S in interactive shells (only), per
-    # https://twitter.com/thingskatedid/status/1348860793618456581
-    [[ $- == *i* ]] && stty -ixon
-    # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
-    # append rather than overwrite history, update window size after each command
-    shopt -s cdspell checkhash checkwinsize cmdhist histappend
-    # Turn off HUP on exit, mail notification, and using $PATH for the 'source' command
-    shopt -u huponexit mailwarn sourcepath
-    # set failsafe prompt
-    function prompt_command
-    {
-        if [ "$?" = 0 ]
-        then
-            ERRPROMPT=""
-        else
-            ERRPROMPT="($?)"
-        fi
-    }
-    PROMPT_COMMAND=prompt_command
-    case ${TERM} in
-        iris-ansi*|konsole|*rxvt*|screen|xterm*)
-            # Put user@machine:/directory on headline of xterms
-            PS="${RED}\${ERRPROMPT}${BLUE}\!"
-            sep_git() {
-                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/:/'
-            }
-            str_git() {
-                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-            }
-            # Customizable prompt settings
-            DIV_HUE=${MAGENTAB}
-            GIT_HUE=${RED}
-            HOST_HUE=${BLUE}
-            PATH_HUE=${CYANL}
-            PROM_HUE=${GREENL}
-            QUOT_HUE=${MAGENTAB}
-            TIME_HUE=${RED}
-            [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && source "${HOME}/.dotfiles/bash/local_prompt"
-            PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${NONE} "
-            PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
-            ;;
-        default)
-            if [ $UID = $EUID ] && [ $UID -ne 0 ]
-            then
-                PS1="\${ERRPROMPT}\! \h$% "
-            else
-                PS1="\${ERRPROMPT}\! \u@\h$#"
-            fi
-    esac
+# Built with help from https://github.com/jessfraz/dotfiles
+
+# Unless we're interactive, do nothing
+case $- in
+	*i*) ;;
+	*) return;;
+esac
+
+# disable Ctrl-S <https://twitter.com/thingskatedid/status/1348860793618456581>
+[[ $- == *i* ]] && \
+    stty -ixon
+
+# detect chroot environment
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# === Environmental! ===
-[[ -f "${HOME}/.dotfiles/bash/bash_envs" ]]    && source "${HOME}/.dotfiles/bash/bash_envs"
-# === Aliased! ===
-[[ -f "${HOME}/.dotfiles/bash/bash_aliases" ]] && source "${HOME}/.dotfiles/bash/bash_aliases"
-# === User-friendly! ===
-[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]]    && source "${HOME}/.dotfiles/x11/xsessionrc"
+# detect color capabilities and set basic prompt
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
+    if [ -x /usr/bin/dircolors ]; then
+        if [[ -r ~/.dircolors ]]; then
+            eval "$(dircolors -b ~/.dircolors)"
+        else
+            eval "$(dircolors -b)"
+        fi
+    fi
+else
+	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+
+# X11 interface glitter
+[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]] && \
+    source "${HOME}/.dotfiles/x11/xsessionrc"
+
+# Load custom config files
+for CONF in {aliases,exports,options,path,prompt}.sh; do
+    [[ -f "${HOME}/.dotfiles/bash/${CONF}" ]] && \
+        source "${HOME}/.dotfiles/bash/${CONF}"
+done
+unset CONF

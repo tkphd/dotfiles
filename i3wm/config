@@ -43,7 +43,9 @@ exec "/usr/bin/xautolock -locker /usr/bin/i3lock -c 6d38aa"
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -nf '#c9a988' -nb '#2a2d33' -fn 'Inconsolata' -l 5 -i
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so install that.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
