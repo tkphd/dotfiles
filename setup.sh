@@ -136,6 +136,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/x11/volantes "${HOME}"/.local/share/icons/volantes
 
     xrdb -merge "${HOME}"/.Xresources
+
+    # === check dependencies ===
+    for PKG in diff-so-fancy emacs i3 pygmentize urxvt zathura; do
+        [[ $(which ${PKG}) == "" ]] && \
+            echo "Warning: ${PKG} not found!"
+    done
 else
     echo "No changes were made."
 fi
