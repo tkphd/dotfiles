@@ -1,0 +1,15 @@
+URxvt*termName: screen-256color
+! URxvt*loginShell: true
+! URxvt*mouseWheelScrollPage: true
+! URxvt*background: Black
+! URxvt*foreground: White
+URxvt.letterSpace: -2
+URxvt*font: xft:Fira Code Retina Nerd Font Complete:autohint=true:pixelsize=14
+URxvt*boldFont: xft:Fira Code Retina Nerd Font Complete:bold:autohint=true:pixelsize=14
+URxvt*italicFont: xft:Fira Code Retina Nerd Font Complete:italic:autohint=true:pixelsize=14
+URxvt*boldItalicFont: xft:Fira Code Retina Nerd Font Complete:bold:italic:autohint=true:pixelsize=14
+! URxvt*buffered: true
+! URxvt*hold: false
+! URxvt*print-pipe: cat > $HOME/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
+! URxvt*perl-ext-common:
+! URxvt*perl-ext:
