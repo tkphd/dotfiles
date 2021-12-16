@@ -30,13 +30,13 @@ else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
+# X11 interface glitter
+[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]] && \
+    source "${HOME}/.dotfiles/x11/xsessionrc"
+
 # Load custom config files
 for CONF in {aliases,exports,options,path,prompt}.sh; do
     [[ -f "${HOME}/.dotfiles/bash/${CONF}" ]] && \
         source "${HOME}/.dotfiles/bash/${CONF}"
 done
 unset CONF
-
-# X11 interface glitter
-[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]] && \
-    source "${HOME}/.dotfiles/x11/xsessionrc"

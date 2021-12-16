@@ -88,8 +88,8 @@ fi
 # === LESS ===
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
-#[[ -f "${HOME}/.dotfiles/bash/ls-colors.sh" ]] && \
-#    source "${HOME}/.dotfiles/bash/ls-colors.sh"
+[[ -f "${HOME}/.dotfiles/bash/ls-colors.sh" ]] && \
+    source "${HOME}/.dotfiles/bash/ls-colors.sh"
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
@@ -171,9 +171,8 @@ if [[ -d "${HOME}/Thermo-Calc/2020a/" ]]; then
     export LSHOST="NO-NET"
 fi
 # === XDG ===
-#
-# *N.B.:* PAM_SYSTEMD sets XDG_RUNTIME_DIR <https://askubuntu.com/a/928979>
-# Make sure it really does not exist before making a tmpdir for it.
+#   *N.B.:* PAM_SYSTEMD sets XDG_RUNTIME_DIR <https://askubuntu.com/a/928979>
+#   Make sure it really does not exist before making a tmpdir for it.
 [[ ! -v XDG_RUNTIME_DIR ]] && \
     export XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 [[ ! -d "${XDG_RUNTIME_DIR}" ]] && \

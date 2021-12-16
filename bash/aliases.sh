@@ -8,12 +8,32 @@ function aguu {
 }
 
 function man {
-    LESS_TERMCAP_md=$'\e[01;34m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;08;08m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;36m' \
+    # termcap terminfo
+    # ks      smkx      make the keypad send commands
+    # ke      rmkx      make the keypad send digits
+    # vb      flash     emit visual bell
+    # mb      blink     start blink: green
+    # md      bold      start bold: cyan
+    # me      sgr0      turn off bold, blink and underline
+    # so      smso      start standout (reverse video): yellow-on-blue
+    # se      rmso      stop standout
+    # us      smul      start underline: white
+    # ue      rmul      stop underline
+
+    LESS_TERMCAP_mb=$(tput bold; tput setaf 2) \
+    LESS_TERMCAP_md=$(tput bold; tput setaf 6) \
+    LESS_TERMCAP_me=$(tput sgr0) \
+    LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) \
+    LESS_TERMCAP_se=$(tput rmso; tput sgr0) \
+    LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) \
+    LESS_TERMCAP_ue=$(tput rmul; tput sgr0) \
+    LESS_TERMCAP_mr=$(tput rev) \
+    LESS_TERMCAP_mh=$(tput dim) \
+    LESS_TERMCAP_ZN=$(tput ssubm) \
+    LESS_TERMCAP_ZV=$(tput rsubm) \
+    LESS_TERMCAP_ZO=$(tput ssupm) \
+    LESS_TERMCAP_ZW=$(tput rsupm) \
+    GROFF_NO_SGR=1 \
     command man "$@"
 }
 
@@ -89,9 +109,9 @@ alias ff="feh -F --force-aliasing"
 alias fixperm="find . -perm -u=r -a -not -perm -o=r -exec chmod -v a+r {} \; ; find . -perm -u=x -a -not -perm -o=x -exec chmod -v a+x {} \;"
 alias se="sudo emacs -nw"
 alias gdb="gdb -q"
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep='grep --color=auto --line-number --with-filename'
+alias fgrep='fgrep --color=auto --line-number --with-filename'
+alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"

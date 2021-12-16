@@ -130,7 +130,10 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/x11/xsessionrc "${HOME}"/.xsessionrc
 
     # === volantes cursor theme ===
-    sudo cp -r "${DIR}"/x11/volantes /usr/share/icons/
+    mkdir -p "${HOME}"/.local/share/icons
+    [[ -d "${HOME}"/.local/share/icons/volantes || -L "${HOME}"/.local/share/icons/volantes ]] && \
+        rm -rf "${HOME}"/.local/share/icons/volantes
+    ln -s "${DIR}"/x11/volantes "${HOME}"/.local/share/icons/volantes
 
     xrdb -merge "${HOME}"/.Xresources
 else
