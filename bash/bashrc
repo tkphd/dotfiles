@@ -26,6 +26,8 @@ if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
             eval "$(dircolors -b)"
         fi
     fi
+    [[ -f "${HOME}/.dotfiles/bash/ls-colors.sh" ]] && \
+        source "${HOME}/.dotfiles/bash/ls-colors.sh"
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi

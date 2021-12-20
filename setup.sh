@@ -16,10 +16,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         rm "${HOME}"/.profile
     ln -s "${DIR}"/bash/profile.sh "${HOME}"/.profile
 
-    [[ -f "${HOME}"/.dircolors || -L "${HOME}"/.dircolors ]] && \
-        rm "${HOME}"/.dircolors
-    ln -s "${DIR}"/bash/dircolors "${HOME}"/.dircolors
-
     # === rc files ===
     for f in rc/*rc; do
         RC="${HOME}"/.$(basename "${f}")
