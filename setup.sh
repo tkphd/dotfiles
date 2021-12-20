@@ -12,9 +12,9 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         rm "${HOME}"/.bashrc
     ln -s "${DIR}"/bash/bashrc "${HOME}"/.bashrc
 
-    [[ -f "${HOME}"/.bash_profile || -L "${HOME}"/.bash_profile ]] && \
-        rm "${HOME}"/.bash_profile
-    ln -s "${DIR}"/bash/profile "${HOME}"/.bash_profile
+    [[ -f "${HOME}"/.profile || -L "${HOME}"/.profile ]] && \
+        rm "${HOME}"/.profile
+    ln -s "${DIR}"/bash/profile "${HOME}"/.profile
 
     [[ -f "${HOME}"/.dircolors || -L "${HOME}"/.dircolors ]] && \
         rm "${HOME}"/.dircolors
@@ -131,9 +131,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     # === volantes cursor theme ===
     mkdir -p "${HOME}"/.local/share/icons
-    [[ -d "${HOME}"/.local/share/icons/volantes || -L "${HOME}"/.local/share/icons/volantes ]] && \
-        rm -rf "${HOME}"/.local/share/icons/volantes
-    ln -s "${DIR}"/x11/volantes "${HOME}"/.local/share/icons/volantes
+    rsync -a --quiet "${DIR}"/x11/volantes "${HOME}"/.local/share/icons/
 
     xrdb -merge "${HOME}"/.Xresources
 

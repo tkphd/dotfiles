@@ -11,3 +11,6 @@ export VISUAL="${EDITOR}"
     export LESSOPEN="|lesspipe %s"
 # list capitalized folders first
 export LC_COLLATE="C"
+
+# let dmenu find useful things
+export XDG_DATA_DIRS=/usr/share

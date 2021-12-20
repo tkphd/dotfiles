@@ -2,8 +2,17 @@
 # Remove spaces from filenames
 
 for T in d f; do
-    find . -name "* *" -type $T -exec rename 'y/ /-/' "{}" \;
-    find . -name "*(*" -type $T -exec rename 'y/(/-/' "{}" \;
-    find . -name "*)*" -type $T -exec rename 'y/)/-/' "{}" \;
-    find . -name "*-*" -type $T -exec rename 's/-{2,10}/-/g' "{}" \;
+    find . -type $T | \
+    while read X; do
+        if [[ -e "$X" ]]; then
+            A=$(basename "$X")
+            B=$(dirname "$X")
+            O=$(echo "${A}" | tr -s ' ,()[]' '------')
+            O="${O/-./.}"
+            if [[ "${A}" != "${O}" ]]; then
+                echo "Rename ${B}/ ${A} --> ${O}"
+                mv "${B}/${A}" "${B}/${O}"
+            fi
+        fi
+    done
 done
