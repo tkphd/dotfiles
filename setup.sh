@@ -14,7 +14,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     [[ -f "${HOME}"/.profile || -L "${HOME}"/.profile ]] && \
         rm "${HOME}"/.profile
-    ln -s "${DIR}"/bash/profile "${HOME}"/.profile.sh
+    ln -s "${DIR}"/bash/profile.sh "${HOME}"/.profile
 
     [[ -f "${HOME}"/.dircolors || -L "${HOME}"/.dircolors ]] && \
         rm "${HOME}"/.dircolors
