@@ -66,6 +66,8 @@ try:
     status.register(
         "pulseaudio",
         format="♪ {volume}",
+        sink="combined",
+        multi_colors=True,
         hints={"markup": "pango"},
     )
 except:
@@ -73,6 +75,12 @@ except:
     ## Note: requires pyalsaaudio from PyPI
     ##       and libalsaaudio-dev
     status.register("alsa")
+
+status.register("pomodoro",
+                inactive_format="🍅",
+                format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
+                hints={"markup": "pango"},
+                )
 
 # Shows memory usage
 status.register(
