@@ -131,6 +131,7 @@ if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
     alias ccat="${HOME}/bin/color-cat"
     alias pyg="${HOME}/bin/color-cat"
 fi
+alias rm="rm -v"
 alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
 alias rs="rsync -Pavz"
 alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
