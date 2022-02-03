@@ -111,6 +111,7 @@ alias se="sudo emacs -nw"
 alias gdb="gdb -q"
 alias grafana="ssh -L 3000:localhost:3000 mr-french"
 alias grep='grep --color=auto --line-number --with-filename'
+alias gs="git status"
 alias fgrep='fgrep --color=auto --line-number --with-filename'
 alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
@@ -132,6 +133,7 @@ if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
     alias ccat="${HOME}/bin/color-cat"
     alias pyg="${HOME}/bin/color-cat"
 fi
+alias rm="rm -v"
 alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
 alias rs="rsync -Pavz"
 alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
