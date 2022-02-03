@@ -1,23 +1,24 @@
 #!/bin/bash
 # Remove spaces from filenames
 
-D=""
+BASE=""
 
 for T in d f; do
     find . -type $T | \
     while read X; do
         if [[ -e "$X" ]]; then
-            A=$(basename "$X")
-            B=$(dirname "$X")
-            O=$(echo "${A}" | tr -s ' ,()[]&' '------')
-            O="${O/-./.}"
-            if [[ "${B}" != "${D}" ]]; then
-                D="${B}"
-                echo "${D}/:"
+            LEAF=$(basename "$X")  # filename
+            STEM=$(dirname "$X")  # directory name
+            BUD=$(echo "${LEAF}" | tr -s ' ,()[]&!' '------')  # replace special chars
+            BUD="${BUD/-./.}"  # remove trailing '-'
+            BUD="${BUD#-}"  # remove leading '-'
+            if [[ "${STEM}" != "${BASE}" ]]; then
+                BASE="${STEM}"
+                echo "${BASE}/:"
             fi
-            if [[ "${A}" != "${O}" ]]; then
-                echo "  ${A} --> ${O}"
-                mv "${B}/${A}" "${B}/${O}"
+            if [[ "${LEAF}" != "${BUD}" ]]; then
+                echo "  ${LEAF} --> ${BUD}"
+                mv "${STEM}/${LEAF}" "${STEM}/${BUD}"
             fi
         fi
     done
