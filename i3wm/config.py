@@ -12,6 +12,7 @@
 # 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
 from i3pystatus import Status
+from i3pystatus.weather import wunderground
 from os import environ, path, stat
 
 try:
@@ -56,9 +57,29 @@ for disk, icon, unit in disks:
         format='<span size = "x-small">%s</span> {avail} %s' % (icon, unit),
     )
 
-# Shows your CPU temperature, if you have a Intel CPU
-status.register("temp",
-                hints={"markup": "pango"})
+status.register(
+    'weather',
+    format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}%[ {update_error}]',
+    color_icons={'Cloudy': ('☁', '#f8f8ff'),
+                 'Fair': ('☀', '#ffcc00'),
+                 'Fog': ('⛆', '#949494'),
+                 'Mostly Sunny': ('🌤', '#ffff00'),
+                 'Overcast': ('☁', '#f6f6ff'),
+                 'Partly Cloudy': ('🌥', '#fafaff'),
+                 'Rainy': ('⛈', '#cbd2c0'),
+                 'Rain Shower': ('🌦', '#dadfd2'),
+                 'Snow': ('❄', '#ffffff'),
+                 'Sunny': ('☼', '#ffff00'),
+                 'Thunderstorm': ('⛈', '#a2a8990'),
+                 'default': ('', None)},
+    colorize=True,
+    hints={'markup': 'pango'},
+    backend=wunderground.Wunderground(
+        location_code='KMDGERMA56',
+        units='metric',
+        update_error='<span color="#ff1111">!</span>',
+    ),
+)
 
 try:
     ## Shows pulseaudio default sink volume
