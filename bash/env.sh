@@ -78,17 +78,6 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
-# === Kitty ===
-if [[ $(which kitty) == "" ]]; then
-     export TERM="xterm-256color"
-     export TERMINAL="xterm-256color"
-else
-    if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then
-        source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"
-    else
-        source <(kitty + complete setup bash)
-    fi
-fi
 # === LESS ===
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"

@@ -72,19 +72,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s "${DIR}"/i3wm "${HOME}"/.config/i3
 
-    # === kitty ===
-    if [[ -d "${HOME}"/.config/kitty ]]; then
-        rm -rf "${HOME}"/.config/kitty
-    elif [[ -f "${HOME}"/.config/kitty || -L "${HOME}"/.config/kitty ]]; then
-        rm "${HOME}"/.config/kitty
-    fi
-    ln -s "${DIR}"/kitty "${HOME}"/.config/kitty
-
-    mkdir -p "${HOME}"/.terminfo/x
-    [[ -f "${HOME}"/.terminfo/x/xterm-kitty || -L "${HOME}"/.terminfo/x/xterm-kitty ]] && \
-        rm "${HOME}"/.terminfo/x/xterm-kitty
-    ln -s "${DIR}"/kitty/xterm-kitty "${HOME}"/.terminfo/x/xterm-kitty
-
     # === nano ===
     if [[ ! -d "${HOME}/.nano" ]]; then
         NANO_TMP="/tmp/nanorc.zip"
@@ -100,17 +87,14 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ## === tmux ===
     [[ -a "${HOME}/.tmux.conf" ]] && \
         rm "${HOME}/.tmux.conf"
-    ln -s "${DIR}/kitty/tmux.conf" "${HOME}/.tmux.conf"
 
-    ## === urxvt ===
-    if [[ -d "${HOME}"/.urxvt/ext/font-size ]]; then
-        rm -rf "${HOME}"/.urxvt/ext/font-size
-    elif [[ -f "${HOME}"/.urxvt/ext/font-size || -L "${HOME}"/.urxvt/ext/font-size ]]; then
-        rm "${HOME}"/.urxvt/ext/font-size
-    else
-        mkdir -p "${HOME}"/.urxvt/ext/font-size
+    # === urxvt ===
+    if [[ -d "${HOME}"/.urxvt ]]; then
+        rm -rf "${HOME}"/.rxvt
+    elif [[ -f "${HOME}"/.urxvt || -L "${HOME}"/.urxvt ]]; then
+        rm "${HOME}"/.urxvt
     fi
-    ln -s "${DIR}"/i3wm/urxvt-font-size/font-size "${HOME}"/.urxvt/ext/font-size
+    ln -s "${DIR}"/urxvt "${HOME}"/.urxvt
 
     ## === X session ===
     [[ -f "${HOME}"/.Xresources || -L "${HOME}"/.Xresources ]] && \
@@ -132,7 +116,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    for PKG in diff-so-fancy emacs i3 pygmentize urxvt zathura; do
+    for PKG in diff-so-fancy emacs i3 pygmentize urxvt xsel zathura; do
         [[ $(which ${PKG}) == "" ]] && \
             echo "Warning: ${PKG} not found!"
     done
