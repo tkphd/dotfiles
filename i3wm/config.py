@@ -59,18 +59,22 @@ for disk, icon, unit in disks:
 
 status.register(
     'weather',
-    format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}%[ {update_error}]',
-    color_icons={'Cloudy': ('☁', '#f8f8ff'),
-                 'Fair': ('☀', '#ffcc00'),
-                 'Fog': ('⛆', '#949494'),
-                 'Mostly Sunny': ('🌤', '#ffff00'),
-                 'Overcast': ('☁', '#f6f6ff'),
-                 'Partly Cloudy': ('🌥', '#fafaff'),
-                 'Rainy': ('⛈', '#cbd2c0'),
-                 'Rain Shower': ('🌦', '#dadfd2'),
-                 'Snow': ('❄', '#ffffff'),
-                 'Sunny': ('☼', '#ffff00'),
-                 'Thunderstorm': ('⛈', '#a2a8990'),
+    format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% H[ {update_error}]',
+    color_icons={'Cloudy': ('☁', None),  # '#f8f8ff'
+                 'Fair': ('☀', None),  # '#ffcc00'
+                 'Fog': ('⛆', None),  # '#949494'
+                 'Hail Storm': ('🌨', None),  # '#a2a8990'
+                 'Light Rain': ('🌦', None),  # '#dadfd2'
+                 'M Cloudy': ('☁', None),  '#f6f6ff'
+                 'Mostly Sunny': ('🌤', None),  # '#ffff00'
+                 'Overcast': ('☁', None),  # '#f6f6ff'
+                 'Partly Cloudy': ('🌥', None),  # '#fafaff'
+                 'Rain': ('🌧', None),  # '#cbd2c0'
+                 'Rainy': ('🌧', None),  # '#cbd2c0'
+                 'Rain Shower': ('🌦', None),  # '#dadfd2'
+                 'Snow': ('❄', None),  # '#ffffff'
+                 'Sunny': ('☼', None),  # '#ffff00'
+                 'Thunderstorm': ('⛈', None),  # '#a2a8990'
                  'default': ('', None)},
     colorize=True,
     hints={'markup': 'pango'},
