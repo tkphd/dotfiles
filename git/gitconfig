@@ -1,4 +1,5 @@
 [user]
+  name = Trevor Keller
   signingkey = 0x210CD7CA9908C3F6
 
 [include]
@@ -6,12 +7,14 @@
 
 [alias]
   br = branch
+  cf = config --local --list
   cm = commit -m
   co = checkout
   hist = log --graph --full-history --all --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)«%an»%Creset' --date=short
   lgg  = log --graph                      --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)«%an»%Creset' --date=short
   lg =   log --graph --oneline --decorate --all
   st = status
+  work = config --local user.email trevor.keller@nist.gov
 
 [color]
   ui = auto
