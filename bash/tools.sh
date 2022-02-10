@@ -5,6 +5,8 @@ export EDITOR="emacsclient -nw"
 export PAGER="less"
 export READER="zathura"
 export VISUAL="${EDITOR}"
+[ $(which urxvt) ] && \
+    export TERM=rxvt-unicode-256color
 
 # display non-text files with less
 [ -x /usr/bin/lesspipe ] && \

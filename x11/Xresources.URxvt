@@ -1,15 +1,41 @@
-URxvt*termName: screen-256color
-! URxvt*loginShell: true
-! URxvt*mouseWheelScrollPage: true
-! URxvt*background: Black
-! URxvt*foreground: White
-URxvt.letterSpace: -2
-URxvt*font: xft:Fira Code Retina Nerd Font Complete:autohint=true:pixelsize=14
-URxvt*boldFont: xft:Fira Code Retina Nerd Font Complete:bold:autohint=true:pixelsize=14
-URxvt*italicFont: xft:Fira Code Retina Nerd Font Complete:italic:autohint=true:pixelsize=14
-URxvt*boldItalicFont: xft:Fira Code Retina Nerd Font Complete:bold:italic:autohint=true:pixelsize=14
-! URxvt*buffered: true
-! URxvt*hold: false
-! URxvt*print-pipe: cat > $HOME/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
-! URxvt*perl-ext-common:
-! URxvt*perl-ext:
+urxvt.backgroundPixmap: /home/thor/Pictures/Wallpapers/dark-canvas.png
+urxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
+urxvt.mouseWheelScrollPage: true
+
+urxvt.font:           xft:FiraCode Nerd Font Mono:size=12:antialias=true
+urxvt.boldFont:       xft:FiraCode Nerd Font Mono:bold:size=12:antialias=true
+urxvt.italicFont:     xft:FiraCode Nerd Font Mono:italic:antialias=true:size=14
+urxvt.boldItalicFont: xft:FiraCode Nerd Font Mono:bold:italic:antialias=true:size=14
+
+! █▓▒░ change font size dynamically
+urxvt.keysym.C-minus:     resize-font:smaller
+urxvt.keysym.C-plus:      resize-font:bigger
+urxvt.keysym.C-equal:     resize-font:reset
+urxvt.keysym.C-question:  resize-font:show
+
+
+! █▓▒░ tweaks from <https://eirenicon.org/knowledge-base/xterm-urxvt-make-em-look-nicer/>
+
+urxvt.letterSpace:          0
+urxvt.lineSpace:            0
+urxvt.cursorBlink:          true
+urxvt.cursorUnderline:      false
+urxvt.scrollBar:            false
+urxvt.scrollBar_right:      false
+urxvt.urgentOnBell:         true
+urxvt.depth:                24
+urxvt.saveLines:            5000
+
+! Normal copy-paste keybindings  ( ctrl-shift c/v )
+urxvt.iso14755:                   false
+urxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+urxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+!xterm escape codes, word by word movement
+urxvt.keysym.Control-Left:        3[1;5D
+urxvt.keysym.Shift-Control-Left:  3[1;6D
+urxvt.keysym.Control-Right:       3[1;5C
+urxvt.keysym.Shift-Control-Right: 3[1;6C
+urxvt.keysym.Control-Up:          3[1;5A
+urxvt.keysym.Shift-Control-Up:    3[1;6A
+urxvt.keysym.Control-Down:        3[1;5B
+urxvt.keysym.Shift-Control-Down:  3[1;6B

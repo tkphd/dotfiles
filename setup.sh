@@ -90,7 +90,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     # === urxvt ===
     if [[ -d "${HOME}"/.urxvt ]]; then
-        rm -rf "${HOME}"/.rxvt
+        rm -rf "${HOME}"/.urxvt
     elif [[ -f "${HOME}"/.urxvt || -L "${HOME}"/.urxvt ]]; then
         rm "${HOME}"/.urxvt
     fi

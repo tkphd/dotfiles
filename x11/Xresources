@@ -17,7 +17,7 @@
 #include ".dotfiles/x11/Xcolors/dark/material"
 
 
-! █▓▒░ preferred fonts
+! █▓▒░ URxvt particulars
 #include ".dotfiles/x11/Xresources.URxvt"
 
 ! *.font:       xft:Fira Code Retina Nerd Font Complete:pixelsize=14
@@ -26,10 +26,6 @@ XTerm*faceSize: 14
 !XTerm*font:   *-fixed-*-*-*-14-*
 !XTerm*faceName: Fira Code Retina Nerd Font Complete
 !XTerm*faceSize: 14
-
-!URxvt*font:   *-fixed-*-*-*-14-*
-!URxvt*faceName: Fira Code Retina Nerd Font Complete
-!URxvt*faceSize: 14
 
 ! █▓▒░ Xft settings
 #if WIDTH > 3000
@@ -43,7 +39,6 @@ Xft.hinting:   true
 Xft.hintstyle: hintfull
 
 ! █▓▒░ appearance
-! URxvt.letterSpace: -2
 *.lineSpace:   0
 *.urlLauncher: google-chrome
 *.allow_bold:  true
@@ -52,7 +47,6 @@ Xft.hintstyle: hintfull
 *.scrollBar:   off
 
 ! █▓▒░ interaction
-! URxvt.perl-ext-common: ...,font-size
 Xcursor.size:        32
 Xcursor.theme:       volantes
 *.scrollStyle:       rxvt
