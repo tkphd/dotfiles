@@ -54,5 +54,5 @@ Xcursor.theme:       volantes
 *.secondaryScroll:   true
 *.secondaryWheel:    true
 
-!! █▓▒░ URxvt particulars
-!! #include ".dotfiles/x11/Xresources.URxvt"
+! █▓▒░ URxvt particulars
+#include ".dotfiles/x11/Xresources.URxvt"
