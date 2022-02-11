@@ -17,11 +17,6 @@
 ! █▓▒░ color scheme
 #include ".dotfiles/x11/Xcolors/dark/material"
 
-
-! █▓▒░ URxvt particulars
-#include ".dotfiles/x11/Xresources.URxvt"
-
-! *.font:       xft:Fira Code Retina Nerd Font Complete:pixelsize=14
 XTerm*faceSize: 14
 
 !XTerm*font:   *-fixed-*-*-*-14-*
@@ -58,3 +53,6 @@ Xcursor.theme:       volantes
 *.secondaryScreen:   true
 *.secondaryScroll:   true
 *.secondaryWheel:    true
+
+!! █▓▒░ URxvt particulars
+!! #include ".dotfiles/x11/Xresources.URxvt"

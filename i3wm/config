@@ -28,7 +28,7 @@ font pango:LM Sans 12, Font Awesome 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec konsole
 
 # screenshot
 bindsym $mod+Print exec scrot -u $HOME/Pictures/screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
