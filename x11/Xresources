@@ -9,9 +9,10 @@
 ! Modified from <http://github.com/xero/dotfiles/urxvt>
 
 ! █▓▒░ foundation
-*.termName:  xterm
-*.iso14755:  false
-*.saveLines: 10000
+*.termName:    rxvt
+*.iso14755:    false
+*.iso14755_52: false
+*.saveLines:   5000
 
 ! █▓▒░ color scheme
 #include ".dotfiles/x11/Xcolors/dark/material"
@@ -40,7 +41,7 @@ Xft.hintstyle: hintfull
 
 ! █▓▒░ appearance
 *.lineSpace:   0
-*.urlLauncher: google-chrome
+*.url-launcher: /usr/bin/xdg-open
 *.allow_bold:  true
 *.buffered:    true
 *.visualBell:  true
