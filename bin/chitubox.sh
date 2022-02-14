@@ -2,12 +2,12 @@
 
 ulimit -s unlimited
 
-SYMLINK=/usr/local/bin/CHITUBOX
-CHITDIR=$(dirname $(readlink ${SYMLINK}))
+VER=1.9.1
 
-echo "Chitubox resides at ${CHITDIR}"
+SYMLINK=${HOME}/Downloads/chitubox/v${VER}/CHITUBOX
+CHITDIR=$(dirname ${SYMLINK})
 
-cd "${CHITDIR}"
+cd "${CHITDIR}" || exit
 
 export DE=lxde
 export LD_LIBRARY_PATH="${CHITDIR}/lib:${LD_LIBRARY_PATH}"
