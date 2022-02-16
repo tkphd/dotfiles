@@ -59,8 +59,8 @@ set smooth
 set tabsize 4
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
-
-set trimblanks
+ 
+# set trimblanks
 
 ## Paint the interface elements of nano.  These are examples;
 ## by default there are no colors, except for errorcolor.
