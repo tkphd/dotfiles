@@ -9,19 +9,13 @@
 ! Modified from <http://github.com/xero/dotfiles/urxvt>
 
 ! █▓▒░ foundation
-*.termName:    rxvt
+! *.termName:    rxvt
 *.iso14755:    false
 *.iso14755_52: false
 *.saveLines:   5000
 
 ! █▓▒░ color scheme
 #include ".dotfiles/x11/Xcolors/dark/material"
-
-XTerm*faceSize: 14
-
-!XTerm*font:   *-fixed-*-*-*-14-*
-!XTerm*faceName: Fira Code Retina Nerd Font Complete
-!XTerm*faceSize: 14
 
 ! █▓▒░ Xft settings
 #if WIDTH > 3000
@@ -34,25 +28,33 @@ Xft.rgba:      rgb
 Xft.hinting:   true
 Xft.hintstyle: hintfull
 
-! █▓▒░ appearance
-*.lineSpace:   0
-*.url-launcher: /usr/bin/xdg-open
-*.allow_bold:  true
-*.buffered:    true
-*.visualBell:  true
-*.scrollBar:   off
+! █▓▒░ prettier cursors
+Xcursor.size:  32
+Xcursor.theme: volantes
+*.mouseWheelScrollPage: true
 
-! █▓▒░ interaction
-Xcursor.size:        32
-Xcursor.theme:       volantes
-*.scrollStyle:       rxvt
+! █▓▒░ appearance
+! with tweaks from <https://eirenicon.org/knowledge-base/xterm-urxvt-make-em-look-nicer/>
+*.allow_bold:        true
+*.buffered:          true
+*.cursorBlink:       true
+*.cursorUnderline:   false
+*.depth:             32
+*.faceSize:          14
+*.internalBorder:    15
 *.jumpScroll:        true
+*.lineSpace:         0
+*.loginShell:        true
+*.scrollBar:         false
+*.scrollBar_right:   false
 *.scrollTtyOutput:   false
 *.scrollTtyKeypress: true
 *.scrollWithBuffer:  true
 *.secondaryScreen:   true
 *.secondaryScroll:   true
 *.secondaryWheel:    true
+*.url-launcher:      /usr/bin/xdg-open
+*.visualBell:        true
 
 ! █▓▒░ URxvt particulars
-#include ".dotfiles/x11/Xresources.URxvt"
+! #include ".dotfiles/x11/Xresources.URxvt"
