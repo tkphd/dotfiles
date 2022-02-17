@@ -81,6 +81,12 @@ export KDEWM=/usr/bin/i3
 # === LESS ===
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
+# === Lmod ===
+if [[ -d /working/${USER}/modules/modulefiles ]]; then
+    [[ -f /etc/profile.d/lmod.sh ]] && \
+        source /etc/profile.d/lmod.sh
+    module use /working/${USER}/modules/modulefiles
+fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
