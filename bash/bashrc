@@ -3,13 +3,13 @@
 
 # Unless we're interactive, do nothing
 case $- in
-	*i*) ;;
-	*) return;;
+	*i*)
+        # interactive: disable locking terminal with Ctrl-S
+        stty -ixon;;
+	*)
+        # non-interactive: do no more
+        return;;
 esac
-
-# disable Ctrl-S <https://twitter.com/thingskatedid/status/1348860793618456581>
-[[ $- == *i* ]] && \
-    stty -ixon
 
 # detect chroot environment
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
