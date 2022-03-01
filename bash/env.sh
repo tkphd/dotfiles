@@ -13,17 +13,19 @@
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda ===
-if [[ -a "${HOME}/.conda/anaconda" ]]; then
-    export CONDAPATH=$(readlink -f "${HOME}/.conda/anaconda")
-    __conda_setup=$("${CONDAPATH}/bin/conda" shell.bash hook 2> /dev/null)
-    if [[ $? -eq 0 ]]; then
-        eval "${__conda_setup}"
-    else
-        [[ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]] && \
-            source "${CONDAPATH}/etc/profile.d/conda.sh"
+function condaload {
+    if [[ -a "${HOME}/.conda/anaconda" ]]; then
+        export CONDAPATH=$(readlink -f "${HOME}/.conda/anaconda")
+        __conda_setup=$("${CONDAPATH}/bin/conda" shell.bash hook 2> /dev/null)
+        if [[ $? -eq 0 ]]; then
+            eval "${__conda_setup}"
+        else
+            [[ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]] && \
+                source "${CONDAPATH}/etc/profile.d/conda.sh"
+        fi
+        unset __conda_setup
     fi
-    unset __conda_setup
-fi
+}
 # === CUDA ===
 [[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
     source "${HOME}/.dotfiles/local/cudarch.sh"
@@ -82,11 +84,10 @@ export KDEWM=/usr/bin/i3
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
 # === Lmod ===
-if [[ -d /working/${USER}/modules/modulefiles ]]; then
+[[ -d /working/${USER}/modules/modulefiles ]] && \
     [[ -f /etc/profile.d/lmod.sh ]] && \
-        source /etc/profile.d/lmod.sh
-    module use /working/${USER}/modules/modulefiles
-fi
+        source /etc/profile.d/lmod.sh && \
+        module use /working/${USER}/modules/modulefiles
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"

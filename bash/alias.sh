@@ -147,9 +147,31 @@ alias sq="squeue --start -o \"%7i %11j %3t %7q %11P %9Q %6D %5C %20S %12L %17R %
 alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
 alias sshkeygen="ssh-keygen -t ed25519 -a 100"
-alias ssr="ssh -l root -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su"
-alias ssm="ssh -l machine -i ${HOME}/.ssh/machine_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine"
+function ssr {
+    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+        echo "${GREEN}ssr${DEFAULT}: SSH to the specified host as ${RED}root${DEFAULT}"
+        echo "«Usage:»$ ssr host"
+    else
+        ssh -A \
+            -i /root/.ssh/id_rsa \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
+            root@$1
+    fi
+}
+function ssm {
+    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+        echo "${GREEN}ssm${DEFAULT}: SSH to the specified host as ${MAGENTA}machine${DEFAULT}"
+        echo "«Usage:»$ ssm host"
+    else
+        ssh -A \
+            -i ${HOME}/.ssh/machine_rsa \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
+            machine@$1
+    fi
+
+}
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
+alias trinket="screen /dev/ttyACM0 115200"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wget="wget -d -c --tries=0 --read-timeout=30"
 alias win="sudo intel_gpu_top -s 100"
