@@ -2,11 +2,11 @@
 # ~/.profile: executed by the command interpreter for login shells.
 # Ignored if either ~/.bash_profile or ~/.bash_login exists.
 
-# if [ -n "${BASH_VERSION}" ]; then
-#     if [[ -e "${HOME}/.bashrc" ]]; then
-#         . "${HOME}/.bashrc"
-#     fi
-# fi
+if [ -n "${BASH_VERSION}" ]; then
+    if [[ -e "${HOME}/.bashrc" ]]; then
+        . "${HOME}/.bashrc"
+    fi
+fi
 
 # export LANGUAGE="en_US:en"
 # export LC_MESSAGES="en_US.UTF-8"
