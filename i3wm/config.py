@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-### Notice:
 # To feed local machine configuration variables into this script,
 # create "machine.py" in this directory with key-value pairs, e.g.
 #
@@ -86,8 +85,8 @@ status.register(
 )
 
 try:
-    ## Shows pulseaudio default sink volume
-    ## Note: requires libpulseaudio from PyPI
+    # Shows pulseaudio default sink volume
+    # Note: requires libpulseaudio from PyPI
     status.register(
         "pulseaudio",
         format="♪ {volume}",
@@ -96,16 +95,21 @@ try:
         hints={"markup": "pango"},
     )
 except:
-    ## Shows alsaaudio default sink volume
-    ## Note: requires pyalsaaudio from PyPI
-    ##       and libalsaaudio-dev
+    # Shows alsaaudio default sink volume
+    # Note: requires pyalsaaudio from PyPI
+    #       and libalsaaudio-dev
     status.register("alsa")
 
-status.register("pomodoro",
-                inactive_format="🍅",
-                format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
-                hints={"markup": "pango"},
-                )
+status.register(
+    "pomodoro",
+    pomodoro_duration=3000,
+    break_duration=600,
+    long_break_duration=1800,
+    short_break_count=2,
+    inactive_format="🍅",
+    format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
+    hints={"markup": "pango"},
+)
 
 # Shows memory usage
 status.register(
