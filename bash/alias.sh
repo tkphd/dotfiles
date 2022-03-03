@@ -117,6 +117,7 @@ alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
+alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI" # first, kinit root/admin
 alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
@@ -147,28 +148,26 @@ alias sq="squeue -o \"%7i %11j %3t %7q %11P %9Q %6D %5C %20S %12L %17R %Y\" -u t
 alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
 alias sshkeygen="ssh-keygen -t ed25519 -a 100"
-function ssr {
-    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
-        echo "${GREEN}ssr${DEFAULT}: SSH to the specified host as ${RED}root${DEFAULT}"
-        echo "«Usage:»$ ssr host"
-    else
-        ssh -A \
-            -i /root/.ssh/id_rsa \
-            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
-            root@$1
-    fi
-}
 function ssm {
     if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
-        echo "${GREEN}ssm${DEFAULT}: SSH to the specified host as ${MAGENTA}machine${DEFAULT}"
+        echo -e "\e[0;32mssm\e[0;39m: SSH to the specified host as \e[0;35mmachine\e[0;39m"
         echo "«Usage:»$ ssm host"
     else
         ssh -A \
-            -i ${HOME}/.ssh/machine_rsa \
             -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
             machine@$1
     fi
 
+}
+function ssr {
+    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+        echo -e "\e[0;32mssr\e[0;39m: SSH to the specified host as \e[0;31mroot\e[0;39m"
+        echo "«Usage:»$ ssr host"
+    else
+        ssh -A \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
+            root@$1
+    fi
 }
 alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
 alias trinket="screen /dev/ttyACM0 115200"
@@ -250,5 +249,3 @@ function pomodoro {
         echo "Quartet of pomodoros ran ${cycrun} min"
     fi
 }
-# to use, kinit root/admin
-alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI"
