@@ -33,15 +33,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         ln -s "$(pwd)/${f}" "${link}"
     done
 
-    # === conda ===
-    [[ -f "${HOME}"/.condarc || -L "${HOME}"/.condarc ]] && \
-        rm "${HOME}"/.condarc
-    ln -s "${DIR}"/conda/condarc "${HOME}"/.condarc
-
-    [[ -f "${HOME}"/.mambarc || -L "${HOME}"/.mambarc ]] && \
-        rm "${HOME}"/.mambarc
-    ln -s "${DIR}"/conda/mambarc "${HOME}"/.mambarc
-
     # === emacs ===
     if [[ -d "${HOME}"/.emacs.d ]]; then
         rm -rf "${HOME}"/.emacs.d
@@ -116,7 +107,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    for PKG in diff-so-fancy emacs i3 pygmentize urxvt xsel zathura; do
+    for PKG in diff-so-fancy emacs-nox i3 pygmentize urxvt xsel zathura; do
         [[ $(which ${PKG}) == "" ]] && \
             echo "Warning: ${PKG} not found!"
     done
