@@ -108,7 +108,7 @@ export PYTHONOPTIMIZE=2
 export PYTHONPYCACHEPREFIX=/tmp/${USER}/pycache
 export PYTHONWARNINGS=default
 [[ ! -d ${PYTHONPYCACHEPREFIX} ]] && \
-    mkdir ${PYTHONPYCACHEPREFIX}
+    mkdir -p ${PYTHONPYCACHEPREFIX}
 # === Qt ===
 export QT_XKB_CONFIG_ROOT="/usr/share/X11/xkb"
 if [[ -d "/usr/local/lib/plugins/platforms" ]]; then
