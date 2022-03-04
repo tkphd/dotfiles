@@ -11,7 +11,6 @@
 # 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
 from i3pystatus import Status
-from i3pystatus.weather import wunderground
 from os import environ, path, stat
 
 try:
@@ -56,33 +55,40 @@ for disk, icon, unit in disks:
         format='<span size = "x-small">%s</span> {avail} %s' % (icon, unit),
     )
 
-status.register(
-    'weather',
-    format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% H[ {update_error}]',
-    color_icons={'Cloudy': ('☁', None),  # '#f8f8ff'
-                 'Fair': ('☀', None),  # '#ffcc00'
-                 'Fog': ('⛆', None),  # '#949494'
-                 'Hail Storm': ('🌨', None),  # '#a2a8990'
-                 'Light Rain': ('🌦', None),  # '#dadfd2'
-                 'M Cloudy': ('☁', None),  '#f6f6ff'
-                 'Mostly Sunny': ('🌤', None),  # '#ffff00'
-                 'Overcast': ('☁', None),  # '#f6f6ff'
-                 'Partly Cloudy': ('🌥', None),  # '#fafaff'
-                 'Rain': ('🌧', None),  # '#cbd2c0'
-                 'Rainy': ('🌧', None),  # '#cbd2c0'
-                 'Rain Shower': ('🌦', None),  # '#dadfd2'
-                 'Snow': ('❄', None),  # '#ffffff'
-                 'Sunny': ('☼', None),  # '#ffff00'
-                 'Thunderstorm': ('⛈', None),  # '#a2a8990'
-                 'default': ('', None)},
-    colorize=True,
-    hints={'markup': 'pango'},
-    backend=wunderground.Wunderground(
-        location_code='KMDGERMA56',
-        units='metric',
-        update_error='<span color="#ff1111">!</span>',
-    ),
-)
+try:
+    from i3pystatus.weather import wunderground
+    status.register(
+        'weather',
+        format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% H[ {update_error}]',
+        color_icons={'Cloudy': ('☁', None),  # '#f8f8ff'
+                     'Fair': ('☀', None),  # '#ffcc00'
+                     'Fog': ('⛆', None),  # '#949494'
+                     'Hail Storm': ('🌨', None),  # '#a2a8990'
+                     'Light Rain': ('🌦', None),  # '#dadfd2'
+                     'M Cloudy': ('☁', None),  '#f6f6ff'
+                     'Mostly Sunny': ('🌤', None),  # '#ffff00'
+                     'Overcast': ('☁', None),  # '#f6f6ff'
+                     'Partly Cloudy': ('🌥', None),  # '#fafaff'
+                     'Rain': ('🌧', None),  # '#cbd2c0'
+                     'Rainy': ('🌧', None),  # '#cbd2c0'
+                     'Rain Shower': ('🌦', None),  # '#dadfd2'
+                     'Snow': ('❄', None),  # '#ffffff'
+                     'Sunny': ('☼', None),  # '#ffff00'
+                     'Thunderstorm': ('⛈', None),  # '#a2a8990'
+                     'default': ('', None)},
+        colorize=True,
+        hints={'markup': 'pango'},
+        backend=wunderground.Wunderground(
+            location_code='KMDGERMA56',
+            units='metric',
+            update_error='<span color="#ff1111">!</span>',
+        ),
+    )
+except:
+    status.register(
+        "text",
+        text="🌪"
+    )
 
 try:
     # Shows pulseaudio default sink volume
