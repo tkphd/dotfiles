@@ -66,14 +66,19 @@ function tea {
 
 function update-conda {
     # Update Anaconda Python and all its virtual environments
-    if [[ -d ~/.conda ]]; then
-        echo "=== Updating conda base ==="
-        mamba update --yes --quiet conda
-        mamba update -n base --yes --quiet --all
+    echo "=== Updating conda base ==="
+    mamba update -n base --yes --all
+    if [[ -a ~/.conda/anaconda ]]; then
         for dir in "${HOME}"/.conda/anaconda/envs/*; do
             name=$(basename "${dir}")
             echo -e "\n=== Updating ${name} env ===\n"
-            mamba update -n "${name}" --yes --quiet --all
+            mamba update -n "${name}" --yes --all
+        done
+    elif [[ -a /Valhalla/opt/mambaforge ]]; then
+        for dir in /Valhalla/opt/mambaforge/envs/*; do
+            name=$(basename "${dir}")
+            echo -e "\n=== Updating ${name} env ===\n"
+            mamba update -n "${name}" --yes --all
         done
     fi
 }
@@ -122,6 +127,8 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
+alias mambact="mamba activate"
+alias mambde="mamba deactivate"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"

@@ -26,6 +26,22 @@ if [[ -a "${HOME}/.conda/anaconda" ]]; then
         fi
     fi
     unset __conda_setup
+elif [[ -a /Valhalla/opt/mambaforge ]]; then
+    __conda_setup="$('/Valhalla/opt/mambaforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/Valhalla/opt/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "/Valhalla/opt/mambaforge/etc/profile.d/conda.sh"
+        else
+            export PATH="/Valhalla/opt/mambaforge/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+
+    if [ -f "/Valhalla/opt/mambaforge/etc/profile.d/mamba.sh" ]; then
+        . "/Valhalla/opt/mambaforge/etc/profile.d/mamba.sh"
+    fi
 fi
 # === CUDA ===
 [[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
@@ -104,7 +120,6 @@ if [[ -f "/opt/pgi/license.dat" ]]; then
     export PATH="${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin"
 fi
 # === Python ===
-export PYTHONOPTIMIZE=2
 export PYTHONPYCACHEPREFIX=/tmp/${USER}/pycache
 export PYTHONWARNINGS=default
 [[ ! -d ${PYTHONPYCACHEPREFIX} ]] && \
