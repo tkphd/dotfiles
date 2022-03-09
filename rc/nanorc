@@ -10,26 +10,21 @@
 ## Automatically indent a newly created line to the same number of
 ## tabs and/or spaces as the preceding line -- or as the next line
 ## if the preceding line is the beginning of a paragraph.
-
 set autoindent
 
 ## Constantly display the cursor position in the status bar.  Note that
 ## this overrides "quickblank".
-
 set constantshow
 
 ## Set the line length for wrapping text and justifying paragraphs.
 ## If the value is 0 or less, the wrapping point will be the screen
 ## width less this number.
-
-set fill 79
+# set fill 79
 
 ## Remember the used search/replace strings for the next session.
-
-set historylog
+# set historylog
 
 ## Display line numbers to the left of the text.
-
 set linenumbers
 
 ## The opening and closing brackets that can be found by bracket
@@ -38,8 +33,7 @@ set linenumbers
 set matchbrackets "(<[{)>]}"
 
 ## Use the blank line below the title bar as extra editing space.
-
-set morespace
+# set morespace
 
 ## Don't wrap text at all.
 # set nowrap
@@ -47,19 +41,15 @@ set morespace
 ## Make the Home key smarter.  When Home is pressed anywhere but at the
 ## very beginning of non-whitespace characters on a line, the cursor
 ## will jump to that beginning (either forwards or backwards).
-
 set smarthome
 
 ## Use smooth scrolling as the default.
-
 set smooth
 
 ## Use this tab size instead of the default; it must be greater than 0.
-
 set tabsize 4
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
- 
 # set trimblanks
 
 ## Paint the interface elements of nano.  These are examples;
