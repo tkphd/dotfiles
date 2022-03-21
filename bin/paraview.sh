@@ -1,13 +1,17 @@
 #!/bin/bash
 
 ulimit -s unlimited
-export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
+export OMP_NUM_THREADS=4
 
-CONDAPATH="${HOME}/.conda/anaconda"
-source "${CONDAPATH}/etc/profile.d/conda.sh"
+if [[ -a ${CONDAPATH} ]]; then
+    for script in ${CONDAPATH}/etc/profile.d/{conda,mamba}.sh; do
+        [[ -f "${script}" ]] && \
+            source "${script}"
+    done
 
-conda activate paraview
+    mamba activate paraview
 
-paraview
+    paraview
 
-conda deactivate
+    mamba deactivate
+fi
