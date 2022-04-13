@@ -97,11 +97,10 @@ fi
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
-alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 10h /root/.ssh/id_rsa; stty echo'"
+alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_rsa; stty echo'"
+alias addvroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_ed25519; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
-alias condact="conda activate"
-alias condeact="conda deactivate"
 alias curl="curl -L -C -"
 alias ddp="sudo dd bs=4M conv=fsync status=progress"
 alias dir='dir --color=auto'
@@ -127,8 +126,6 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
-alias mambact="mamba activate"
-alias mambde="mamba deactivate"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"
@@ -176,7 +173,19 @@ function ssr {
             root@$1
     fi
 }
-alias time="/usr/bin/time -f' Time (%E wall, %U user, %S sys)'"
+function ssv {
+    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+        echo -e "\e[0;32mssm\e[0;39m: SSH to the specified host as \e[0;35mroot\e[0;39m"
+        echo "«Usage:»$ ssv host"
+    else
+        ssh -A \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_vc \
+            -i /root/.ssh/id_ed25519 \
+            root@$1
+    fi
+
+}
+alias time="/usr/bin/time -f'\n   %E 〔%e𝑠 wall,  %U𝑠 user,  %S𝑠 sys,  %M KB,  %F faults,  %c switches〕'"
 alias trinket="screen /dev/ttyACM0 115200"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wget="wget -d -c --tries=0 --read-timeout=30"
