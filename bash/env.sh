@@ -74,7 +74,7 @@ if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
         export OMPI_MCA_opal_cuda_support=true # enable OpenMPI CUDA awareness
 fi
 # === Emacs ===
-export EMACSD="/tmp/emacs-${USER}"
+export EMACSD="/tmp/${USER}/emacs"
 export EMACSBD="${EMACSD}/backups"
 export EMACSSD="${EMACSD}/saves"
 if [[ ! -d "${EMACSD}" ]]; then
