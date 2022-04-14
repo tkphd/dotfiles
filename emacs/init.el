@@ -12,6 +12,7 @@
 (add-to-list 'exec-path "~/bin") ;; put global in there
 (add-to-list 'load-path "~/.emacs.d/custom")
 (setq exec-path (cons "/usr/local/bin" exec-path))
+(setq backup-directory-alist '(("." . (substitute-in-file-name "/tmp/${USER}/emacs"))))
 (require 'subr-x)
 
 (when (and (version<  "25" emacs-version)

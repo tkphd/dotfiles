@@ -32,3 +32,5 @@ function loadrvm {
     [ -s "$HOME/.rvm/scripts/rvm" ] && \
         . "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 }
+
+if [ -e /users/tnk10/.nix-profile/etc/profile.d/nix.sh ]; then . /users/tnk10/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
