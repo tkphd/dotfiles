@@ -12,40 +12,36 @@
     export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
-# === Conda ===
-if [[ -a "${HOME}/.conda/anaconda" ]]; then
-    CONDAPATH=$(readlink -f "${HOME}/.conda/anaconda")
-    __conda_setup="$('${CONDAPATH}/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
-            . "${CONDAPATH}/etc/profile.d/conda.sh"
-        else
-            export PATH="${CONDAPATH}/bin:$PATH"
+# === Conda & Mamba ===
+for TRYME in "/toolbox/${USER}/opt/mambaforge" "/working/${USER}/opt/mambaforge" "/Valhalla/opt/mambaforge";
+do
+    if [[ -z $CONDAPATH ]]; then
+        if [[ -a "${TRYME}" ]]; then
+            CONDAPATH="${TRYME}"
+            __conda_setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
+           if [ $? -eq 0 ]; then
+               eval "$__conda_setup"
+           else
+               if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
+                   . "${CONDAPATH}/etc/profile.d/conda.sh"
+               else
+                   export PATH="${CONDAPATH}/bin:$PATH"
+               fi
+           fi
+           unset __conda_setup
+           if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
+               . "${CONDAPATH}/etc/profile.d/mamba.sh"
+               alias mambact="mamba activate"
+               alias deact="mamba deactivate"
+           else
+               alias condact="conda activate"
+               alias deact="conda deactivate"
+           fi
+           export CONDAPATH
         fi
     fi
-    unset __conda_setup
-    export CONDAPATH
-elif [[ -a "/working/${USER}/opt/mambaforge" ]]; then
-    CONDAPATH="/working/${USER}/opt/mambaforge"
-    __conda_setup="$('${CONDAPATH}/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
-            . "${CONDAPATH}/etc/profile.d/conda.sh"
-        else
-            export PATH="${CONDAPATH}/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
+done
 
-    if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
-        . "${CONDAPATH}/etc/profile.d/mamba.sh"
-    fi
-    export CONDAPATH
-fi
 # === CUDA ===
 [[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
     source "${HOME}/.dotfiles/local/cudarch.sh"
@@ -114,8 +110,6 @@ export PATH="${PATH}:${MMSP_PATH}/utility"
 # === NIX ===
 [[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && \
     source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-# === OpenMP ===
-export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
 # === PGI ===
 if [[ -f "/opt/pgi/license.dat" ]]; then
     export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"
@@ -155,35 +149,18 @@ fi
 [[ -e "${HOME}/.cargo/env" ]] && \
     source "${HOME}/.cargo/env"
 # === Singularity ===
-export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
-export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
-if [[ -d "/working" ]]; then
+if [[ -d "/working/${USER}" ]]; then
+    export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
+    export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
     [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
     [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 fi
-## === Spack ===
-#export SPACK_SKIP_MODULES=1
-#if [[ -d "/working/${USER}/repositories/spack" ]]; then
-#    source "/working/${USER}/repositories/spack/share/spack/setup-env.sh"
-#elif [[ -d "${HOME}/repositories/spack/share/spack" ]]; then
-#    source "${HOME}/repositories/spack/share/spack/setup-env.sh"
-#fi
-#if [[ $(which spack) != "" ]]; then
-#    export MPLBACKEND=agg
-#    export OPENBLAS_NUM_THREADS=1
-#    export OMPI_MCA_rmaps_base_oversubscribe=1
-#    export OMPI_MCA_plm=isolated
-#    export OMPI_MCA_btl_vader_single_copy_mechanism=none
-#    export OMPI_MCA_mpi_yield_when_idle=1
-#    export OMPI_MCA_hwloc_base_binding_policy=none
-#fi
 # === SUDO ===
 export SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
 # === SSH ===
 export SSH_ASKPASS="/usr/bin/ssh-askpass"
 # === Systemd ===
-# Disable systemctl's auto-paging feature:
-export SYSTEMD_PAGER=
+export SYSTEMD_PAGER=  # disable systemctl's auto-paging feature
 # === Thermo-Calc ===
 if [[ -d "${HOME}/Thermo-Calc/2020a/" ]]; then
     export TC20A_HOME="${HOME}/Thermo-Calc/2020a/"
@@ -196,8 +173,5 @@ if [[ $(hostname -s) == "p859561" ]]; then
     unset MAIL
     export CHROME_CONFIG_HOME="/usr/local/${USER}"
     export CHROME_USER_DATA_HOME="/usr/local/${USER}/google-chrome"
-    export AMGX_DIR="/usr/local/${USER}/opt/AMGX"
-    #export GSL_PATH="${HOME}/.conda/envs/mmsp/include"
-    #export MPI_PATH="${HOME}/.conda/envs/mmsp/include"
     export LIBGL_ALWAYS_INDIRECT=1
 fi
