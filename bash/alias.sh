@@ -154,24 +154,31 @@ alias ss="squeue --start -u ${USER}"
 alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
 alias sshkeygen="ssh-keygen -t ed25519 -a 100"
 function ssm {
-    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+    if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
         echo -e "\e[0;32mssm\e[0;39m: SSH to the specified host as \e[0;35mmachine\e[0;39m"
         echo "«Usage:»$ ssm host"
-    else
-        ssh -A \
+    elif [[ $# == 1 ]]; then
+        ssh -A -l machine \
             -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
-            machine@$1
+            $1
+    else
+        ssh -A -l machine \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
+            $@
     fi
-
 }
 function ssr {
     if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
         echo -e "\e[0;32mssr\e[0;39m: SSH to the specified host as \e[0;31mroot\e[0;39m"
         echo "«Usage:»$ ssr host"
-    else
-        ssh -A \
+    elif [[ $# == 1 ]]; then
+        ssh -A -l root \
             -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
-            root@$1
+            $1
+    else
+        ssh -A -l root \
+            -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_su \
+            $@
     fi
 }
 function ssv {
