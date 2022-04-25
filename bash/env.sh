@@ -96,14 +96,17 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === KDE ===
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
-# === LESS ===
+# === less ===
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
 # === Lmod ===
-[[ -d /working/${USER}/modules/modulefiles ]] && \
-    [[ -f /etc/profile.d/lmod.sh ]] && \
-        source /etc/profile.d/lmod.sh && \
-        module use /working/${USER}/modules/modulefiles
+if [[ -f /etc/profile.d/lmod.sh ]]; then
+    source /etc/profile.d/lmod.sh
+    for DIR in /toolbox /working; do
+        [[ -d ${DIR}/${USER}/modules/modulefiles ]] && \
+            module use ${DIR}/${USER}/modules/modulefiles
+    done
+fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
