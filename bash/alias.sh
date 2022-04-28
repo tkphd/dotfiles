@@ -169,7 +169,7 @@ function ssm {
     fi
 }
 function ssr {
-    if [[ $# != 1 || $1 == "--help" || $1 == "-h" ]]; then
+    if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
         echo -e "\e[0;32mssr\e[0;39m: SSH to the specified host as \e[0;31mroot\e[0;39m"
         echo "«Usage:»$ ssr host"
     elif [[ $# == 1 ]]; then
