@@ -113,9 +113,22 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     else
         rustup update
     fi
-    for PKG in ag choose difftastic du-dust exa git-delta ripgrep sd xsv; do
-        cargo install "${PKG}"
-    done
+    cargo install ag choose difftastic du-dust exa git-delta ripgrep sd xsv
+
+    # === node utilities ===
+    if [[ ! -d "${HOME}/.nvm" ]]; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+        [ -s "${NVM_DIR}/nvm.sh" ] && \
+            . "${NVM_DIR}/nvm.sh"  # This loads nvm
+        [ -s "${NVM_DIR}/bash_completion" ] && \
+            . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+        nvm install --lts
+        nvm use --lts
+        nvm alias default latest
+    fi
+    if [[ -d "${HOME}/.npm" ]]; then
+        npm install --global markdownlint-cli tldr yarn 2&>/dev/null # don't tell me about audit errors
+    fi
 
 else
     echo "No changes were made."

@@ -112,6 +112,14 @@ export PATH="${PATH}:${MMSP_PATH}/utility"
 # === NIX ===
 [[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && \
     source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+# === Node ===
+if [[ -d "${HOME}/.nvm" ]]; then
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "${NVM_DIR}/nvm.sh" ] && \
+        . "${NVM_DIR}/nvm.sh"  # This loads nvm
+    [ -s "${NVM_DIR}/bash_completion" ] && \
+        . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+fi
 # === PGI ===
 if [[ -f "/opt/pgi/license.dat" ]]; then
     export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"
