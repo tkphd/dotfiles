@@ -98,7 +98,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     mkdir -p "${HOME}"/.local/share/icons
     rsync -a --quiet "${DIR}"/x11/volantes "${HOME}"/.local/share/icons/
 
-    xrdb -merge "${HOME}"/.Xresources
+    [[ "$(which xrdb)" != "" ]] && \
+        xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
     for PKG in diff-so-fancy direnv duf emacs-nox fzf i3 lnav mdp plocate pygmentize tig urxvt visidata xsel zathura; do
@@ -108,6 +109,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     # === rust utilities ===
     # h/t Julia Evans <https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/>
+    [[ -f "${HOME}/.cargo/env" ]] && \
+        . "${HOME}/.cargo/env"
     if [[ ! -d "${HOME}/.cargo" ]]; then
         curl --proto '=https' --tlsv1.2 -sSf https://static.rust-lang.org/rustup/rustup-init.sh | sh
     else
