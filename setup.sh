@@ -70,14 +70,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
         wget -O "${NANO_TMP}" https://github.com/scopatz/nanorc/archive/master.zip
         mkdir -p "${NANO_DIR}" || exit
-        "${HOME}"/bin/unpack "${NANO_TMP}" "${NANO_DIR}"
-        mv "${NANO_DIR}"/nanorc-master/* "${NANO_DIR}/"
-        rm -rf "${NANO_DIR}/nanorc-master"
+        unzip -d "${NANO_DIR}" -f -j "${NANO_TMP}" && rm "${NANO_TMP}"
     fi
-
-    ## === tmux ===
-    [[ -a "${HOME}/.tmux.conf" ]] && \
-        rm "${HOME}/.tmux.conf"
 
     # === urxvt ===
     if [[ -d "${HOME}"/.urxvt ]]; then
@@ -107,10 +101,22 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    for PKG in diff-so-fancy emacs-nox i3 pygmentize urxvt xsel zathura; do
+    for PKG in diff-so-fancy direnv duf emacs-nox fzf i3 lnav mdp plocate pygmentize tig urxvt visidata xsel zathura; do
         [[ $(which ${PKG}) == "" ]] && \
             echo "Warning: ${PKG} not found!"
     done
+
+    # === rust utilities ===
+    # h/t Julia Evans <https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/>
+    if [[ ! -d "${HOME}/.cargo" ]]; then
+        curl --proto '=https' --tlsv1.2 -sSf https://static.rust-lang.org/rustup/rustup-init.sh | sh
+    else
+        rustup update
+    fi
+    for PKG in ag choose difftastic du-dust exa git-delta ripgrep sd xsv; do
+        cargo install "${PKG}"
+    done
+
 else
     echo "No changes were made."
 fi

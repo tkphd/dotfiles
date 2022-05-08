@@ -17,10 +17,10 @@ for TRYME in "/toolbox/${USER}/opt/mambaforge" "/working/${USER}/opt/mambaforge"
 do
     if [[ -z $CONDAPATH ]]; then
         if [[ -a "${TRYME}" ]]; then
-            CONDAPATH="${TRYME}"
-            __conda_setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
+           CONDAPATH="${TRYME}"
+           __setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
            if [ $? -eq 0 ]; then
-               eval "$__conda_setup"
+               eval "$__setup"
            else
                if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
                    . "${CONDAPATH}/etc/profile.d/conda.sh"
@@ -28,7 +28,7 @@ do
                    export PATH="${CONDAPATH}/bin:$PATH"
                fi
            fi
-           unset __conda_setup
+           unset __setup
            if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
                . "${CONDAPATH}/etc/profile.d/mamba.sh"
                alias mambact="mamba activate"
@@ -41,7 +41,6 @@ do
         fi
     fi
 done
-
 # === CUDA ===
 [[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
     source "${HOME}/.dotfiles/local/cudarch.sh"

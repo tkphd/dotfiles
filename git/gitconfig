@@ -39,12 +39,17 @@
 
 [core]
   editor = "/usr/bin/emacsclient -t"
-  pager = diff-so-fancy | less --tabs=4 -RFX
+  # pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta
   autocrlf = input
 
+[delta]
+  navigate = true  # use n and N to move between diff sections
+
 [diff]
-	tool = meld
-  path = "/usr/bin/meld"
+  # tool = meld
+  # path = "/usr/bin/meld"
+  colorMoved = default
 
 [init]
   # If this folder does not already exist, please
@@ -52,8 +57,12 @@
   templateDir = ~/.config/git/template/
   defaultBranch = main
 
+[interactive]
+  diffFilter = delta --color-only
+
 [merge]
-  tool = "/usr/bin/meld"
+  # tool = "/usr/bin/meld"
+  conflictstyle = diff3
 
 [push]
   default = simple
@@ -66,5 +75,6 @@
 
 [credential]
   helper = netrc -f ~/.netrc -v
+
 [pull]
   rebase = false
