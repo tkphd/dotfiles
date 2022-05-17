@@ -134,6 +134,7 @@ alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=t
 alias p="python3 -i -c 'from math import pi' 2>/dev/null"
 alias pdf="qpdfview"
 alias ping="ping -c 4"
+alias pip="python3 -m pip"
 alias please="sudo"
 if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
     alias ccat="${HOME}/bin/color-cat"
