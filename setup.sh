@@ -116,19 +116,24 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     else
         rustup update
     fi
+    source "${HOME}/.cargo/env"
     cargo install ag choose difftastic du-dust exa git-delta ripgrep sd xsv
 
     # === node utilities ===
     if [[ ! -d "${HOME}/.nvm" ]]; then
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-        [ -s "${NVM_DIR}/nvm.sh" ] && \
-            . "${NVM_DIR}/nvm.sh"  # This loads nvm
-        [ -s "${NVM_DIR}/bash_completion" ] && \
-            . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+        curl -o- https:/raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+        [ -s "${HOME}/.nvm/nvm.sh" ] && \
+            . "${HOME}/.nvm/nvm.sh"  # This loads nvm
+        [ -s "${HOME}/.nvm/bash_completion" ] && \
+            . "${HOME}/.nvm/bash_completion"  # This loads nvm bash_completion
         nvm install --lts
         nvm use --lts
-        nvm alias default latest
+        nvm alias default node
     fi
+    [ -s "${HOME}/.nvm/nvm.sh" ] && \
+        . "${HOME}/.nvm/nvm.sh"  # This loads nvm
+    [ -s "${HOME}/.nvm/bash_completion" ] && \
+        . "${HOME}/.nvm/bash_completion"  # This loads nvm bash_completion
     if [[ -d "${HOME}/.npm" ]]; then
         npm install --global markdownlint-cli tldr yarn 2&>/dev/null # don't tell me about audit errors
     fi
