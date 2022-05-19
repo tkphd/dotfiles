@@ -68,6 +68,7 @@ try:
                      'M Cloudy': ('☁', None),  '#f6f6ff'
                      'Mostly Sunny': ('🌤', None),  # '#ffff00'
                      'Overcast': ('☁', None),  # '#f6f6ff'
+                     'P Cloudy': ('🌥', None),  # '#fafaff'
                      'Partly Cloudy': ('🌥', None),  # '#fafaff'
                      'Rain': ('🌧', None),  # '#cbd2c0'
                      'Rainy': ('🌧', None),  # '#cbd2c0'
