@@ -41,7 +41,11 @@ Normally, KDE launches with `$KDEWM` set to whatever tf.
    export KDEWM=/usr/bin/i3
    /usr/bin/startplasma-x11
    ```
-  
+
+   ```bash
+   sudo chmod 755 /usr/local/bin/startplasma-i3
+   ```
+
 2. Create a custom desktop file
 
    ```shell
