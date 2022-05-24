@@ -112,6 +112,7 @@ alias ek="emacsclient -e '(kill-emacs)'"
 alias ff="feh -F --force-aliasing"
 alias fixperm="find . -perm -u=r -a -not -perm -o=r -exec chmod -v a+r {} \; ; find . -perm -u=x -a -not -perm -o=x -exec chmod -v a+x {} \;"
 alias se="sudo emacs -nw"
+alias sn="sudo nano"
 alias gdb="gdb -q"
 alias grafana="ssh -L 3000:localhost:3000 mr-french"
 alias grep='grep --color=auto --line-number --with-filename'
@@ -201,6 +202,7 @@ alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all
 alias wget="wget -d -c --tries=0 --read-timeout=30"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
+alias xpraview="xpra --webcam=no --opengl=no start ssh://renfield --start=paraview"
 
 if [[ $(hostname -s) == "huginn" ]]
 then
