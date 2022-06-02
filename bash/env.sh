@@ -120,6 +120,9 @@ if [[ -d "${HOME}/.nvm" ]]; then
     [ -s "${NVM_DIR}/bash_completion" ] && \
         . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 fi
+# === OpenSCAD ===
+[[ -d "${HOME}/repositories/dotSCAD" ]] && \
+    export OPENSCADPATH="${HOME}/repositories/dotSCAD/SRC:${OPENSCADPATH}"
 # === PGI ===
 if [[ -f "/opt/pgi/license.dat" ]]; then
     export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"

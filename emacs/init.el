@@ -9,6 +9,8 @@
 ;; ░███░██    ░███░███ ░░██  ██ ░░█████░░██
 ;; ░░░ ░░     ░░░ ░░░   ░░  ░░    ░░░░  ░░
 
+;;; Code:
+
 (add-to-list 'exec-path "~/bin") ;; put global in there
 (add-to-list 'load-path "~/.emacs.d/custom")
 (setq exec-path (cons "/usr/local/bin" exec-path))
@@ -27,16 +29,17 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(when (not package-archive-contents) (package-refresh-contents))
-(unless (package-installed-p 'use-package) (package-install 'use-package))
+(when (not package-archive-contents)
+  (package-refresh-contents))
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 (require 'use-package)
 (setq use-package-always-ensure t)
 
 (if (version< emacs-version "24.4")
-  (require 'setup-ivy-counsel)
+    (require 'setup-ivy-counsel)
   (require 'setup-helm)
-  (require 'setup-helm-gtags)
-)
+  (require 'setup-helm-gtags))
 
 (require 'setup-general)
 (require 'setup-cedet)
@@ -52,17 +55,16 @@
 
 (when (>= emacs-major-version 27)
   (require 'display-line-numbers)
-  (defcustom display-line-numbers-exempt-modes '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
+  (defcustom display-line-numbers-exempt-modes
+    '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
     "Major modes on which to disable the linum mode, exempts them from global requirement"
     :group 'display-line-numbers
     :type 'list
     :version "green")
-
   (defun display-line-numbers--turn-on ()
-    "turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'"
-    (if (and
-         (not (member major-mode display-line-numbers-exempt-modes))
-         (not (minibufferp)))
+    "turn on line numbers but exempt certain major modes defined in `display-line-numbers-exempt-modes'"
+    (if (and (not (member major-mode display-line-numbers-exempt-modes))
+             (not (minibufferp)))
         (display-line-numbers-mode)))
   (global-display-line-numbers-mode))
 
@@ -73,16 +75,16 @@
   (dolist (dir (list backup-dir auto-saves-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)) )
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-        tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir) )
-(setq backup-by-copying t    ; Don't delink hardlinks
-      delete-old-versions t  ; Clean up the backups
-      version-control t      ; Use version numbers on backups,
-      kept-new-versions 5    ; keep some new versions
-      kept-old-versions 2)   ; and some old ones, too
+  (setq backup-directory-alist `(("." . ,backup-dir)) auto-save-file-name-transforms `((".*"
+                                                                                        ,auto-saves-dir
+                                                                                        t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-") tramp-backup-directory-alist
+        `((".*" . ,backup-dir)) tramp-auto-save-directory auto-saves-dir) )
+(setq backup-by-copying t               ; Don't delink hardlinks
+      delete-old-versions t             ; Clean up the backups
+      version-control t                 ; Use version numbers on backups,
+      kept-new-versions 5               ; keep some new versions
+      kept-old-versions 2)              ; and some old ones, too
 
 ;; function-args
 ;; (require 'function-args)
@@ -94,10 +96,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" default))
- '(package-selected-packages
-   '(powerline poly-rst unicode-troll-stopper rst snakemake-mode scad-mode yaml-mode flymake-sass lua-mode anzu better-defaults clean-aindent-mode company counsel-projectile dockerfile-mode dtrt-indent ess fill-column-indicator flycheck helm helm-gtags iedit night-owl-theme opencl-mode poly-ansible poly-R py-autopep8 rust-mode typescript-mode undo-tree use-package v-mode volatile-highlights ws-butler yasnippet zygospore)))
+ '(custom-safe-themes '("c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"
+                        "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3"
+                        "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65"
+                        "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e"
+                        "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5"
+                        "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" default))
+ '(package-selected-packages '(elisp-format elisp-lint powerline poly-rst unicode-troll-stopper rst
+                                            snakemake-mode scad-mode yaml-mode flymake-sass lua-mode anzu
+                                            better-defaults clean-aindent-mode company
+                                            counsel-projectile dockerfile-mode dtrt-indent ess
+                                            fill-column-indicator flycheck helm helm-gtags iedit
+                                            night-owl-theme opencl-mode poly-ansible poly-R
+                                            py-autopep8 rust-mode typescript-mode undo-tree
+                                            use-package v-mode volatile-highlights ws-butler
+                                            yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -107,15 +120,19 @@
  )
 
 ;; linting
-(use-package flycheck
+(use-package
+  flycheck
   :ensure t
   :init (global-flycheck-mode))
 
 (setq compilation-scroll-output 'first-error)
 
-(defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and makes it into a single line of text."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
+(defun unfill-paragraph
+    (&optional
+     region)
+  "Take a multi-line REGION and make a single line of text of it."
+  (interactive (progn (barf-if-buffer-read-only)
+                      '(t)))
   (let ((fill-column (point-max))
         ;; This would override `fill-column' if it's an integer.
         (emacs-lisp-docstring-fill-column t))
@@ -124,16 +141,18 @@
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
 ;; Display columns, and set default wrap width
+
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq-default column-number-mode t)
-(setq-default fill-column 69)
-(setq fill-column 69)
+(setq-default fill-column 79)
+(setq fill-column 79)
 (setq-default require-final-newline t)
 (setq require-final-newline t)
-(setq sentence-end-double-space nil)
+;; (setq sentence-end-double-space nil)
 
 ;; line endings
+
 (defun unix-file ()
   "Change the current buffer to Unix line-ends."
   (interactive)
@@ -147,40 +166,37 @@
 (defun mac-file ()
   "Change the current buffer to Mac line-ends."
   (interactive)
-    (set-buffer-file-coding-system 'mac t))
+  (set-buffer-file-coding-system 'mac t))
 
 ;; Mutt
+
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 (defun mail-mode-fill-col ()
-    (setq fill-column 69))
+  "Set mail message width to 69 cols."
+  (setq fill-column 69))
 (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
-(add-hook 'mail-mode-hook          'turn-on-auto-fill)
-(add-hook 'mail-mode-hook          'mail-mode-fill-col)
-(add-hook 'mail-mode-hook          'mail-abbrevs-setup)
-(add-hook 'mail-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("^[ \t]*>[ \t]*>[ \t]*>.*$"
-                                       (0 'mail-multiply-quoted-text-face))
-                                      ("^[ \t]*>[ \t]*>.*$"
-                                                         (0 'mail-double-quoted-text-face))))))
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
+(add-hook 'mail-mode-hook 'mail-mode-fill-col)
+(add-hook 'mail-mode-hook 'mail-abbrevs-setup)
+(add-hook 'mail-mode-hook (lambda ()
+                            (font-lock-add-keywords
+                             nil
+                             '(("^[ \t]*>[ \t]*>[ \t]*>.*$" (0 'mail-multiply-quoted-text-face))
+                               ("^[ \t]*>[ \t]*>.*$" (0 'mail-double-quoted-text-face))))))
 
 ;; Hex editing
 
-(defun buffer-binary-p (&optional buffer)
-  "Return whether BUFFER or the current buffer is binary.
-
-A binary buffer is defined as containing at least on null byte.
-
-Returns either nil, or the position of the first null byte."
-  (with-current-buffer (or buffer (current-buffer))
-    (save-excursion
-      (goto-char (point-min))
-      (search-forward (string ?\x00) nil t 1))))
+(defun buffer-binary-p
+    (&optional
+     buffer)
+  "Return whether BUFFER or the current buffer is binary."
+  (with-current-buffer (or buffer
+                           (current-buffer))
+    (save-excursion (goto-char (point-min))
+                    (search-forward (string ?\x00) nil t 1))))
 
 (defun hexl-if-binary ()
-  "If `hexl-mode' is not already active, and the current buffer
-is binary, activate `hexl-mode'."
+  "Activate `hexl-mode' if the current buffer is binary."
   (interactive)
   (unless (eq major-mode 'hexl-mode)
     (when (buffer-binary-p)
@@ -190,21 +206,20 @@ is binary, activate `hexl-mode'."
 
 ;; syntax highlighting and code styling
 
-(use-package markdown-mode
+(use-package
+  markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'"       . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode)
-         )
-  :init (setq markdown-command "pandoc")
-  )
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
 
-(use-package rst
+(use-package
+  rst
   :ensure t
   :commands (rst)
-  :mode (("\\.rst\\'"      . rst))
-  )
+  :mode (("\\.rst\\'"      . rst)))
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -217,17 +232,13 @@ is binary, activate `hexl-mode'."
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
-(setq c-default-style "linux"
-      c-basic-offset 4
-      tab-width 4
-      indent-tabs-mode t
-      )
+(setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
 
-(use-package cuda-mode
+(use-package
+  cuda-mode
   :ensure t
   :mode (("\\.cu\\'"  . cuda-mode))
-  :mode (("\\.cuh\\'"  . cuda-mode))
-)
+  :mode (("\\.cuh\\'"  . cuda-mode)))
 
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))

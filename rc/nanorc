@@ -53,7 +53,7 @@ set tabsize 4
 # set trimblanks
 
 # Stash backup~ files in /tmp
-set backupdir /tmp/tnk10/nano
+# set backupdir /tmp/$USER/nano
 
 ## Paint the interface elements of nano.  These are examples;
 ## by default there are no colors, except for errorcolor.
