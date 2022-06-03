@@ -150,14 +150,15 @@ if [[ -d /opt/riscv ]]; then
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
-# === Ruby ===
-if [[ -d "${HOME}/gems" ]]; then
-    export GEM_HOME="${HOME}/gems"
-    export PATH="${HOME}/gems/bin:${PATH}"
-fi
 # === Ruby Version Manager ===
-[[ -d "${HOME}/.rvm" ]] && \
-    export PATH="${PATH}:${HOME}/.rvm/bin"
+if [[ -d "${HOME}/.rvm" ]]; then
+    RVMDIR="${HOME}/.rvm"
+    export PATH="${PATH}:${RVMDIR}/bin"
+    if [[ -a "${RVMDIR}/rubies/default" ]]; then
+        RUBYDIR="$(realpath ${RVMDIR})/rubies/default"
+        export PATH="${RUBYDIR}/bin:${PATH}"
+    fi
+fi
 # === Rust ===
 [[ -e "${HOME}/.cargo/env" ]] && \
     source "${HOME}/.cargo/env"
