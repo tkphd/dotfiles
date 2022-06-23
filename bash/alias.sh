@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -v ALIAS_SOURCED ]]; then
+    exit
+fi
+
 function aguu {
     # Update Debian and Conda apps
     sudo apt update
@@ -279,3 +283,5 @@ function pomodoro {
         echo "Quartet of pomodoros ran ${cycrun} min"
     fi
 }
+
+export ALIAS_SOURCED=1

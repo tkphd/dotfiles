@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -v ENV_SOURCED ]]; then
+    exit
+fi
+
 # === Local Binaries ===
 [[ -d "${HOME}/bin" ]] && \
     export PATH="${HOME}/bin:${PATH}"
@@ -13,65 +17,8 @@
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda & Mamba ===
-for TRYME in "/toolbox/${USER}/opt/mambaforge" "/working/${USER}/opt/mambaforge" "/Valhalla/opt/mambaforge";
-do
-    if [[ -z $CONDAPATH ]]; then
-        if [[ -a "${TRYME}" ]]; then
-           CONDAPATH="${TRYME}"
-           __setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
-           if [ $? -eq 0 ]; then
-               eval "$__setup"
-           else
-               if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
-                   . "${CONDAPATH}/etc/profile.d/conda.sh"
-               else
-                   export PATH="${CONDAPATH}/bin:$PATH"
-               fi
-           fi
-           unset __setup
-           if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
-               . "${CONDAPATH}/etc/profile.d/mamba.sh"
-               alias mambact="mamba activate"
-               alias deact="mamba deactivate"
-           else
-               alias condact="conda activate"
-               alias deact="conda deactivate"
-           fi
-           export CONDAPATH
-        fi
-    fi
-done
-# === CUDA ===
-[[ -d "${HOME}/.dotfiles/local" && -f "${HOME}/.dotfiles/local/cudarch.sh" ]] && \
-    source "${HOME}/.dotfiles/local/cudarch.sh"
-CUDA_TEST_PATH=$(find /usr/local/cuda* -name nvcc 2>/dev/null)
-if [[ ${CUDA_HDR_PATH} == "" && ${CUDA_TEST_PATH} != "" ]]; then
-    NVCCBIN=$(dirname $(ls -t "${CUDA_TEST_PATH}" 2>/dev/null | head -n 1))
-    if [[ $NVCCBIN != "" ]]; then
-        export PATH="${PATH}:${NVCCBIN}"
-        export CUDA_HDR_PATH=$(dirname "${NVCCBIN}")/targets/x86_64-linux/include
-        CUDA_LIB=$(dirname "${CUDA_HDR_PATH}/lib")
-        [[ -v LD_LIBRARY_PATH && -n "${LD_LIBRARY_PATH}" ]] && \
-            CUDA_LIB="${LD_LIBRARY_PATH}:${CUDA_LIB}"
-        export LD_LIBRARY_PATH="${CUDA_LIB}"
-    fi
-    if [[ $CUDA_HDR_PATH == "" ]]; then
-        NVCCBIN=$(dirname $(ls -t $(find /opt/cuda -name nvcc 2>/dev/null) 2>/dev/null | head -n 1))
-        if [[ $NVCCBIN != "" ]]; then
-            export PATH="${PATH}:${NVCCBIN}"
-            export CUDA_HDR_PATH=$(dirname "${NVCCBIN}")/targets/x86_64-linux/include
-            CUDA_LIB=$(dirname "${CUDA_HDR_PATH}/lib")
-            [[ -v LD_LIBRARY_PATH && -n "${LD_LIBRARY_PATH}" ]] && \
-                CUDA_LIB="${LD_LIBRARY_PATH}:${CUDA_LIB}"
-            export LD_LIBRARY_PATH="${CUDA_LIB}"
-        fi
-    fi
-    if [[ $CUDA_HDR_PATH == "" && $(which nvcc) != "" ]]; then
-        export CUDA_HDR_PATH=/usr/include
-    fi
-    [[ $(which nvcc) != "" ]] && \
-        export OMPI_MCA_opal_cuda_support=true # enable OpenMPI CUDA awareness
-fi
+[[ -f "${HOME}/.dotfiles/bash/mamba.sh" ]] && \
+    . "${HOME}/.dotfiles/bash/mamba.sh"
 # === Emacs ===
 export EMACSD="/tmp/${USER}/emacs"
 export EMACSBD="${EMACSD}/backups"
@@ -86,9 +33,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && \
     source "${HOME}/.github" # personal access token(s)
-# === Go ===
-[[ -d "/opt/go" ]] && \
-    export PATH="/opt/go/bin:${PATH}"
+# # === Go ===
+# [[ -d "/opt/go" ]] && \
+#     export PATH="/opt/go/bin:${PATH}"
 # === Haskell ===
 [[ -f "${HOME}/.ghcup/env" ]] && \
     source "${HOME}/.ghcup/env" # ghcup-env
@@ -189,3 +136,5 @@ if [[ $(hostname -s) == "p859561" ]]; then
     export CHROME_USER_DATA_HOME="/usr/local/${USER}/google-chrome"
     export LIBGL_ALWAYS_INDIRECT=1
 fi
+
+export ENV_SOURCED=1

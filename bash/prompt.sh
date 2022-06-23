@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -v PROMPT_SOURCED ]]; then
+    exit
+fi
+
 [[ -f "${HOME}/.dotfiles/bash/colors.sh" ]] && \
     source "${HOME}/.dotfiles/bash/colors.sh"
 
@@ -58,3 +62,5 @@ if [[ "$PS1" ]]; then
             fi
     esac
 fi
+
+export PROMPT_SOURCED=1

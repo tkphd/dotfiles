@@ -2,6 +2,10 @@
 # ~/.profile: executed by the command interpreter for login shells.
 # Ignored if either ~/.bash_profile or ~/.bash_login exists.
 
+if [[ -v PROFILE_SOURCED ]]; then
+    exit
+fi
+
 if [ -n "${BASH_VERSION}" ]; then
     if [[ -e "${HOME}/.bashrc" ]]; then
         . "${HOME}/.bashrc"
@@ -40,32 +44,8 @@ function loadrvm {
 [[ -f "$HOME/.cargo/env" ]] && \
     . "$HOME/.cargo/env"
 
-# Mamba
-for TRYME in "/toolbox/${USER}/opt/mambaforge" "/working/${USER}/opt/mambaforge" "/Valhalla/opt/mambaforge";
-do
-    if [[ -z $CONDAPATH ]]; then
-        if [[ -a "${TRYME}" ]]; then
-            CONDAPATH="${TRYME}"
-            __setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
-           if [ $? -eq 0 ]; then
-               eval "$__setup"
-           else
-               if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
-                   . "${CONDAPATH}/etc/profile.d/conda.sh"
-               else
-                   export PATH="${CONDAPATH}/bin:$PATH"
-               fi
-           fi
-           unset __setup
-           if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
-               . "${CONDAPATH}/etc/profile.d/mamba.sh"
-               alias mambact="mamba activate"
-               alias deact="mamba deactivate"
-           else
-               alias condact="conda activate"
-               alias deact="conda deactivate"
-           fi
-           export CONDAPATH
-        fi
-    fi
-done
+# === Conda & Mamba ===
+[[ -f "${HOME}/.dotfiles/bash/mamba.sh" ]] && \
+    . "${HOME}/.dotfiles/bash/mamba.sh"
+
+export PROFILE_SOURCED=1
