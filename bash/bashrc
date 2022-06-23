@@ -1,6 +1,10 @@
 #!/bin/bash
 # Built with help from https://github.com/jessfraz/dotfiles
 
+if [[ -v BASHRC_SOURCED ]]; then
+    exit
+fi
+
 # Unless we're interactive, do nothing
 case $- in
 	*i*)
@@ -51,3 +55,5 @@ unset CONF
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export BASHRC_SOURCED=1
