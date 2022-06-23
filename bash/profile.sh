@@ -2,8 +2,8 @@
 # ~/.profile: executed by the command interpreter for login shells.
 # Ignored if either ~/.bash_profile or ~/.bash_login exists.
 
-if [[ -v PROFILE_SOURCED ]]; then
-    exit
+if [[ -n "$PROFILE_SOURCED" ]]; then
+    return
 fi
 
 if [ -n "${BASH_VERSION}" ]; then

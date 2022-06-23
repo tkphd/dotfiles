@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -v PROMPT_SOURCED ]]; then
-    exit
+if [[ -n "${PROMPT_SOURCED}" ]]; then
+    return
 fi
 
 [[ -f "${HOME}/.dotfiles/bash/colors.sh" ]] && \

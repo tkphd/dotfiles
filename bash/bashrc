@@ -1,8 +1,8 @@
 #!/bin/bash
 # Built with help from https://github.com/jessfraz/dotfiles
 
-if [[ -v BASHRC_SOURCED ]]; then
-    exit
+if [[ -n "${BASHRC_SOURCED}" ]]; then
+    return
 fi
 
 # Unless we're interactive, do nothing

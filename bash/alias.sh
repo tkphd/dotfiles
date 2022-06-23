@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -v ALIAS_SOURCED ]]; then
-    exit
+if [[ -n "${ALIAS_SOURCED}" ]]; then
+    return
 fi
 
 function aguu {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -v ENV_SOURCED ]]; then
-    exit
+if [[ -n "${ENV_SOURCED}" ]]; then
+    return
 fi
 
 # === Local Binaries ===
@@ -18,7 +18,7 @@ fi
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
 # === Conda & Mamba ===
 [[ -f "${HOME}/.dotfiles/bash/mamba.sh" ]] && \
-    . "${HOME}/.dotfiles/bash/mamba.sh"
+    source "${HOME}/.dotfiles/bash/mamba.sh"
 # === Emacs ===
 export EMACSD="/tmp/${USER}/emacs"
 export EMACSBD="${EMACSD}/backups"
@@ -47,7 +47,7 @@ export KDEWM=/usr/bin/i3
     export LESSOPEN="| pygmentize -g %s"
 # === Lmod ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
-    source /etc/profile.d/lmod.sh
+    . /etc/profile.d/lmod.sh
     for DIR in /toolbox /working; do
         [[ -d ${DIR}/${USER}/modules/modulefiles ]] && \
             module use ${DIR}/${USER}/modules/modulefiles
@@ -63,9 +63,9 @@ export PATH="${PATH}:${MMSP_PATH}/utility"
 if [[ -d "${HOME}/.nvm" ]]; then
     export NVM_DIR="${HOME}/.nvm"
     [ -s "${NVM_DIR}/nvm.sh" ] && \
-        . "${NVM_DIR}/nvm.sh"  # This loads nvm
+        source "${NVM_DIR}/nvm.sh"  # This loads nvm
     [ -s "${NVM_DIR}/bash_completion" ] && \
-        . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+        source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 fi
 # === OpenSCAD ===
 [[ -d "${HOME}/repositories/dotSCAD" ]] && \
@@ -92,7 +92,6 @@ fi
 if [[ -d /opt/riscv ]]; then
     export PATH="${PATH}:/opt/riscv/bin"
     RISCV_LIB="/opt/riscv/lib"
-    [[ -v LD_LIBRARY_PATH ]] && \
     [[ -n "${LD_LIBRARY_PATH}" ]] && \
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
