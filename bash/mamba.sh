@@ -5,31 +5,36 @@ if [[ -n "${CONDAPATH}" ]]; then
 fi
 
 # === Conda & Mamba ===
-for TRYME in "/working/${USER}/opt/mambaforge" "/toolbox/${USER}/opt/mambaforge";
+for TESTDIR in "/working/${USER}" "/toolbox/${USER}"
 do
     if [[ -z "${CONDAPATH}" ]]; then
-        if [[ -a "${TRYME}" ]]; then
-            CONDAPATH="${TRYME}"
-            __setup="$(${CONDAPATH}/bin/conda shell.bash hook 2> /dev/null)"
-            if [ $? -eq 0 ]; then
-                eval "$__setup"
-            else
-                if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
-                    . "${CONDAPATH}/etc/profile.d/conda.sh"
+        [[ -h "${TESTDIR}" ]] \
+            && TESTDIR="$(readlink ${TESTDIR})"
+        if [[ -d "${TESTDIR}" ]]; then
+            TESTDIR="${TESTDIR}/opt/mambaforge"
+            if [[ -d "${TESTDIR}" ]]; then
+                export CONDAPATH="${TESTDIR}"
+                _setup="$(${CONDAPATH}/bin/conda 'shell.bash' 'hook' 2> /dev/null)"
+                if [ $? -eq 0 ]; then
+                    eval "$_setup"
                 else
-                    export PATH="${CONDAPATH}/bin:$PATH"
+                    if [ -f "${CONDAPATH}/etc/profile.d/conda.sh" ]; then
+                        . "${CONDAPATH}/etc/profile.d/conda.sh"
+                    else
+                        export PATH="${CONDAPATH}/bin:$PATH"
+                    fi
+                fi
+                unset _setup
+
+                if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
+                    . "${CONDAPATH}/etc/profile.d/mamba.sh"
+                    alias mambact="mamba activate"
+                    alias deact="mamba deactivate"
+                else
+                    alias condact="conda activate"
+                    alias deact="conda deactivate"
                 fi
             fi
-            unset __setup
-            if [ -f "${CONDAPATH}/etc/profile.d/mamba.sh" ]; then
-                . "${CONDAPATH}/etc/profile.d/mamba.sh"
-                alias mambact="mamba activate"
-                alias deact="mamba deactivate"
-            else
-                alias condact="conda activate"
-                alias deact="conda deactivate"
-            fi
-            export CONDAPATH
         fi
     fi
 done
