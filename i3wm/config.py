@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# General layout of the i3 bar
 
 # To feed local machine configuration variables into this script,
 # create "machine.py" in this directory with key-value pairs, e.g.
@@ -13,24 +13,62 @@
 from i3pystatus import Status
 from os import environ, path, stat
 
+colors = {
+    "blue":        "#0000ff",
+    "green":       "#00ff00",
+    "gray58":      "#949494",
+    "graygreen":   "#a2a899",
+    "greenseas":   "#cbd2c0",
+    "palegraygr":  "#dadfd2",
+    "ghostviolet": "#f6f6ff",
+    "ghostwhite":  "#f8f8ff",
+    "cottonball":  "#fafaff",
+    "red":         "#ff0000",
+    "strawberry":  "#ff4444",
+    "towsonyell":  "#ffcc00",
+    "lightyellow": "#ffee44",
+    "yellow1":     "#ffff00",
+    "white":       "#ffffff",
+}
+
+icons = {
+    'default':       ('‽', None),
+    'Cloudy':        ('☁', None),  # 'ghostwhite'
+    'Fair':          ('☀', None),  # 'towsonyell'
+    'Fog':           ('⛆', None),  # 'gray58'
+    'Hail Storm':    ('🌨', None),  # 'graygreen'
+    'Light Rain':    ('🌦', None),  # 'palegraygr'
+    'M Cloudy':      ('☁', None),  # 'ghostviolet'
+    'Mostly Sunny':  ('🌤', None),  # 'yellow1'
+    'Overcast':      ('☁', None),  # 'ghostviolet'
+    'P Cloudy':      ('🌥', None),  # 'cottonball'
+    'Partly Cloudy': ('🌥', None),  # 'cottonball'
+    'Rain':          ('🌧', None),  # 'greenseas'
+    'Rainy':         ('🌧', None),  # 'greenseas'
+    'Rain Shower':   ('🌦', None),  # 'palegreygr'
+    'Snow':          ('❄', None),  # 'white'
+    'Sunny':         ('✶', None),  # 'yellow1'
+    'Thunderstorm':  ('⛈', None),  # 'graygreen'
+    'Tornado':       ('🌪', colors["red"])
+}
+
 try:
-    from machine import *
-except:
+    from machine import ifce, disks, battery
+except ImportError:
     # Defaults render a penguin '' for '/'
     # and a house '' for /home (Font Awesome)
     ifce = "eth0"
     disks = [["/home", "", "GB"],
-             ["/", "", "GB"]]
+             ["/",     "", "GB"]]
     battery = False
 
 home = environ["HOME"]
 status = Status()
 
-# Displays clock like this:
-# Tue 30 Jul 11:59 PM
+
 status.register(
     "clock",
-    format="%a %-d %b %I:%M %p",
+    format="%a %-d %b %I:%M %p",  # Tue 30 Jul 11:59 PM
 )
 
 # Notify when reboot is required
@@ -43,15 +81,16 @@ if (
                     hints={"markup": "pango"},
                     color="red")
 
-# Shows available disk space
-# Format: 2.015 TB
 for disk, icon, unit in disks:
+    # Format: " 2.015 TB"
+    denom = 1024**4 if unit == "TB" else 1024**3
+    place = 3 if unit == "TB" else 1
     status.register(
         "disk",
         path=disk,
         hints={"markup": "pango"},
-        divisor=1024**4 if unit == "TB" else 1024**3,
-        round_size = 3 if unit == "TB" else 1,
+        divisor=denom,
+        round_size=place,
         format='<span size = "x-small">%s</span> {avail} %s' % (icon, unit),
     )
 
@@ -59,24 +98,8 @@ try:
     from i3pystatus.weather import wunderground
     status.register(
         'weather',
-        format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% H[ {update_error}]',
-        color_icons={'Cloudy': ('☁', None),  # '#f8f8ff'
-                     'Fair': ('☀', None),  # '#ffcc00'
-                     'Fog': ('⛆', None),  # '#949494'
-                     'Hail Storm': ('🌨', None),  # '#a2a8990'
-                     'Light Rain': ('🌦', None),  # '#dadfd2'
-                     'M Cloudy': ('☁', None),  '#f6f6ff'
-                     'Mostly Sunny': ('🌤', None),  # '#ffff00'
-                     'Overcast': ('☁', None),  # '#f6f6ff'
-                     'P Cloudy': ('🌥', None),  # '#fafaff'
-                     'Partly Cloudy': ('🌥', None),  # '#fafaff'
-                     'Rain': ('🌧', None),  # '#cbd2c0'
-                     'Rainy': ('🌧', None),  # '#cbd2c0'
-                     'Rain Shower': ('🌦', None),  # '#dadfd2'
-                     'Snow': ('❄', None),  # '#ffffff'
-                     'Sunny': ('☼', None),  # '#ffff00'
-                     'Thunderstorm': ('⛈', None),  # '#a2a8990'
-                     'default': ('', None)},
+        format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% 🌢[ {update_error}]',
+        color_icons=icons,
         colorize=True,
         hints={'markup': 'pango'},
         backend=wunderground.Wunderground(
@@ -85,7 +108,7 @@ try:
             update_error='<span color="#ff1111">!</span>',
         ),
     )
-except:
+except ImportError:
     status.register(
         "text",
         text="🌪"
@@ -101,7 +124,7 @@ try:
         multi_colors=True,
         hints={"markup": "pango"},
     )
-except:
+except ImportError:
     # Shows alsaaudio default sink volume
     # Note: requires pyalsaaudio from PyPI
     #       and libalsaaudio-dev
@@ -121,9 +144,9 @@ status.register(
 # Shows memory usage
 status.register(
     "mem_bar",
-    color="#FFFFFF",
-    warn_color="#FFEE44",
-    alert_color="#FF4444",
+    color=colors["white"],
+    warn_color=colors["lightyellow"],
+    alert_color=colors["strawberry"],
     hints={"markup": "pango"},
     warn_percentage=80,
     alert_percentage=90,

@@ -102,7 +102,10 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    for PKG in diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp plocate pygmentize tig urxvt visidata xsel zathura; do
+    DEBPKG="diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp plocate  \
+            pyflakes3 pygmentize python3-flake8 tig urxvt visidata xsel \
+            yamllint zathura"
+    for PKG in ${DEBPKG}; do
         [[ $(which ${PKG}) == "" ]] && \
             echo "Warning: ${PKG} not found!"
     done
