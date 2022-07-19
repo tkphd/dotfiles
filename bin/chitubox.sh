@@ -1,6 +1,10 @@
-#!/bin/bash
+#!/bin/bash -l
+
+CPUTHR=$(nproc --all)
+CPUCOR=$((${CPUTHR}/2))
 
 ulimit -s unlimited
+export OMP_NUM_THREADS=$CPUCOR
 
 VER=1.9.1
 
