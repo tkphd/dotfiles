@@ -153,7 +153,7 @@ alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME
 alias rsmop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -l machine -i /root/.ssh/id_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine\""
 alias scancel="scancel -u ${USER}"
 alias shellcheck="shellcheck -e SC1090,SC2139,SC2155"
-alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
+alias si="sinfo -o \"%9P %10A %8z %14O %.12l %N\""
 alias sj="sacct --format=User,AssocID,JobID,JobName,Partition,ReqCPUS,NNodes,NTasks,NCPUS,NodeList,Layout,State,Elapsed,CPUTime -j"
 alias sa="sacct --format=JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,CPUTime -u ${USER} -S $(date --date='last week' +%m%d%y)"
 alias sq="squeue -o \"%7i %20j %3t %11P %9Q %6D %5C %20S %12L %17R\" -u tnk10"
