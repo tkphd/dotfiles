@@ -224,6 +224,10 @@ elif [[ $(hostname -s) == "ruth" ]]; then
     alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
     alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
     alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
+elif [[ $(hostname -s) == "mr-french" ]]; then
+    alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
+    alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
+    alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
 fi
 
 # === Pomodoro Method ===
