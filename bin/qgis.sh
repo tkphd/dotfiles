@@ -1,7 +1,10 @@
-#!/bin/bash
+#!/bin/bash -l
+
+CPUTHR=$(nproc --all)
+CPUCOR=$((${CPUTHR}/2))
 
 ulimit -s unlimited
-export OMP_NUM_THREADS=$(( $(nproc) / 2 ))
+export OMP_NUM_THREADS=$CPUCOR
 
 for TRYME in "/toolbox/${USER}/opt/mambaforge" "/working/${USER}/opt/mambaforge" "/Valhalla/opt/mambaforge";
 do
