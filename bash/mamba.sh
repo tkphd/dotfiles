@@ -5,7 +5,7 @@ if [[ -n "${CONDAPATH}" ]]; then
 fi
 
 # === Conda & Mamba ===
-for TESTDIR in "/working/${USER}" "/toolbox/${USER}"
+for TESTDIR in "/toolbox/${USER}" "/working/${USER}"
 do
     if [[ -z "${CONDAPATH}" ]]; then
         [[ -h "${TESTDIR}" ]] \
