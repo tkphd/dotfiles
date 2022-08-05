@@ -3,7 +3,7 @@
   signingkey = 0x210CD7CA9908C3F6
 
 [include]
-  path = ~/.gitcontact
+  path = ~/.gitlocal
 
 [alias]
   br = branch
@@ -20,7 +20,7 @@
 [color]
   ui = auto
   branch = auto
-  diff = auto
+  diff   = auto
   status = auto
 
 [color "branch"]
@@ -29,22 +29,17 @@
 [color "diff"]
   meta = cyan
   frag = cyan
-  old = red
-  new = green
+  old  = red
+  new  = green
 
 [color "status"]
-  added = green bold
-  changed = red bold
-  untracked = blue bold
+  added     = green bold
+  changed   = red   bold
+  untracked = blue  bold
 
 [core]
-  editor = "/usr/bin/emacsclient -t"
-  # pager = diff-so-fancy | less --tabs=4 -RFX
-  pager = delta
+  editor = "/usr/bin/emacs -nw"
   autocrlf = input
-
-[delta]
-  navigate = true  # use n and N to move between diff sections
 
 [diff]
   # tool = meld
@@ -54,14 +49,10 @@
 [init]
   # If this folder does not already exist, please
   # echo "ref: refs/heads/main" > ~/.config/git/template/HEAD
-  templateDir = ~/.config/git/template/
+  templateDir = ~/.config/git/template
   defaultBranch = main
 
-[interactive]
-  diffFilter = delta --color-only
-
 [merge]
-  # tool = "/usr/bin/meld"
   conflictstyle = diff3
 
 [push]
@@ -69,8 +60,8 @@
 
 [filter "lfs"]
   required = true
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
+  clean   = git-lfs clean -- %f
+  smudge  = git-lfs smudge -- %f
   process = git-lfs filter-process
 
 [credential]
