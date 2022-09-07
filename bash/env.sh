@@ -7,10 +7,12 @@ fi
 # === Local Binaries ===
 [[ -d "${HOME}/bin" ]] && \
     export PATH="${HOME}/bin:${PATH}"
+# === Snap Binaries ===
+[[ -d "/snap/bin" ]] && \
+    export PATH="/snap/bin:${PATH}"
 # === Crypto Tokens ===
 [[ -f ${HOME}/.dotfiles/local/tokens ]] && \
     source "${HOME}/.dotfiles/local/tokens"
-
 # === BeeGFS ===
 [[ -d /opt/beegfs ]] && \
     export PATH="${PATH}:/opt/beegfs/sbin"
