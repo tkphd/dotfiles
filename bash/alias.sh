@@ -142,6 +142,7 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
+alias md2pdf="pandoc -f markdown -t pdf --template=simple.latex"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"
@@ -242,7 +243,7 @@ fi
 
 # === Pomodoro Method ===
 
-function countdown {
+countdown () {
     # https://www.putorius.net/how-to-make-countdown-timer-in-bash.html
     min=0
     sec=0
@@ -267,7 +268,7 @@ function countdown {
     tput cnorm
 }
 
-function pomodoro {
+pomodoro () {
     # https://en.wikipedia.org/wiki/Pomodoro_Technique
     if [[ $(command -v kdialog) == "" ]]; then
         echo "You must install kdialog!"

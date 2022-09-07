@@ -10,7 +10,7 @@
 # Use pango markup to modify fonts per item. Valid font sizes are
 # 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
-from i3pystatus import Status
+import i3pystatus
 from os import environ, path, stat
 
 colors = {
@@ -63,7 +63,7 @@ except ImportError:
     battery = False
 
 home = environ["HOME"]
-status = Status()
+status = i3pystatus.Status()
 
 
 status.register(
@@ -109,10 +109,9 @@ try:
         ),
     )
 except ImportError:
-    status.register(
-        "text",
-        text="🌪"
-    )
+    pass
+except i3pystatus.core.exceptions.ConfigMissingError:
+    pass
 
 try:
     # Shows pulseaudio default sink volume
