@@ -1,0 +1,47 @@
+# Convert Markdown to PDF using Pandoc
+# with NewComputerModern fonts (slightly heavier than CMR)
+---
+from: markdown
+to: pdf
+
+pdf-engine: xelatex  # handle inline Unicode
+shift-heading-level-by: -1  # make the first heading the doc title
+template: plain.xelatex
+variables:
+  documentclass: article
+  fontsize: 11pt
+  geometry:
+    - margin=0.75in
+  lang: en-US
+  linkcolor: blue  # highlight internal links
+  mainfont: NewCM10
+  mainfontoptions:
+    - Extension=.otf
+    - UprightFont=*-Book
+    - ItalicFont=*-BookItalic
+    - BoldFont=*-Bold
+    - BoldItalicFont=*-BoldItalic
+    - Numbers=Lowercase
+    - Numbers=Proportional
+    - Ligatures=TeX
+    - Ligatures=Rare
+  mathfont: NewCMMath-Book.otf
+  monofont: NewCMMono10
+  monofontoptions:
+    - Extension=.otf
+    - UprightFont=*-Book
+    - ItalicFont=*-BookItalic
+    - BoldFont=*-Bold
+    - BoldItalicFont=*-BoldOblique
+  numbersections: true
+  papersize: letter
+  sansfont: NewCMSans10
+  sansfontoptions:
+    - Extension=.otf
+    - UprightFont=*-Book
+    - ItalicFont=*-BookOblique
+    - BoldFont=*-Bold
+    - BoldItalicFont=*-BoldOblique
+    - Ligatures=TeX
+    - Ligatures=Rare
+  secnumdepth: 4

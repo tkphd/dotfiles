@@ -4,25 +4,29 @@ if [[ -n "${ALIAS_SOURCED}" ]]; then
     return
 fi
 
-function aguu {
+if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
+    source "${HOME}/.dotfiles/local/HostIP"
+fi
+
+aguu () {
     # Update Debian and Conda apps
     sudo apt update
     sudo apt dist-upgrade -y
     update-conda
 }
 
-function man {
-    # termcap terminfo
-    # ks      smkx      make the keypad send commands
-    # ke      rmkx      make the keypad send digits
-    # vb      flash     emit visual bell
-    # mb      blink     start blink: green
-    # md      bold      start bold: cyan
-    # me      sgr0      turn off bold, blink and underline
-    # so      smso      start standout (reverse video): yellow-on-blue
-    # se      rmso      stop standout
-    # us      smul      start underline: white
-    # ue      rmul      stop underline
+man () {
+    # termcap  terminfo  effect
+    # ks       smkx      make the keypad send commands
+    # ke       rmkx      make the keypad send digits
+    # vb       flash     emit visual bell
+    # mb       blink     start blink: green
+    # md       bold      start bold: cyan
+    # me       sgr0      turn off bold, blink and underline
+    # so       smso      start standout (reverse video): yellow-on-blue
+    # se       rmso      stop standout
+    # us       smul      start underline: white
+    # ue       rmul      stop underline
 
     LESS_TERMCAP_mb=$(tput bold; tput setaf 2) \
     LESS_TERMCAP_md=$(tput bold; tput setaf 6) \
@@ -41,7 +45,15 @@ function man {
     command man "$@"
 }
 
-function rot13 {
+md2pdf () {
+    pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
+           --defaults=md2pdf.yaml \
+           --output="${1/.md/.pdf}" \
+           --shift-heading-level-by=-1 \
+           "$1"
+}
+
+rot13 () {
 	if [[ $# = 0 ]] ; then
 		tr "[a-m][n-z][A-M][N-Z]" "[n-z][a-m][N-Z][A-M]"
 	else
@@ -49,7 +61,7 @@ function rot13 {
 	fi
 }
 
-function tea {
+tea () {
     # Set a timer for your tea. Time is measured in seconds.
     timer=300 # default: 5 minutes
     if [[ $(command -v kdialog) == "" ]]; then
@@ -68,7 +80,7 @@ function tea {
     fi
 }
 
-function update-conda {
+update-conda() {
     # Update Anaconda Python and all its virtual environments
     echo "=== Updating conda base ==="
     mamba update -n base --yes --all
@@ -87,16 +99,14 @@ function update-conda {
     fi
 }
 
-function whoareu {
+whoareu() {
     # Print the name of the person assigned the specified ID
-    local user=$(id -u "${1}")
-    local info=$(getent passwd "${user}")
+    local user
+    local info
+    user=$(id -u "${1}")
+    info=$(getent passwd "${user}")
     echo "${info}" | awk -F':' '{print $5}' | awk -F',' '{print $1}'
 }
-
-if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
-    source "${HOME}/.dotfiles/local/HostIP"
-fi
 
 alias acs="apt-cache search"
 alias afb="sudo apt --fix-broken install"
@@ -132,7 +142,6 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
-alias md2pdf="pandoc -f markdown -t pdf --template=simple.latex"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"
@@ -146,6 +155,7 @@ if [[ $(which pygmentize) != "" && -f "${HOME}/bin/color-cat" ]]; then
     alias ccat="${HOME}/bin/color-cat"
     alias pyg="${HOME}/bin/color-cat"
 fi
+alias R='R --no-restore --no-save'
 alias rm="rm -v"
 alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
 alias rs="rsync -Pavz"

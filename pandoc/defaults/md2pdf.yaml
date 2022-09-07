@@ -1,0 +1,48 @@
+# Convert Markdown to PDF using Pandoc
+# with TeX Gyre and FiraCode fonts
+---
+from: markdown
+to: pdf
+
+pdf-engine: xelatex  # handle inline Unicode
+shift-heading-level-by: -1  # make the first heading the doc title
+template: plain.xelatex
+variables:
+  documentclass: article
+  fontsize: 11pt
+  geometry:
+    - margin=0.75in
+  lang: en-US
+  linkcolor: blue  # highlight internal links
+  mainfont: TeXGyreTermesX
+  mainfontoptions:
+    - Extension=.otf
+    - UprightFont=*-Regular
+    - ItalicFont=*-Italic
+    - BoldFont=*-Bold
+    - BoldItalicFont=*-BoldItalic
+    - Numbers=Lowercase
+    - Numbers=Proportional
+    - Ligatures=TeX
+    - Ligatures=Rare
+  mathfont: texgyretermes-math.otf
+  monofont: FiraCode
+  monofontoptions:
+    - Extension=.otf
+    - UprightFont=*-Medium
+    - ItalicFont=FiraMono-MediumOblique
+    - BoldFont=*-Bold
+    - BoldItalicFont=FiraMono-BoldOblique
+  numbersections: true
+  papersize: letter
+  sansfont: LibertinusSans
+  sansfontoptions:
+    - Extension=.otf
+    - UprightFont=*-Regular
+    - ItalicFont=*-Italic
+    - BoldFont=*-Bold
+    - Numbers=Lowercase
+    - Numbers=Proportional
+    - Ligatures=TeX
+    - Ligatures=Rare
+  secnumdepth: 4
