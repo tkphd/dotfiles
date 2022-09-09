@@ -63,6 +63,14 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     fi
     ln -s "${DIR}"/i3wm "${HOME}"/.config/i3
 
+    # === julia ===
+    if [[ -d "${HOME}"/.julia/config ]]; then
+        rm -r "${HOME}"/.julia/config
+    elif [[ -f "${HOME}"/.julia/config || -L "${HOME}"/.julia/config ]]; then
+        rm "${HOME}"/.julia/config
+    fi
+    ln -s "${DIR}"/julia "${HOME}"/.julia/config
+
     # === nano ===
     if [[ ! -d "${HOME}/.nano" ]]; then
         NANO_TMP="/tmp/nanorc.zip"
