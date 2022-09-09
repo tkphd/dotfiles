@@ -99,7 +99,7 @@
  '(custom-safe-themes
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(package-selected-packages
-   '(bug-hunter anzu better-defaults clean-aindent-mode company counsel-projectile dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pyflakes flycheck-yamllint flymake-sass helm helm-gtags iedit lua-mode night-owl-theme opencl-mode poly-R poly-ansible poly-rst powerline py-autopep8 rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
+   '(julia-formatter julia-mode counsel-projectile pandoc-mode bug-hunter anzu better-defaults clean-aindent-mode company dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pyflakes flycheck-yamllint flymake-sass helm helm-gtags iedit lua-mode night-owl-theme opencl-mode poly-R poly-ansible poly-rst py-autopep8 rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -195,16 +195,14 @@
 
 ;; syntax highlighting and code styling
 
-(use-package
-  markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("\\.md\\'"       . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+(use-package markdown-mode
+ :ensure t
+ :commands (markdown-mode gfm-mode)
+ :mode (("\\.md\\'"       . gfm-mode)
+        ("\\.markdown\\'" . markdown-mode))
+ :init (setq markdown-command "pandoc"))
 
-(use-package
-  rst
+(use-package rst
   :ensure t
   :commands (rst)
   :mode (("\\.rst\\'"      . rst)))
@@ -216,14 +214,12 @@
 (add-hook 'LaTeX-mode-hook 'visual-line-mode)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
 (setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
 
-(use-package
-  cuda-mode
+(use-package cuda-mode
   :ensure t
   :mode (("\\.cu\\'"  . cuda-mode))
   :mode (("\\.cuh\\'"  . cuda-mode)))
@@ -238,9 +234,6 @@
 (setq vc-handled-backends ())
 (put 'downcase-region 'disabled nil)
 
-;; powerline statusbar
-(require 'powerline)
-(powerline-default-theme)
-
 ;;; Commentary:
-;; flycheck is a bit of a nuisance
+
+;;; init.el ends here
