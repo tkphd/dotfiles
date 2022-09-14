@@ -71,15 +71,16 @@ status.register(
     format="%a %-d %b %I:%M %p",  # Tue 30 Jul 11:59 PM
 )
 
-# Notify when reboot is required
-if (
-    path.isfile("/var/run/reboot-required")
-    and stat("/var/run/reboot-required").st_size != 0
-):
-    status.register("text",
-                    text="reboot me",
-                    hints={"markup": "pango"},
-                    color="red")
+status.register(
+    "pomodoro",
+    pomodoro_duration=3000,
+    break_duration=600,
+    long_break_duration=1800,
+    short_break_count=2,
+    inactive_format="🍅",
+    format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
+    hints={"markup": "pango"},
+)
 
 for disk, icon, unit in disks:
     # Format: " 2.015 TB"
@@ -128,17 +129,6 @@ except ImportError:
     # Note: requires pyalsaaudio from PyPI
     #       and libalsaaudio-dev
     status.register("alsa")
-
-status.register(
-    "pomodoro",
-    pomodoro_duration=3000,
-    break_duration=600,
-    long_break_duration=1800,
-    short_break_count=2,
-    inactive_format="🍅",
-    format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
-    hints={"markup": "pango"},
-)
 
 # Shows memory usage
 status.register(
