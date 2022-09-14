@@ -12,7 +12,7 @@ aguu () {
     # Update Debian and Conda apps
     sudo apt update
     sudo apt dist-upgrade -y
-    update-conda
+    update-envs
 }
 
 man () {
@@ -45,7 +45,21 @@ man () {
     command man "$@"
 }
 
+md2book () {
+    # convert a Markdown file to PDF using Pandoc and XeTeX
+    # with New Computer Modern Book, old style numbers,
+    # and the top-level header as the document title
+    pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
+           --defaults=md2pdf-cm.yaml \
+           --output="${1/.md/.pdf}" \
+           --shift-heading-level-by=-1 \
+           "$1"
+}
+
 md2pdf () {
+    # convert a Markdown file to PDF using Pandoc and XeTeX
+    # with TeX Gyre TermesX, old style numbers,
+    # and the top-level header as the document title
     pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
            --defaults=md2pdf.yaml \
            --output="${1/.md/.pdf}" \
@@ -54,6 +68,8 @@ md2pdf () {
 }
 
 rot13 () {
+    # "rotate by 13 places," a substitution cipher for the Latin
+    # alphabet that both encrypts and decrypts, like a Fourier transform!
 	if [[ $# = 0 ]] ; then
 		tr "[a-m][n-z][A-M][N-Z]" "[n-z][a-m][N-Z][A-M]"
 	else
@@ -62,26 +78,40 @@ rot13 () {
 }
 
 tea () {
-    # Set a timer for your tea. Time is measured in seconds.
-    timer=300 # default: 5 minutes
+    # Set a timer for your tea. Defaults to 5 min.
+    t_m=5
+    t_s=$(( 60 * $t_m ))
+
     if [[ $(command -v kdialog) == "" ]]; then
         echo "You must install kdialog!"
-        timer=0
+        t_m=0
     fi
+
     if [[ $# == 1 ]]; then
-        timer=$1
-    else
-        echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 180 # 3 min"
-        timer=0
+        # parse command line arguments
+        if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+            echo -e "Usage: tea [count]\n   eg, tea     # 5 min\n       tea 3.5 # 3½ min"
+            t_m=0
+        else
+            t_m="$1"
+        fi
     fi
-    if [[ ${timer} -gt 0 ]]; then
-        sleep ${timer}
-        kdialog --msgbox "Your tea is ready."
+
+    t_s=$(python -c "print(int(60.0 * float(${t_m})))")
+    if [[ ${t_s} -gt 0 ]]; then
+        sleep ${t_s}
+        if [[ "$(which kdialog)" != "" ]]; then
+            kdialog --msgbox "Your tea has steeped ${t_m} min."
+        elif [[ "$(which i3-nagbar)" != "" ]]; then
+            i3-nagbar -t warning -m "Your tea has steeped ${t_m} min."
+        else
+            echo "Your tea has steeped ${t_m} min."
+        fi
     fi
 }
 
-update-conda() {
-    # Update Anaconda Python and all its virtual environments
+update-envs() {
+    # Update Mambaforge/Miniconda/Anaconda Python and virtual environments
     echo "=== Updating conda base ==="
     mamba update -n base --yes --all
     if [[ -a ~/.conda/anaconda ]]; then
