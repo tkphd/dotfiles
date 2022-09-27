@@ -172,6 +172,7 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
+alias mdl="markdownlint-cli2"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"

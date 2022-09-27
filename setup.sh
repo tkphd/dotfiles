@@ -146,7 +146,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     [ -s "${HOME}/.nvm/bash_completion" ] && \
         . "${HOME}/.nvm/bash_completion"  # This loads nvm bash_completion
     if [[ -d "${HOME}/.npm" ]]; then
-        npm install --global markdownlint-cli tldr yarn 2&>/dev/null # don't tell me about audit errors
+        npm install --global markdownlint-cli2 tldr yarn 2&>/dev/null # don't tell me about audit errors
     fi
 
 else
