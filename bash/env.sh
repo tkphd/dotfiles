@@ -107,10 +107,10 @@ if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     unset DOTSCADPATH
 fi
 # === PGI ===
-if [[ -f "/opt/pgi/license.dat" ]]; then
-    export PGI_PATH="/opt/pgi/linux86-64-llvm/19.10"
-    export LM_LICENSE_FILE="/opt/pgi/license.dat"
-    export PATH="${PATH}:/opt/pgi/linux86-64-llvm/19.10/bin"
+if [[ -f /opt/pgi/license.dat ]]; then
+    export PGI_PATH=/opt/pgi/linux86-64-llvm/19.10
+    export LM_LICENSE_FILE=/opt/pgi/license.dat
+    export PATH="${PATH}":/opt/pgi/linux86-64-llvm/19.10/bin
 fi
 # === Python ===
 export PYTHONPYCACHEPREFIX="/tmp/${USER}/pycache"

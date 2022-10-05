@@ -198,6 +198,7 @@ alias ls='ls --group-directories-first --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -hal'
+alias mdl="markdownlint-cli2"
 alias mf="echo -e 'Use /usr/bin/mf for MetaFont; you probably meant\n    mv'"
 alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
