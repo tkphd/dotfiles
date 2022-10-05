@@ -99,7 +99,7 @@
  '(custom-safe-themes
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(package-selected-packages
-   '(julia-formatter julia-mode counsel-projectile pandoc-mode bug-hunter anzu better-defaults clean-aindent-mode company dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pyflakes flycheck-yamllint flymake-sass helm helm-gtags iedit lua-mode night-owl-theme opencl-mode poly-R poly-ansible poly-rst py-autopep8 rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
+   '(highlight-doxygen gcode-mode julia-formatter julia-mode counsel-projectile pandoc-mode bug-hunter anzu better-defaults clean-aindent-mode company dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pyflakes flycheck-yamllint flymake-sass helm helm-gtags iedit lua-mode night-owl-theme opencl-mode poly-R poly-ansible poly-rst py-autopep8 rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -223,6 +223,16 @@
   :ensure t
   :mode (("\\.cu\\'"  . cuda-mode))
   :mode (("\\.cuh\\'"  . cuda-mode)))
+
+(require 'highlight-doxygen)
+(add-to-list 'auto-mode-alist '("\\Doxyfile\\'" . highlight-doxygen-mode))
+
+(require 'gcode-mode)
+(add-to-list 'auto-mode-alist '("\\.gcode\\'" . gcode-mode))
+
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'"   . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-mode))
 
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
