@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # General layout of the i3 bar
 
 # To feed local machine configuration variables into this script,
@@ -110,6 +111,8 @@ try:
         ),
     )
 except ImportError:
+    pass
+except i3pystatus.core.exceptions.ConfigKeyError:
     pass
 except i3pystatus.core.exceptions.ConfigMissingError:
     pass
