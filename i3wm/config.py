@@ -54,7 +54,7 @@ icons = {
 }
 
 try:
-    from machine import ifce, disks, battery
+    from machine import ifce, disks, battery, excludes
 except ImportError:
     # Defaults render a penguin '' for '/'
     # and a house '' for /home (Font Awesome)
@@ -72,16 +72,20 @@ status.register(
     format="%a %-d %b %I:%M %p",  # Tue 30 Jul 11:59 PM
 )
 
-status.register(
-    "pomodoro",
-    pomodoro_duration=3000,
-    break_duration=600,
-    long_break_duration=1800,
-    short_break_count=2,
-    inactive_format="🍅",
-    format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
-    hints={"markup": "pango"},
-)
+if "pomodoro" not in excludes:
+    try:
+        status.register(
+            "pomodoro",
+            pomodoro_duration=3000,
+            break_duration=600,
+            long_break_duration=1800,
+            short_break_count=2,
+            inactive_format="🍅",
+            format="🍅 {current_pomodoro}/{total_pomodoro} {time}",
+            hints={"markup": "pango"},
+        )
+    except i3pystatus.core.exceptions.ConfigKeyError:
+        pass
 
 for disk, icon, unit in disks:
     # Format: " 2.015 TB"
@@ -96,26 +100,27 @@ for disk, icon, unit in disks:
         format='<span size = "x-small">%s</span> {avail} %s' % (icon, unit),
     )
 
-try:
-    from i3pystatus.weather import wunderground
-    status.register(
-        'weather',
-        format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% 🌢[ {update_error}]',
-        color_icons=icons,
-        colorize=True,
-        hints={'markup': 'pango'},
-        backend=wunderground.Wunderground(
-            location_code='KMDGERMA56',
-            units='metric',
-            update_error='<span color="#ff1111">!</span>',
-        ),
-    )
-except ImportError:
-    pass
-except i3pystatus.core.exceptions.ConfigKeyError:
-    pass
-except i3pystatus.core.exceptions.ConfigMissingError:
-    pass
+if "weather" not in excludes:
+    try:
+        from i3pystatus.weather import wunderground
+        status.register(
+            'weather',
+            format='{condition} [{icon} ] {feelslike} {temp_unit}, {humidity}% 🌢[ {update_error}]',
+            color_icons=icons,
+            colorize=True,
+            hints={'markup': 'pango'},
+            backend=wunderground.Wunderground(
+                location_code='KMDGERMA56',
+                units='metric',
+                update_error='<span color="#ff1111">!</span>',
+            ),
+        )
+    except ImportError:
+        pass
+    except i3pystatus.core.exceptions.ConfigKeyError:
+        pass
+    except i3pystatus.core.exceptions.ConfigMissingError:
+        pass
 
 try:
     # Shows pulseaudio default sink volume
@@ -123,10 +128,12 @@ try:
     status.register(
         "pulseaudio",
         format="♪ {volume}",
-        sink="combined",
+        # sink="combined",
         multi_colors=True,
         hints={"markup": "pango"},
     )
+except i3pystatus.core.exceptions.ConfigKeyError:
+    pass
 except ImportError:
     # Shows alsaaudio default sink volume
     # Note: requires pyalsaaudio from PyPI
