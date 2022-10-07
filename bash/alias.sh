@@ -166,6 +166,7 @@ whoareu() {
 }
 
 alias acs="apt-cache search"
+alias acS="apt-cache show"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_rsa; stty echo'"

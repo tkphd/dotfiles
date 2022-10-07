@@ -185,8 +185,11 @@ for_window [class="Kmix"] floating enable; border none
 for_window [class="Klipper"] floating enable; border none
 for_window [class="Plasmoidviewer"] floating enable; border none
 for_window [class="(?i)*nextcloud*"] floating disable
-# kill the default Plasma window covering everything
+
+# Don't spawn an empty Plasma Desktop window
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
+for_window [title="Desktop - Plasma"] kill; floating enable; border none
+for_window [title="Desktop -- Plasma"] kill; floating enable; border none
 
 # Start i3bar to display a workspace bar (plus the system
 # information i3status finds out, if available)
