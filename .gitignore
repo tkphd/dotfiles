@@ -11,10 +11,11 @@ emacs/*.eld
 emacs/*.last
 emacs/elpa
 emacs/places
-emacs/semanticdb/
+emacs/semanticdb
+emacs/transient
 
 i3wm/machine.py
 
-kee/
+kee
 
-local/
+local
