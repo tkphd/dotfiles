@@ -38,8 +38,9 @@
 
 (if (version< emacs-version "24.4")
     (require 'setup-ivy-counsel)
-  (require 'setup-helm)
-  (require 'setup-helm-gtags))
+    (require 'setup-helm)
+    (require 'setup-helm-gtags)
+  )
 
 (require 'setup-general)
 (require 'setup-cedet)
@@ -66,8 +67,8 @@
     (if (and (not (member major-mode display-line-numbers-exempt-modes))
              (not (minibufferp)))
         (display-line-numbers-mode)))
-  (global-display-line-numbers-mode))
-
+  (global-display-line-numbers-mode)
+  )
 
 ;; Put backup files neatly away (https://emacs.stackexchange.com/a/36)
 (let ((backup-dir (getenv "EMACSBD"))
@@ -75,15 +76,17 @@
   (dolist (dir (list backup-dir auto-saves-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)) )
-  (setq backup-directory-alist `(("." . ,backup-dir)) auto-save-file-name-transforms `((".*"
-                                                                                        ,auto-saves-dir
-                                                                                        t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-") tramp-backup-directory-alist
-        `((".*" . ,backup-dir)) tramp-auto-save-directory auto-saves-dir) )
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*", auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        tramp-backup-directory-alist `((".*" . ,backup-dir))
+        tramp-auto-save-directory auto-saves-dir)
+  )
+
 (setq backup-by-copying t               ; Don't delink hardlinks
       delete-old-versions t             ; Clean up the backups
       version-control t                 ; Use version numbers on backups,
-      kept-new-versions 5               ; keep some new versions
+      kept-new-versions 2               ; keep some new versions
       kept-old-versions 2)              ; and some old ones, too
 
 ;; function-args
@@ -99,7 +102,7 @@
  '(custom-safe-themes
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(package-selected-packages
-   '(julia-formatter julia-mode counsel-projectile pandoc-mode bug-hunter anzu better-defaults clean-aindent-mode company dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pyflakes flycheck-yamllint flymake-sass helm helm-gtags iedit lua-mode night-owl-theme opencl-mode poly-R poly-ansible poly-rst py-autopep8 rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
+   '(counsel counsel-pydoc company-terraform company-shell company-math company-jedi adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company counsel-projectile csv-mode dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode helm helm-gtags highlight-doxygen iedit julia-formatter julia-mode lua-mode neotree night-owl-theme olivetti opencl-mode pandoc-mode poetry poly-R poly-ansible poly-rst py-autopep8 pyvenv-auto rdf-prefix rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -108,17 +111,8 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; linting
-(use-package
-  flycheck
-  :ensure t
-  :init (global-flycheck-mode))
-
-(setq compilation-scroll-output 'first-error)
-
 (defun unfill-paragraph
-    (&optional
-     region)
+    (&optional region)
   "Take a multi-line REGION and make a single line of text of it."
   (interactive (progn (barf-if-buffer-read-only)
                       '(t)))
@@ -129,18 +123,32 @@
 
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
-;; Display columns, and set default wrap width
+;; Appearance
 
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq-default column-number-mode t)
-(setq-default fill-column 79)
-(setq fill-column 79)
 (setq-default require-final-newline t)
 (setq require-final-newline t)
 ;; (setq sentence-end-double-space nil)
 
-;; line endings
+;; how wide should the text fields be?
+(setq-default fill-column 75)
+(setq fill-column 75)
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+;; center text fields in window
+(use-package olivetti
+  :diminish
+  :commands olivetti-mode
+  :config
+  (setq olivetti-body-width 80)
+  (setq olivetti-minimum-body-width 50)
+  )
+
+;; adapt to non-Unix line endings
 
 (defun unix-file ()
   "Change the current buffer to Unix line-ends."
@@ -161,8 +169,8 @@
 
 (setq auto-mode-alist (append '(("/tmp/mutt.*" . mail-mode)) auto-mode-alist))
 (defun mail-mode-fill-col ()
-  "Set mail message width to 69 cols."
-  (setq fill-column 69))
+  "Set mail message width to 65 cols."
+  (setq fill-column 65))
 (add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
 (add-hook 'mail-mode-hook 'turn-on-auto-fill)
 (add-hook 'mail-mode-hook 'mail-mode-fill-col)
@@ -193,19 +201,76 @@
 
 (add-hook 'find-file-hooks 'hexl-if-binary)
 
+;; Linting
+
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode t))
+
+(use-package flycheck-pycheckers
+  :after flycheck
+  :ensure t
+  :init
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+    )
+  (setq flycheck-pycheckers-checkers
+        '(
+          pyflakes
+          )
+        )
+  )
+
+;; Python dependency management and packaging
+(use-package poetry
+  :ensure t)
+
+(setq compilation-scroll-output 'first-error)
+
 ;; syntax highlighting and code styling
 
-(use-package markdown-mode
- :ensure t
- :commands (markdown-mode gfm-mode)
- :mode (("\\.md\\'"       . gfm-mode)
-        ("\\.markdown\\'" . markdown-mode))
- :init (setq markdown-command "pandoc"))
+(setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
 
-(use-package rst
+(require 'csv-mode)
+(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
+(add-to-list 'auto-mode-alist '("\\.tsv\\'" . csv-mode))
+
+(use-package cuda-mode
   :ensure t
-  :commands (rst)
-  :mode (("\\.rst\\'"      . rst)))
+  :mode (("\\.cu\\'"  . cuda-mode))
+  :mode (("\\.cuh\\'"  . cuda-mode)))
+
+(require 'highlight-doxygen)
+(add-to-list 'auto-mode-alist '("\\Doxyfile\\'" . highlight-doxygen-mode))
+
+(require 'gcode-mode)
+(add-to-list 'auto-mode-alist '("\\.gcode\\'" . gcode-mode))
+
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'"   . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-mode))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\.md\\'"       . gfm-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
+
+(require 'opencl-mode)
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
+
+(require 'rst)
+(add-to-list 'auto-mode-alist '("\\.rst\\'" . rst))
+
+(require 'turtle-mode)
+(add-to-list 'auto-mode-alist '("\\.turtle\\'" . turtle-mode))
+
+(require 'typescript-mode)
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+
+;; LaTeX handling
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -216,19 +281,6 @@
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
-
-(setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
-
-(use-package cuda-mode
-  :ensure t
-  :mode (("\\.cu\\'"  . cuda-mode))
-  :mode (("\\.cuh\\'"  . cuda-mode)))
-
-(require 'opencl-mode)
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
-
-(require 'typescript-mode)
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
 ;; disable vc-git
 (setq vc-handled-backends ())

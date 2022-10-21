@@ -11,7 +11,7 @@ fi
     source "${HOME}/.dotfiles/bash/local_prompt"
 if [[ "$PS1" ]]; then
     # colorize if at all possible
-    force_color_prompt=yes
+    force_color_prompt="yes" && export force_color_prompt
     # disable Ctrl-S in interactive shells (only), per
     # https://twitter.com/thingskatedid/status/1348860793618456581
     [[ $- == *i* ]] && \
@@ -22,9 +22,8 @@ if [[ "$PS1" ]]; then
     # Turn off HUP on exit, mail notification, and using $PATH for the 'source' command
     shopt -u huponexit mailwarn sourcepath
     # set failsafe prompt
-    function prompt_command
-    {
-        if [ "$?" == 0 ]; then
+    prompt_command () {
+        if [ $? ]; then
             ERRPROMPT=""
         else
             ERRPROMPT="($?)"
@@ -34,7 +33,7 @@ if [[ "$PS1" ]]; then
     case ${TERM} in
         iris-ansi*|konsole|rxvt*|screen|urxvt*|xterm*)
             # Put user@machine:/directory on headline of xterms
-            PS="${RED}\${ERRPROMPT}${BLUE}\!"
+            PS="${RED}\${ERRPROMPT}${BLUE}\!" && export PS
             sep_git() {
                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/:/'
             }
@@ -51,14 +50,14 @@ if [[ "$PS1" ]]; then
             TIME_HUE="${RED}"
             [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && \
                 source "${HOME}/.dotfiles/bash/local_prompt"
-            PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${DEFAULT} "
+            PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${DEFAULT} " && export PS1
             PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
             ;;
         default)
-            if [[ $UID == $EUID && $UID -ne 0 ]]; then
-                PS1="\${ERRPROMPT}\! \h$% "
+            if [[ "$UID" == "$EUID" && $UID -ne 0 ]]; then
+                PS1="\${ERRPROMPT}\! \h$% " && export PS1
             else
-                PS1="\${ERRPROMPT}\! \u@\h$#"
+                PS1="\${ERRPROMPT}\! \u@\h$#" && export PS1
             fi
     esac
 fi

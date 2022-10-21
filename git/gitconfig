@@ -16,6 +16,7 @@
   lg =   log --graph --oneline --decorate --all
   st = status
   work = config --local user.email trevor.keller@nist.gov
+  fixwork = commit --amend --author='Trevor Keller <trevor.keller@nist.gov>'
 
 [color]
   ui = auto
