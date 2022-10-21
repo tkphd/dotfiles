@@ -140,6 +140,14 @@ except ImportError:
     #       and libalsaaudio-dev
     status.register("alsa")
 
+if path.exists("/var/run/reboot-required.pkgs"):
+    status.register(
+        "text",
+        text="Reboot 🄎",
+        hints={"markup": "pango"},
+        color=colors["strawberry"]
+    )
+
 # Shows memory usage
 status.register(
     "mem_bar",
