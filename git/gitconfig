@@ -1,7 +1,3 @@
-[user]
-  name = Trevor Keller
-  signingkey = 0x210CD7CA9908C3F6
-
 [include]
   path = ~/.gitlocal
 
@@ -48,9 +44,6 @@
   colorMoved = default
 
 [init]
-  # If this folder does not already exist, please
-  # echo "ref: refs/heads/main" > ~/.config/git/template/HEAD
-  templateDir = ~/.config/git/template
   defaultBranch = main
 
 [merge]

@@ -76,6 +76,17 @@ GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
+# === Nix ===
+[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && \
+    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+# === Node ===
+if [[ -d "${HOME}/.nvm" ]]; then
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "${NVM_DIR}/nvm.sh" ] && \
+        source "${NVM_DIR}/nvm.sh"  # This loads nvm
+    [ -s "${NVM_DIR}/bash_completion" ] && \
+        source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+fi
 # === OpenSCAD ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
@@ -112,6 +123,11 @@ if [[ -d /opt/riscv ]]; then
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
+# === Ruby ===
+[ -d "${HOME}/.rvm/bin" ] && \
+    export PATH="${PATH}:${HOME}/.rvm/bin"
+[ -s "$HOME/.rvm/scripts/rvm" ] && \
+    . "$HOME/.rvm/scripts/rvm"
 # === Singularity ===
 if [[ -d "/working/${USER}" ]]; then
     export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
