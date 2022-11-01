@@ -18,9 +18,6 @@ fi
     export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
-# === Conda & Mamba ===
-[[ -f "${HOME}/.dotfiles/bash/mamba.sh" ]] && \
-    source "${HOME}/.dotfiles/bash/mamba.sh"
 # === Emacs ===
 export EMACSD="/tmp/${USER}/emacs"
 export EMACSBD="${EMACSD}/backups"
@@ -45,6 +42,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 export KDE_FULL_SESSION=false
 export KDEWM=/usr/bin/i3
 # === less ===
+if [[ $(which pygmentize) != "" ]]; then
+    LESSOPEN="| pygmentize -g %s" && export LESSOPEN
+fi
 # termcap  terminfo  effect
 # ks       smkx      make the keypad send commands
 # ke       rmkx      make the keypad send digits
@@ -70,32 +70,12 @@ LESS_TERMCAP_ZV=$(tput rsubm)                            && export LESS_TERMCAP_
 LESS_TERMCAP_ZO=$(tput ssupm)                            && export LESS_TERMCAP_ZO
 LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_ZW
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
-
-if [[ $(which pygmentize) != "" ]]; then
-    LESSOPEN="| pygmentize -g %s" && export LESSOPEN
-fi
-# === Lmod ===
-if [[ -f /etc/profile.d/lmod.sh ]]; then
-    . /etc/profile.d/lmod.sh
-    for DIR in /toolbox /working; do
-        [[ -d ${DIR}/${USER}/modules/modulefiles ]] && \
-            module use "${DIR}/${USER}/modules/modulefiles"
-    done
-fi
+# === Modules ===
+[ -d "/toolbox/${USER}/modules" ] && \
+    module use "/toolbox/${USER}/modules"
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
-# === NIX ===
-[[ -d "${HOME}/.nix-profile/etc/profile.d" ]] && \
-    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-# === Node ===
-if [[ -d "${HOME}/.nvm" ]]; then
-    export NVM_DIR="${HOME}/.nvm"
-    [ -s "${NVM_DIR}/nvm.sh" ] && \
-        source "${NVM_DIR}/nvm.sh"  # This loads nvm
-    [ -s "${NVM_DIR}/bash_completion" ] && \
-        source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
-fi
 # === OpenSCAD ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
@@ -132,18 +112,6 @@ if [[ -d /opt/riscv ]]; then
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
-# === Ruby Version Manager ===
-if [[ -d "${HOME}/.rvm" ]]; then
-    RVMDIR="${HOME}/.rvm"
-    export PATH="${PATH}:${RVMDIR}/bin"
-    if [[ -a "${RVMDIR}/rubies/default" ]]; then
-        RUBYDIR=$(realpath "${RVMDIR}")/rubies/default
-        export PATH="${RUBYDIR}/bin:${PATH}"
-    fi
-fi
-# === Rust ===
-[[ -e "${HOME}/.cargo/env" ]] && \
-    source "${HOME}/.cargo/env"
 # === Singularity ===
 if [[ -d "/working/${USER}" ]]; then
     export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
@@ -151,8 +119,6 @@ if [[ -d "/working/${USER}" ]]; then
     [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
     [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 fi
-# === SUDO ===
-SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ") && export SUDO_PROMPT
 # === SSH ===
 SSH_ASKPASS="/usr/bin/ssh-askpass" && export SSH_ASKPASS
 # === Systemd ===

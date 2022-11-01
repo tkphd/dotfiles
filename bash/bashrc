@@ -9,6 +9,7 @@ fi
 case $- in
 	*i*)
         # interactive: disable locking terminal with Ctrl-S
+        # https://twitter.com/thingskatedid/status/1348860793618456581
         stty -ixon;;
 	*)
         # non-interactive: do no more

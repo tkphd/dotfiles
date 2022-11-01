@@ -7,58 +7,48 @@ fi
 [[ -f "${HOME}/.dotfiles/bash/colors.sh" ]] && \
     source "${HOME}/.dotfiles/bash/colors.sh"
 
-[[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && \
-    source "${HOME}/.dotfiles/bash/local_prompt"
+sep_git() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/:/'
+}
+str_git() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
+export SUDO_PROMPT
+
 if [[ "$PS1" ]]; then
-    # colorize if at all possible
-    force_color_prompt="yes" && export force_color_prompt
-    # disable Ctrl-S in interactive shells (only), per
-    # https://twitter.com/thingskatedid/status/1348860793618456581
-    [[ $- == *i* ]] && \
-        stty -ixon
     # autocorrect for 'cd', check for removed commands, flatten multi-liners for history,
     # append rather than overwrite history, update window size after each command
     shopt -s cdspell checkhash checkwinsize cmdhist histappend
     # Turn off HUP on exit, mail notification, and using $PATH for the 'source' command
     shopt -u huponexit mailwarn sourcepath
-    # set failsafe prompt
-    prompt_command () {
-        if [ $? ]; then
-            ERRPROMPT=""
-        else
-            ERRPROMPT="($?)"
-        fi
-    }
-    PROMPT_COMMAND=prompt_command
+    # Set window title & basic prompt
+    PS='\u@\h:\w'
+    PS1='[\u@\h:\W]\$ '
     case ${TERM} in
-        iris-ansi*|konsole|rxvt*|screen|urxvt*|xterm*)
-            # Put user@machine:/directory on headline of xterms
-            PS="${RED}\${ERRPROMPT}${BLUE}\!" && export PS
-            sep_git() {
-                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/:/'
-            }
-            str_git() {
-                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-            }
+        linux)
+            # Probably a TTY rather than a terminal
+            PS1='[\u@\h:\W]\$ '
+            ;;
+        *)
             # Customizable prompt settings
-            DIV_HUE="${MAGENTAB}"
-            GIT_HUE="${RED}"
-            HOST_HUE="${BLUE}"
-            PATH_HUE="${CYANL}"
-            PROM_HUE="${GREENL}"
-            QUOT_HUE="${MAGENTAB}"
-            TIME_HUE="${RED}"
+            D_HU="${MAGENTAB}"
+            G_HU="${RED}"
+            H_HU="${BLUE}"
+            P_HU="${CYANL}"
+            S_HU="${GREENL}"
+            Q_HU="${MAGENTAB}"
+            T_HU="${RED}"
             [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && \
                 source "${HOME}/.dotfiles/bash/local_prompt"
-            PS1="${QUOT_HUE}«${TIME_HUE}\D{%H:%M}${DIV_HUE}@${HOST_HUE}\h${DIV_HUE}:${PATH_HUE}\W${DIV_HUE}\$(sep_git)${GIT_HUE}\$(str_git)${QUOT_HUE}»${PROM_HUE}\$${DEFAULT} " && export PS1
-            PROMPT_COMMAND='echo -ne "\e]0;${USER}@$(hostname --short): $(basename $PWD)\007"'
-            ;;
-        default)
-            if [[ "$UID" == "$EUID" && $UID -ne 0 ]]; then
-                PS1="\${ERRPROMPT}\! \h$% " && export PS1
+            if [[ $UID != $EUID ]]; then
+                # su environment
+                PS1="${REDB}\u[\h]:\W\#${DEFAULT} "
             else
-                PS1="\${ERRPROMPT}\! \u@\h$#" && export PS1
+                PS1="${Q_HU}«${T_HU}\D{%H:%M}${D_HU}@${H_HU}\h${D_HU}:${P_HU}\W${D_HU}\$(sep_git)${G_HU}\$(str_git)${Q_HU}»${S_HU}\$${DEFAULT} "
             fi
+            ;;
     esac
 fi
 

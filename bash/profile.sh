@@ -12,40 +12,36 @@ if [ -n "${BASH_VERSION}" ]; then
     fi
 fi
 
-# export LANGUAGE="en_US:en"
-# export LC_MESSAGES="en_US.UTF-8"
-# export LC_CTYPE="en_US.UTF-8"
-# export LC_COLLATE="en_US.UTF-8"
+# === Lmod ===
+if [[ -f /etc/profile.d/lmod.sh ]]; then
+    . /etc/profile.d/lmod.sh
+    for DIR in /toolbox /working; do
+        [[ -d ${DIR}/${USER}/modules/modulefiles ]] && \
+            module use "${DIR}/${USER}/modules/modulefiles"
+    done
+fi
 
-# Nix
-function loadnix {
-    if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
-        . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-    fi # added by Nix installer
-}
+# === Nix ===
+[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && \
+    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 
-function loadcargo {
-    [ -e "${HOME}/.cargo/env" ] && \
-        . "${HOME}/.cargo/env"
-}
+# === Node ===
+if [[ -d "${HOME}/.nvm" ]]; then
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "${NVM_DIR}/nvm.sh" ] && \
+        source "${NVM_DIR}/nvm.sh"  # This loads nvm
+    [ -s "${NVM_DIR}/bash_completion" ] && \
+        source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+fi
 
-function loadrvm {
-    [ -d "${HOME}/.rvm/bin" ] && \
-        export PATH="${PATH}:${HOME}/.rvm/bin"
+# === Ruby ===
+[ -d "${HOME}/.rvm/bin" ] && \
+    export PATH="${PATH}:${HOME}/.rvm/bin"
+[ -s "$HOME/.rvm/scripts/rvm" ] && \
+    . "$HOME/.rvm/scripts/rvm"
 
-    [ -s "$HOME/.rvm/scripts/rvm" ] && \
-        . "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-}
-
-[[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]] && \
-    . "${HOME}/.nix-profile/etc/profile.d/nix.sh" # added by Nix installer
-
-# Rust/cargo
-[[ -f "$HOME/.cargo/env" ]] && \
-    . "$HOME/.cargo/env"
-
-# === Conda & Mamba ===
-[[ -f "${HOME}/.dotfiles/bash/mamba.sh" ]] && \
-    . "${HOME}/.dotfiles/bash/mamba.sh"
+# === Rust/cargo ===
+[ -e "${HOME}/.cargo/env" ] && \
+    . "${HOME}/.cargo/env"
 
 export PROFILE_SOURCED=1
