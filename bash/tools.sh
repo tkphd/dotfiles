@@ -3,12 +3,13 @@
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -nw"
 export PAGER="less"
-export READER="zathura"
+export READER="okular"
 export VISUAL="${EDITOR}"
 
 # display non-text files with less
 [ -x /usr/bin/lesspipe ] && \
-    export LESSOPEN="|lesspipe %s"
+    eval "$(SHELL=/bin/sh lesspipe)"
+
 # list capitalized folders first
 export LC_COLLATE="C"
 

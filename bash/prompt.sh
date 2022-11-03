@@ -42,9 +42,9 @@ if [[ "$PS1" ]]; then
             T_HU="${RED}"
             [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && \
                 source "${HOME}/.dotfiles/bash/local_prompt"
-            if [[ $UID != $EUID ]]; then
+            if [[ "${UID}" != "${EUID}" ]]; then
                 # su environment
-                PS1="${REDB}\u[\h]:\W\#${DEFAULT} "
+                PS1="${REDB}\u[\h]:\W\$${DEFAULT} "
             else
                 PS1="${Q_HU}«${T_HU}\D{%H:%M}${D_HU}@${H_HU}\h${D_HU}:${P_HU}\W${D_HU}\$(sep_git)${G_HU}\$(str_git)${Q_HU}»${S_HU}\$${DEFAULT} "
             fi

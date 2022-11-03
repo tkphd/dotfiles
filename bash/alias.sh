@@ -214,6 +214,7 @@ alias please="sudo"
 if [[ $(which pygmentize) != "" && -a "${HOME}/bin/color-cat" ]]; then
     alias ccat="${HOME}/bin/color-cat"
     alias pyg="${HOME}/bin/color-cat"
+    alias pygmentize="pygmentize -O style='github-dark'"
 fi
 alias R='R --no-restore --no-save'
 alias rm="rm -v"
