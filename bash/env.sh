@@ -71,8 +71,14 @@ LESS_TERMCAP_ZO=$(tput ssupm)                            && export LESS_TERMCAP_
 LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_ZW
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 # === Modules ===
-[ -d "/toolbox/${USER}/modules" ] && \
-    module use "/toolbox/${USER}/modules"
+if [[ -f /etc/profile.d/lmod.sh ]]; then
+    . /etc/profile.d/lmod.sh
+    for DIR in /toolbox /working; do
+        MOD="${DIR}/${USER}/modules/modulefiles"
+        [[ -d  "${MOD}" ]] && \
+            module use "${MOD}"
+    done
+fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
