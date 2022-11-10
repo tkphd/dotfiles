@@ -16,8 +16,9 @@ fi
 if [[ -f /etc/profile.d/lmod.sh ]]; then
     . /etc/profile.d/lmod.sh
     for DIR in /toolbox /working; do
-        [[ -d ${DIR}/${USER}/modules/modulefiles ]] && \
-            module use "${DIR}/${USER}/modules/modulefiles"
+        MOD="${DIR}/${USER}/modules/modulefiles"
+        [[ -d  "${MOD}" ]] && \
+            module use "${MOD}"
     done
 fi
 
