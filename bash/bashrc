@@ -22,7 +22,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # detect color capabilities and set basic prompt
-if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+if [ -x /usr/bin/tput ]; then #  && tput setaf 1 >&/dev/null; then
 	PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\]\w\[\e[00m\]\$ '
     if [ -x /usr/bin/dircolors ]; then
         if [[ -r ~/.dircolors ]]; then
@@ -57,7 +57,7 @@ export NVM_DIR="${HOME}/.nvm"
 [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
 [ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 
-export BASHRC_SOURCED=1
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export BASHRC_SOURCED=1

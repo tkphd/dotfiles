@@ -44,7 +44,7 @@ fi
 [ -e "${HOME}/.cargo/env" ] && \
     . "${HOME}/.cargo/env"
 
-export PROFILE_SOURCED=1
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export PROFILE_SOURCED=1

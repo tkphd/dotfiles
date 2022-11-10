@@ -13,6 +13,13 @@ fi
 # === Crypto Tokens ===
 [[ -f ${HOME}/.dotfiles/local/tokens ]] && \
     source "${HOME}/.dotfiles/local/tokens"
+# === AMGX ===
+AMGX_DIR=/toolbox/${USER}/opt/amgx
+AMGX_BUILD_DIR=${HOME}/repositories/AMGX/build
+[ -d "${AMGX_DIR}" ] && \
+    export AMGX_DIR
+[ -d "${AMGX_BUILD_DIR}" ] && \
+    export AMGX_BUILD_DIR
 # === BeeGFS ===
 [[ -d /opt/beegfs ]] && \
     export PATH="${PATH}:/opt/beegfs/sbin"
@@ -71,8 +78,11 @@ LESS_TERMCAP_ZO=$(tput ssupm)                            && export LESS_TERMCAP_
 LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_ZW
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 # === Modules ===
-[ -d "/toolbox/${USER}/modules" ] && \
-    module use "/toolbox/${USER}/modules"
+if [[ -f /etc/profile.d/lmod.sh ]]; then
+    . /etc/profile.d/lmod.sh
+    [ -d "/toolbox/${USER}/modules" ] && \
+        module use "/toolbox/${USER}/modules"
+fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 export PATH="${PATH}:${MMSP_PATH}/utility"
