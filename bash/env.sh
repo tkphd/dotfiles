@@ -5,23 +5,17 @@ if [[ -n "${ENV_SOURCED}" ]]; then
 fi
 
 # === Local Binaries ===
-[[ -d "${HOME}/bin" ]] && \
+[[ -d "${HOME}/bin" ]] && [[ ! $PATH =~ .*/$USER/bin* ]] && \\
     export PATH="${HOME}/bin:${PATH}"
 # === Snap Binaries ===
-[[ -d "/snap/bin" ]] && \
+[[ -d "/snap/bin" ]] && [[ ! $PATH =~ .*/snap* ]] && \
     export PATH="/snap/bin:${PATH}"
-# === Crypto Tokens ===
-[[ -f ${HOME}/.dotfiles/local/tokens ]] && \
-    source "${HOME}/.dotfiles/local/tokens"
 # === AMGX ===
 AMGX_DIR=/toolbox/${USER}/opt/amgx
-AMGX_BUILD_DIR=${HOME}/repositories/AMGX/build
 [ -d "${AMGX_DIR}" ] && \
     export AMGX_DIR
-[ -d "${AMGX_BUILD_DIR}" ] && \
-    export AMGX_BUILD_DIR
 # === BeeGFS ===
-[[ -d /opt/beegfs ]] && \
+[[ -d /opt/beegfs ]] && [[ ! $PATH =~ .*/opt/beegfs* ]] && \
     export PATH="${PATH}:/opt/beegfs/sbin"
 # === Borg ===
 export BORG_RSH="ssh -i ${HOME}/.ssh/danger_borg_rsa"
@@ -39,19 +33,13 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && \
     source "${HOME}/.github" # personal access token(s)
-# # === Go ===
-# [[ -d "/opt/go" ]] && \
-#     export PATH="/opt/go/bin:${PATH}"
 # === Haskell ===
 [[ -f "${HOME}/.ghcup/env" ]] && \
     source "${HOME}/.ghcup/env" # ghcup-env
 # === KDE ===
-export KDE_FULL_SESSION=false
-export KDEWM=/usr/bin/i3
+# export KDE_FULL_SESSION=false
+# export KDEWM=/usr/bin/i3
 # === less ===
-if [[ $(which pygmentize) != "" ]]; then
-    LESSOPEN="| pygmentize -g %s" && export LESSOPEN
-fi
 # termcap  terminfo  effect
 # ks       smkx      make the keypad send commands
 # ke       rmkx      make the keypad send digits
@@ -77,6 +65,8 @@ LESS_TERMCAP_ZV=$(tput rsubm)                            && export LESS_TERMCAP_
 LESS_TERMCAP_ZO=$(tput ssupm)                            && export LESS_TERMCAP_ZO
 LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_ZW
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
+[[ $(which pygmentize) != "" ]] && \
+    export LESSOPEN="| pygmentize -g %s"
 # === Modules ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
     . /etc/profile.d/lmod.sh
@@ -85,7 +75,8 @@ if [[ -f /etc/profile.d/lmod.sh ]]; then
 fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
-export PATH="${PATH}:${MMSP_PATH}/utility"
+[[ ! $PATH =~ .*mmsp* ]] && \
+    export PATH="${PATH}:${MMSP_PATH}/utility"
 # === Nix ===
 [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && \
     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
@@ -97,7 +88,7 @@ if [[ -d "${HOME}/.nvm" ]]; then
     [ -s "${NVM_DIR}/bash_completion" ] && \
         source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 fi
-# === OpenSCAD ===
+# === OpenSCAD plugins ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
     if [[ -n "${OPENSCADPATH}" ]]; then
@@ -106,12 +97,6 @@ if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
         export OPENSCADPATH="${DOTSCADPATH}"
     fi
     unset DOTSCADPATH
-fi
-# === PGI ===
-if [[ -f /opt/pgi/license.dat ]]; then
-    export PGI_PATH=/opt/pgi/linux86-64-llvm/19.10
-    export LM_LICENSE_FILE=/opt/pgi/license.dat
-    export PATH="${PATH}":/opt/pgi/linux86-64-llvm/19.10/bin
 fi
 # === Python ===
 export PYTHONPYCACHEPREFIX="/tmp/${USER}/pycache"
@@ -127,14 +112,15 @@ elif [[ -d "/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms" ]]; then
 fi
 # === RISC V ===
 if [[ -d /opt/riscv ]]; then
-    export PATH="${PATH}:/opt/riscv/bin"
+    [[ ! $PATH =~ .*/opt/riscv* ]] && \
+        export PATH="${PATH}:/opt/riscv/bin"
     RISCV_LIB="/opt/riscv/lib"
     [[ -n "${LD_LIBRARY_PATH}" ]] && \
         RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
 # === Ruby ===
-[ -d "${HOME}/.rvm/bin" ] && \
+[ -d "${HOME}/.rvm/bin" ] && [[ ! $PATH =~ .*/.rvm* ]] && \
     export PATH="${PATH}:${HOME}/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && \
     . "$HOME/.rvm/scripts/rvm"
@@ -148,20 +134,6 @@ fi
 # === SSH ===
 SSH_ASKPASS="/usr/bin/ssh-askpass" && export SSH_ASKPASS
 # === Systemd ===
-export SYSTEMD_PAGER=  # disable systemctl's auto-paging feature
-# === Thermo-Calc ===
-if [[ -d "${HOME}/Thermo-Calc/2020a/" ]]; then
-    TC20A_HOME="${HOME}/Thermo-Calc/2020a/" && export TC20A_HOME
-    export PATH="${PATH}:${HOME}/Thermo-Calc/2020a/SDK/TCAPI:${HOME}/Thermo-Calc/2020a/SDK/TQ"
-    LSERVRC="${HOME}/Thermo-Calc/lservrc" && export LSERVRC
-    LSHOST="NO-NET" && export LSHOST
-fi
-# === Machine-specific Tasks ===
-if [[ $(hostname -s) == "p859561" ]]; then
-    unset MAIL
-    CHROME_CONFIG_HOME="/usr/local/${USER}"                  && export CHROME_CONFIG_HOME
-    CHROME_USER_DATA_HOME="/usr/local/${USER}/google-chrome" && export CHROME_USER_DATA_HOME
-    LIBGL_ALWAYS_INDIRECT=1 && export LIBGL_ALWAYS_INDIRECT
-fi
+# export SYSTEMD_PAGER=  # uncomment to disable systemctl's auto-paging feature
 
 export ENV_SOURCED=1

@@ -36,8 +36,6 @@ if [[ -d "${HOME}/.nvm" ]]; then
 fi
 
 # === Ruby ===
-[ -d "${HOME}/.rvm/bin" ] && \
-    export PATH="${PATH}:${HOME}/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && \
     . "$HOME/.rvm/scripts/rvm"
 
@@ -46,6 +44,7 @@ fi
     . "${HOME}/.cargo/env"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+[ -d "${HOME}/.rvm/bin" ] && [[ ! $PATH =~ .*/.rvm* ]] && \
+    export PATH="${PATH}:${HOME}/.rvm/bin"
 
 export PROFILE_SOURCED=1
