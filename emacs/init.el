@@ -101,10 +101,9 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
- '(flycheck-markdown-markdownlint-cli-executable
-   "markdownlint-cli2")
+ '(flycheck-markdown-markdownlint-cli-executable "markdownlint-cli2")
  '(package-selected-packages
-   '(counsel counsel-pydoc company-terraform company-shell company-math company-jedi adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company counsel-projectile csv-mode dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode helm helm-gtags highlight-doxygen iedit julia-formatter julia-mode lua-mode neotree night-owl-theme olivetti opencl-mode pandoc-mode poetry poly-R poly-ansible poly-rst py-autopep8 pyvenv-auto rdf-prefix rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
+   '(adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv-mode dockerfile-mode dtrt-indent edit-indirect elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode helm helm-gtags highlight-doxygen iedit julia-formatter julia-mode lua-mode neotree night-owl-theme olivetti opencl-mode pandoc-mode poetry poly-R poly-ansible poly-rst py-autopep8 pyvenv-auto rdf-prefix rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -125,6 +124,9 @@
 
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
+;; tab-completion
+(company-quickhelp-mode)
+
 ;; Appearance
 
 (setq-default major-mode 'text-mode)
@@ -135,8 +137,8 @@
 ;; (setq sentence-end-double-space nil)
 
 ;; how wide should the text fields be?
-(setq-default fill-column 75)
-(setq fill-column 75)
+(setq-default fill-column 79)
+(setq fill-column 79)
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -146,7 +148,7 @@
   :diminish
   :commands olivetti-mode
   :config
-  (setq olivetti-body-width 80)
+  (setq olivetti-body-width 100)
   (setq olivetti-minimum-body-width 50)
   )
 
