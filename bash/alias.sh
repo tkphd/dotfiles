@@ -138,22 +138,18 @@ tea () {
 }
 
 update-envs() {
+    module load conda
     # Update Mambaforge/Miniconda/Anaconda Python and virtual environments
     echo "=== Updating conda base ==="
-    mamba update -n base --yes --all
-    if [[ -a ~/.conda/anaconda ]]; then
-        for dir in "${HOME}"/.conda/anaconda/envs/*; do
-            name=$(basename "${dir}")
-            echo -e "\n=== Updating ${name} env ===\n"
-            mamba update -n "${name}" --yes --all
-        done
-    elif [[ -a /Valhalla/opt/mambaforge ]]; then
-        for dir in /Valhalla/opt/mambaforge/envs/*; do
-            name=$(basename "${dir}")
-            echo -e "\n=== Updating ${name} env ===\n"
-            mamba update -n "${name}" --yes --all
-        done
-    fi
+    conda update -n base --yes --all
+    for dir in "${CONDAPATH}"/envs/*; do
+        name=$(basename "${dir}")
+        echo -e "\n=== Updating ${name} env ===\n"
+        conda activate "${name}"
+        mamba update --yes --all
+        conda deactivate
+    done
+    module unload conda
 }
 
 whoareu() {
@@ -192,6 +188,7 @@ alias gs="git status"
 alias fgrep='fgrep --color=auto --line-number --with-filename'
 alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
+alias iftop="bmon"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
 alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI" # first, kinit root/admin

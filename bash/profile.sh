@@ -12,14 +12,11 @@ if [ -n "${BASH_VERSION}" ]; then
     fi
 fi
 
-# === Lmod ===
+# === Modules ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
     . /etc/profile.d/lmod.sh
-    for DIR in /toolbox /working; do
-        MOD="${DIR}/${USER}/modules/modulefiles"
-        [[ -d  "${MOD}" ]] && \
-            module use "${MOD}"
-    done
+    [ -d "${HOME}/research/modules" ] && \
+        module use "${HOME}/research/modules/modulefiles"
 fi
 
 # === Nix ===

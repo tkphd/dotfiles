@@ -70,8 +70,8 @@ GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 # === Modules ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
     . /etc/profile.d/lmod.sh
-    [ -d "/toolbox/${USER}/modules" ] && \
-        module use "/toolbox/${USER}/modules"
+    [ -d "${HOME}/research/modules" ] && \
+        module use "${HOME}/research/modules/modulefiles"
 fi
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
