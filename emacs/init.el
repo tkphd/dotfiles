@@ -149,7 +149,7 @@
   :commands olivetti-mode
   :config
   (setq olivetti-body-width 100)
-  (setq olivetti-minimum-body-width 50)
+  (setq olivetti-minimum-body-width 40)
   )
 
 ;; adapt to non-Unix line endings
