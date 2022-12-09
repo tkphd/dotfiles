@@ -125,7 +125,7 @@
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
 ;; tab-completion
-(company-quickhelp-mode)
+(setq company-quickhelp-mode t)
 
 ;; Appearance
 
@@ -148,6 +148,8 @@
   :diminish
   :commands olivetti-mode
   :config
+  (setq-default olivetti-body-width 100)
+  (setq-default olivetti-minimum-body-width 40)
   (setq olivetti-body-width 100)
   (setq olivetti-minimum-body-width 40)
   )
