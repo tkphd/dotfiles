@@ -140,9 +140,7 @@ tea () {
 update-envs() {
     module load conda
     # Update Mambaforge/Miniconda/Anaconda Python and virtual environments
-    echo "=== Updating conda base ==="
-    conda update -n base --yes --all
-    for dir in "${CONDAPATH}"/envs/*; do
+    for dir in base "${CONDAPATH}"/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
         conda activate "${name}"
@@ -205,7 +203,7 @@ alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=t
 alias bp="bpython3"
 alias p="python3 -i -c 'from math import pi' 2>/dev/null"
 alias pdf="qpdfview"
-alias ping="ping -c 4"
+alias ping="ping -4 -c 4"
 alias pip="python3 -m pip"
 alias please="sudo"
 if [[ $(which pygmentize) != "" && -a "${HOME}/bin/color-cat" ]]; then
