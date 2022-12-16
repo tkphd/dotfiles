@@ -5,59 +5,47 @@
 # create "machine.py" in this directory with key-value pairs, e.g.
 #
 #    ifce = "eth0"
-#    disks = [["/data", ""], ["/home", ""], ["/", ""]]
+#    disks = [["/data", "", "GB"],
+#             ["/home", "", "GB"],
+#             ["/",     "", "GB"]]
 #    battery = False
 #
 # Use pango markup to modify fonts per item. Valid font sizes are
 # 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'
 
 import i3pystatus
-from os import environ, path, stat
+from os import environ, path
 
-colors = {
-    "blue":        "#0000ff",
-    "green":       "#00ff00",
-    "gray58":      "#949494",
-    "graygreen":   "#a2a899",
-    "greenseas":   "#cbd2c0",
-    "palegraygr":  "#dadfd2",
-    "ghostviolet": "#f6f6ff",
-    "ghostwhite":  "#f8f8ff",
-    "cottonball":  "#fafaff",
-    "red":         "#ff0000",
-    "strawberry":  "#ff4444",
-    "towsonyell":  "#ffcc00",
-    "lightyellow": "#ffee44",
-    "yellow1":     "#ffff00",
-    "white":       "#ffffff",
-}
-
+# N.B.: activate emacs `rainbow-mode` to show hex with the corresponding color
 icons = {
     'default':       ('‽', None),
-    'Cloudy':        ('☁', None),  # 'ghostwhite'
-    'Fair':          ('☀', None),  # 'towsonyell'
-    'Fog':           ('⛆', None),  # 'gray58'
-    'Hail Storm':    ('🌨', None),  # 'graygreen'
-    'Light Rain':    ('🌦', None),  # 'palegraygr'
-    'M Cloudy':      ('☁', None),  # 'ghostviolet'
-    'Mostly Sunny':  ('🌤', None),  # 'yellow1'
-    'Overcast':      ('☁', None),  # 'ghostviolet'
-    'P Cloudy':      ('🌥', None),  # 'cottonball'
-    'Partly Cloudy': ('🌥', None),  # 'cottonball'
-    'Rain':          ('🌧', None),  # 'greenseas'
-    'Rainy':         ('🌧', None),  # 'greenseas'
-    'Rain Shower':   ('🌦', None),  # 'palegreygr'
-    'Snow':          ('❄', None),  # 'white'
-    'Sunny':         ('✶', None),  # 'yellow1'
-    'Thunderstorm':  ('⛈', None),  # 'graygreen'
-    'Tornado':       ('🌪', colors["red"])
+    'Cloudy':        ('☁', None),
+    'Fair':          ('☀', None),
+    'Fog':           ('⛆', "#949494"),
+    'Freezing Rain': ('🌨️', "#bbddff"),
+    'Hail Storm':    ('🌨', "#ff3377"),
+    'Light Rain':    ('🌦', None),
+    'M Cloudy':      ('☁', None),
+    'Mostly Sunny':  ('🌤', None),
+    'Overcast':      ('☁', None),
+    'P Cloudy':      ('🌥', None),
+    'Partly Cloudy': ('🌥', None),
+    'Rain':          ('🌧', "#a2a899"),
+    'Rainy':         ('🌧', "#a2a899"),
+    'Rain Shower':   ('🌦', None),
+    'Sleet':         ('🌨️', "#bbddff"),
+    'Snow':          ('❄', "#bbddff"),
+    'Sunny':         ('✶', None),
+    'Thunderstorm':  ('⛈', "#deffde"),
+    'Tornado':       ('🌪', "#ff3377"),
+    'Wintry Mix':    ('🧊', "#bbddff"),
 }
 
 try:
     from machine import ifce, disks, battery, excludes
 except ImportError:
     # Defaults render a penguin '' for '/'
-    # and a house '' for /home (Font Awesome)
+    # and a house '' for '/home' (Font Awesome)
     ifce = "eth0"
     disks = [["/home", "", "GB"],
              ["/",     "", "GB"]]
@@ -145,15 +133,15 @@ if path.exists("/var/run/reboot-required.pkgs"):
         "text",
         text="Reboot 🄎",
         hints={"markup": "pango"},
-        color=colors["strawberry"]
+        color="#ff4444",
     )
 
 # Shows memory usage
 status.register(
     "mem_bar",
-    color=colors["white"],
-    warn_color=colors["lightyellow"],
-    alert_color=colors["strawberry"],
+    color="#ffffff",
+    warn_color="#ffee44",
+    alert_color="#ff4444",
     hints={"markup": "pango"},
     warn_percentage=80,
     alert_percentage=90,

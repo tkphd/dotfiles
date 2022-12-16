@@ -45,3 +45,4 @@ fi
     export PATH="${PATH}:${HOME}/.rvm/bin"
 
 export PROFILE_SOURCED=1
+. "$HOME/.cargo/env"
