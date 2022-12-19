@@ -4,8 +4,11 @@ if [[ -n "${ENV_SOURCED}" ]]; then
     return
 fi
 
+# === sbin ===
+[[ ! $PATH =~ .*/usr/sbin* ]] && \
+    export PATH="${PATH}:/usr/sbin"
 # === Local Binaries ===
-[[ -d "${HOME}/bin" ]] && [[ ! $PATH =~ .*/$USER/bin* ]] && \\
+[[ -d "${HOME}/bin" ]] && [[ ! $PATH =~ .*/$USER/bin* ]] && \
     export PATH="${HOME}/bin:${PATH}"
 # === Snap Binaries ===
 [[ -d "/snap/bin" ]] && [[ ! $PATH =~ .*/snap* ]] && \
