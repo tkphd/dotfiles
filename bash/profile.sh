@@ -7,9 +7,7 @@ if [[ -n "$PROFILE_SOURCED" ]]; then
 fi
 
 if [ -n "${BASH_VERSION}" ]; then
-    if [[ -e "${HOME}/.bashrc" ]]; then
-        . "${HOME}/.bashrc"
-    fi
+    . "${HOME}/.bashrc"
 fi
 
 # === Modules ===
@@ -18,10 +16,6 @@ if [[ -f /etc/profile.d/lmod.sh ]]; then
     [ -d "${HOME}/research/modules/modulefiles" ] && \
         module use "${HOME}/research/modules/modulefiles"
 fi
-
-# === Nix ===
-[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && \
-    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 
 # === Node ===
 if [[ -d "${HOME}/.nvm" ]]; then

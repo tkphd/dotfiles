@@ -81,8 +81,8 @@ export MMSP_PATH="${HOME}/research/projects/mmsp"
 [[ ! $PATH =~ .*mmsp* ]] && \
     export PATH="${PATH}:${MMSP_PATH}/utility"
 # === Nix ===
-[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ] && \
-    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+[ -e "${HOME}/.nix-profile" ] && \
+    export PATH="${PATH}:${HOME}/.nix-profile/bin"
 # === Node ===
 if [[ -d "${HOME}/.nvm" ]]; then
     export NVM_DIR="${HOME}/.nvm"

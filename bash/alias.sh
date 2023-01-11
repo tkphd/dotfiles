@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [[ -n "${ALIAS_SOURCED}" ]]; then
-    return
-fi
-
 if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
@@ -138,8 +134,8 @@ tea () {
 }
 
 update-envs() {
+    # update conda environments
     module load conda
-    # Update Mambaforge/Miniconda/Anaconda Python and virtual environments
     for dir in base "${CONDAPATH}"/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
@@ -148,6 +144,13 @@ update-envs() {
         conda deactivate
     done
     module unload conda
+
+    # update nix environments
+    if [[ "$(which nix-env)" != "" ]]; then
+        nix-channel --update nixpkgs
+        nix-env -u '*'
+        nix-collect-garbage -d
+    fi
 }
 
 whoareu() {
@@ -186,6 +189,7 @@ alias gs="git status"
 alias fgrep='fgrep --color=auto --line-number --with-filename'
 alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
+alias htup="htop -u \${USER}"
 alias iftop="bmon"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
