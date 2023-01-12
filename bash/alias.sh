@@ -133,10 +133,10 @@ tea () {
     fi
 }
 
-update-envs() {
+update-envs () {
     # update conda environments
     module load conda
-    for dir in base "${CONDAPATH}"/envs/*; do
+    for dir in base ${CONDAPATH}/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
         conda activate "${name}"
@@ -153,7 +153,7 @@ update-envs() {
     fi
 }
 
-whoareu() {
+whoareu () {
     # Print the name of the person assigned the specified ID
     local user
     local info
