@@ -8,7 +8,7 @@ aguu () {
     # Update Debian and Conda apps
     sudo apt update
     sudo apt dist-upgrade -y
-    update-envs
+    update_envs
 }
 
 airplanemode () {
@@ -133,7 +133,7 @@ tea () {
     fi
 }
 
-update-envs () {
+update_envs () {
     # update conda environments
     module load conda
     for dir in base ${CONDAPATH}/envs/*; do
