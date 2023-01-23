@@ -149,7 +149,7 @@ update_envs () {
     if [[ "$(which nix-env)" != "" ]]; then
         nix-channel --update nixpkgs
         nix-env -u '*'
-        nix-collect-garbage -d
+        # nix-collect-garbage -d
     fi
 }
 

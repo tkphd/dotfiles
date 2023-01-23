@@ -53,4 +53,3 @@ done
 unset CONF
 
 export BASHRC_SOURCED=1
-. "$HOME/.cargo/env"

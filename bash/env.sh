@@ -123,6 +123,8 @@ if [[ -d /opt/riscv ]]; then
     export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
 # === Ruby ===
+[[ -f "$HOME/.cargo/env" ]] && \
+    . "$HOME/.cargo/env"
 [ -d "${HOME}/.rvm/bin" ] && [[ ! $PATH =~ .*/.rvm* ]] && \
     export PATH="${PATH}:${HOME}/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && \
