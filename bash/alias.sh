@@ -176,6 +176,7 @@ alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias dmesg="/bin/dmesg --color=always | /bin/less -R"
 alias dpgrep="dpkg -l | grep"
+alias du="du -x --exclude-kernfs"
 alias e="emacsclient -t"
 alias ek="emacsclient -e '(kill-emacs)'"
 alias se="sudo emacs -nw"
@@ -204,8 +205,13 @@ alias mmbi="mamba install --quiet"
 alias mmbs="mamba search --quiet"
 alias more="less -mNR"
 alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
+alias ncdu="ncdu -x --exclude-kernfs"
 alias bp="bpython3"
-alias p="python3 -i -c 'from math import pi' 2>/dev/null"
+if [[ "$(which bpython3)" == "" ]]; then
+    alias p="python3 -i -c 'from math import pi' 2>/dev/null"
+else
+    alias p="bpython3"
+fi
 alias pdf="qpdfview"
 alias ping="ping -4 -c 4"
 alias pip="python3 -m pip"
