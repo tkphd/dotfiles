@@ -102,6 +102,7 @@ if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     unset DOTSCADPATH
 fi
 # === Python ===
+export JUPYTER_PLATFORM_DIRS=1
 export PYTHONPYCACHEPREFIX="/tmp/${USER}/pycache"
 export PYTHONWARNINGS=default
 [[ ! -d "${PYTHONPYCACHEPREFIX}" ]] && \

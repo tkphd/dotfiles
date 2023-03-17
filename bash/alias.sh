@@ -170,6 +170,7 @@ alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_r
 alias addvroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_ed25519; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
+alias bp="bpython"
 alias curl="curl -L -C -"
 alias ddp="sudo dd bs=4M conv=fsync status=progress"
 alias dir='dir --color=auto'
@@ -180,25 +181,30 @@ alias du="du -x --exclude-kernfs"
 alias e="emacsclient -t"
 alias ek="emacsclient -e '(kill-emacs)'"
 alias se="sudo emacs -nw"
-alias sn="sudo nano"
-alias exa="exa -abghHliS"
+alias exa="exa -abghHliS --group-directories-first"
 alias ff="feh -F --force-aliasing"
 alias gdb="gdb -q"
 alias grafana="ssh -L 3000:localhost:3000 mr-french"
 alias grep='grep --color=auto --line-number --with-filename'
 alias gs="git status"
-alias fgrep='fgrep --color=auto --line-number --with-filename'
-alias egrep='egrep --color=auto --line-number --with-filename'
 alias guvc="guvcviewer -x 1600x1200"
 alias htup="htop -u \${USER}"
 alias iftop="bmon"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
 alias less="less -mNR"
 alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI" # first, kinit root/admin
-alias ls='ls --group-directories-first --color=auto'
-alias l='ls -CF'
-alias la='ls -A'
-alias ll='ls -hal'
+if [[ "$(which lsd)" != "" ]]; then
+    alias lsd="lsd --color auto --classify --group-dirs first"
+    alias ls="lsd"
+    alias l="lsd"
+    alias la="lsd -A"
+    alias ll="lsd -hal"
+else
+    alias ls='ls --classify --color=auto --group-directories-first'
+    alias l='ls'
+    alias la='ls -A'
+    alias ll='ls -hal'
+fi
 alias mdl="markdownlint-cli2"
 alias mf="echo -e 'Use /usr/bin/mf for MetaFont; you probably meant\n    mv'"
 alias mmbi="mamba install --quiet"
@@ -206,7 +212,6 @@ alias mmbs="mamba search --quiet"
 alias more="less -mNR"
 alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias ncdu="ncdu -x --exclude-kernfs"
-alias bp="bpython3"
 if [[ "$(which bpython3)" == "" ]]; then
     alias p="python3 -i -c 'from math import pi' 2>/dev/null"
 else
