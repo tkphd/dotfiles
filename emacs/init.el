@@ -254,23 +254,6 @@
   :init (setq markdown-command "pandoc")
 )
 
-
-;; center text fields in window
-(use-package olivetti
-  :diminish
-  :commands olivetti-mode
-  :config
-  (setq-default olivetti-body-width 125)
-  (setq-default olivetti-minimum-body-width 40)
-  (setq olivetti-body-width 125)
-  (setq olivetti-minimum-body-width 40)
-)
-
-(require 'olivetti-mode)
-(add-to-list 'auto-mode-alist '("\\.el\\'" . olivetti-mode))
-(add-to-list 'auto-mode-alist '("\\.lua\\'" . olivetti-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . olivetti-mode))
-
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
@@ -298,6 +281,30 @@
 ;; disable vc-git
 (setq vc-handled-backends ())
 (put 'downcase-region 'disabled nil)
+
+;; center text fields in window
+(use-package olivetti
+  :diminish
+  :commands olivetti-mode
+  :config
+  (setq-default olivetti-body-width 125)
+  (setq-default olivetti-minimum-body-width 40)
+  (setq olivetti-body-width 125)
+  (setq olivetti-minimum-body-width 40)
+  )
+
+(defun turn-olivetti-on ()
+  "Activate Olivetti minor mode."
+  (olivetti-mode 1)
+  )
+
+(add-hook 'LaTeX-mode-hook      'turn-olivetti-on)
+(add-hook 'lua-mode-hook        'turn-olivetti-on)
+(add-hook 'markdown-mode-hook   'turn-olivetti-on)
+(add-hook 'python-mode-hook     'turn-olivetti-on)
+(add-hook 'rst-hook             'turn-olivetti-on)
+(add-hook 'sh-mode-hook         'turn-olivetti-on)
+(add-hook 'yaml-mode-hook       'turn-olivetti-on)
 
 ;;; Commentary:
 
