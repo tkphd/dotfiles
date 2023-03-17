@@ -212,10 +212,11 @@ alias mmbs="mamba search --quiet"
 alias more="less -mNR"
 alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias ncdu="ncdu -x --exclude-kernfs"
-if [[ "$(which bpython3)" == "" ]]; then
-    alias p="python3 -i -c 'from math import pi' 2>/dev/null"
+alias bp="bpython"
+if [[ "$(which bpython)" == "" ]]; then
+    alias p="python3 -i"
 else
-    alias p="bpython3"
+    alias p="bpython"
 fi
 alias pdf="qpdfview"
 alias ping="ping -4 -c 4"
