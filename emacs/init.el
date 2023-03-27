@@ -137,8 +137,8 @@
 ;; (setq sentence-end-double-space nil)
 
 ;; how wide should the text fields be?
-(setq-default fill-column 79)
-(setq fill-column 79)
+(setq-default fill-column 69)
+(setq fill-column 69)
 
 (use-package all-the-icons
   :if (display-graphic-p))
