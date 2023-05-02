@@ -145,12 +145,12 @@ update_envs () {
     done
     module unload conda
 
-    # update nix environments
-    if [[ "$(which nix-env)" != "" ]]; then
-        nix-channel --update nixpkgs
-        nix-env -u '*'
-        # nix-collect-garbage -d
-    fi
+    ## update nix environments
+    # if [[ "$(which nix-env)" != "" ]]; then
+    #     nix-channel --update nixpkgs
+    #     nix-env -u '*'
+    #     # nix-collect-garbage -d
+    # fi
 }
 
 whoareu () {
