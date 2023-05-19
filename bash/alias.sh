@@ -177,7 +177,7 @@ alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias dmesg="/bin/dmesg --color=always | /bin/less -R"
 alias dpgrep="dpkg -l | grep"
-alias du="du -x --exclude-kernfs"
+alias du="du -x"
 alias e="emacsclient -t"
 alias ek="emacsclient -e '(kill-emacs)'"
 alias se="sudo emacs -nw"
@@ -191,7 +191,7 @@ alias guvc="guvcviewer -x 1600x1200"
 alias htup="htop -u \${USER}"
 alias iftop="bmon"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
-alias less="less -mNR"
+alias less="less -Nmr"
 alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI" # first, kinit root/admin
 if [[ "$(which lsd)" != "" ]]; then
     alias lsd="lsd --color auto --classify --group-dirs first"

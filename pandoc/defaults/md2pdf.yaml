@@ -24,13 +24,13 @@ variables:
     - Ligatures=TeX
     - Ligatures=Rare
   mathfont: texgyretermes-math.otf
-  monofont: FiraCode
+  monofont: FiraMono
   monofontoptions:
     - Extension=.otf
     - UprightFont=*-Medium
-    - ItalicFont=FiraMono-MediumOblique
+    - ItalicFont=*-MediumOblique
     - BoldFont=*-Bold
-    - BoldItalicFont=FiraMono-BoldOblique
+    - BoldItalicFont=*-BoldOblique
   numbersections: true
   papersize: letter
   sansfont: LibertinusSans

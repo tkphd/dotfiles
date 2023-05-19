@@ -60,6 +60,11 @@
 
 [credential]
   helper = netrc -f ~/.netrc -v
+	helper = 
+	helper = /usr/local/bin/git-credential-manager
+	credentialStore = cache
 
 [pull]
   rebase = false
+[credential "https://dev.azure.com"]
+	useHttpPath = true

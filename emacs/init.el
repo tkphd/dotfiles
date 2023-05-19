@@ -137,8 +137,8 @@
 ;; (setq sentence-end-double-space nil)
 
 ;; how wide should the text fields be?
-(setq-default fill-column 69)
-(setq fill-column 69)
+(setq-default fill-column 79)
+(setq fill-column 79)
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -258,7 +258,7 @@
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
 (require 'rst)
-(add-to-list 'auto-mode-alist '("\\.rst\\'" . rst))
+(add-to-list 'auto-mode-alist '("\\.rst\\'" . rst-mode))
 
 (require 'turtle-mode)
 (add-to-list 'auto-mode-alist '("\\.turtle\\'" . turtle-mode))
@@ -302,7 +302,7 @@
 (add-hook 'lua-mode-hook        'turn-olivetti-on)
 (add-hook 'markdown-mode-hook   'turn-olivetti-on)
 (add-hook 'python-mode-hook     'turn-olivetti-on)
-(add-hook 'rst-hook             'turn-olivetti-on)
+(add-hook 'rst-mode-hook        'turn-olivetti-on)
 (add-hook 'sh-mode-hook         'turn-olivetti-on)
 (add-hook 'yaml-mode-hook       'turn-olivetti-on)
 
