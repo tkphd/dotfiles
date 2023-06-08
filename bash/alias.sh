@@ -133,6 +133,11 @@ tea () {
     fi
 }
 
+tee_err () {
+    echo "Logging to trace.out and trace.err"
+    $1 > >(tee trace.out) 2> >(tee trace.err >&2)
+}
+
 update_envs () {
     # update conda environments
     module load conda

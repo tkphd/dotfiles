@@ -70,9 +70,6 @@ LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 [[ $(which pygmentize) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
-# === Mathematica ===
-[[ -d /nist/apps/math-11.3/SystemFiles/Libraries/Linux-x86-64/ ]] && \
-    export LD_LIBRARY_PATH="/nist/apps/math-11.3/SystemFiles/Libraries/Linux-x86-64/:${LD_LIBRARY_PATH}"
 # === Modules ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
     . /etc/profile.d/lmod.sh
@@ -115,15 +112,6 @@ if [[ -d "/usr/local/lib/plugins/platforms" ]]; then
    export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/local/lib/plugins/platforms"
 elif [[ -d "/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms" ]]; then
    export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/x86_64-linux-gnu/qt5/plugins/platforms"
-fi
-# === RISC V ===
-if [[ -d /opt/riscv ]]; then
-    [[ ! $PATH =~ .*/opt/riscv* ]] && \
-        export PATH="${PATH}:/opt/riscv/bin"
-    RISCV_LIB="/opt/riscv/lib"
-    [[ -n "${LD_LIBRARY_PATH}" ]] && \
-        RISCV_LIB="${LD_LIBRARY_PATH}:${RISCV_LIB}"
-    export LD_LIBRARY_PATH="${RISCV_LIB}"
 fi
 # === Ruby ===
 [[ -f "$HOME/.cargo/env" ]] && \
