@@ -23,7 +23,8 @@ icons = {
     'Fair':          ('☀', None),
     'Fog':           ('⛆', "#949494"),
     'Freezing Rain': ('🌨️', "#bbddff"),
-    'Hail Storm':    ('🌨', "#ff3377"),
+    'Hail Storm':    ('⛈', "#ff3377"),
+    'Haze':          ('🌫', "#ff3377"),
     'Light Rain':    ('🌦', None),
     'M Cloudy':      ('☁', None),
     'Mostly Sunny':  ('🌤', None),
@@ -38,7 +39,7 @@ icons = {
     'Sunny':         ('✶', None),
     'Thunderstorm':  ('⛈', "#deffde"),
     'Tornado':       ('🌪', "#ff3377"),
-    'Wintry Mix':    ('🧊', "#bbddff"),
+    'Wintry Mix':    ('🌨', "#bbddff"),
 }
 
 try:
