@@ -236,12 +236,12 @@ alias R='R --no-restore --no-save'
 alias rm="rm -v"
 [[ -f "${HOME}/repositories/rockstar/satriani/rockstar.js" ]] && \
     alias rockstar="node ${HOME}/repositories/rockstar/satriani/rockstar.js"
-alias rs="rsync -Pavz"
-alias rshop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
-alias rsmop="rsync -Pavz -e \"ssh -o ProxyJump=ruth -l machine -i /root/.ssh/id_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine\""
+alias rs="rsync -HPavz"
+alias rshop="rsync -HPavz -e \"ssh -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop\""
+alias rsmop="rsync -HPavz -e \"ssh -o ProxyJump=mr-french -l machine -i /root/.ssh/id_rsa -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_machine\""
 alias scancel="scancel -u ${USER}"
 alias shellcheck="shellcheck -e SC1090,SC2139,SC2155"
-alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=ruth -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
+alias sshop="ssh -i ${HOME}/.ssh/id_ed25519 -o ProxyJump=mr-french -o UserKnownHostsFile=${HOME}/.ssh/known_hosts_hop"
 alias sshkeygen="ssh-keygen -t ed25519 -a 100"
 alias time="/usr/bin/time -f'\n   %E 〔%e𝑠 wall,  %U𝑠 user,  %S𝑠 sys,  %M KB,  %F faults,  %c switches〕'"
 alias tmux_refresh='[[ $TMUX ]] && eval "$(tmux show-environment -s)"'
@@ -253,7 +253,7 @@ alias wnv="watch -n 1 nvidia-smi"
 alias xpraview="xpra --webcam=no --opengl=no start ssh://bart --start=paraview"
 
 # Slurm shenanigans
-safmt="JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,CPUTime"
+safmt="JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,MaxRSS"
 sifmt="%9P %10A %8z %14O %.12l %N"
 sqfmt="%7i %20j %3t %11P %9Q %6D %5C %20S %12L %17R"
 alias si="sinfo -o \"${sifmt}\""
