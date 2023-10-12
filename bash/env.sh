@@ -91,6 +91,11 @@ if [[ -d "${HOME}/.nvm" ]]; then
     [ -s "${NVM_DIR}/bash_completion" ] && \
         source "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 fi
+# === Nvidia ===
+if [[ $(hostname -s) == huginn ]]; then
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+fi
 # === OpenSCAD plugins ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
