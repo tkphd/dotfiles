@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -n "${ALIAS_SOURCED}" ]]; then
+    return
+fi
+
 if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
@@ -139,9 +143,14 @@ tee_err () {
 }
 
 update_envs () {
-    # update conda environments
     module load conda
-    for dir in base ${CONDAPATH}/envs/*; do
+    # update base env
+    echo -e "\n=== Updating base env ===\n"
+    conda activate base
+    conda update --yes --all
+    conda deactivate
+    # update conda environments
+    for dir in ${CONDAPATH}/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
         conda activate "${name}"
