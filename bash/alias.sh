@@ -257,6 +257,7 @@ alias tmux_refresh='[[ $TMUX ]] && eval "$(tmux show-environment -s)"'
 alias trinket="screen /dev/ttyACM0 115200"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wget="wget -d -c --tries=0 --read-timeout=30"
+alias which="whereis"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
 alias xpraview="xpra --webcam=no --opengl=no start ssh://bart --start=paraview"
