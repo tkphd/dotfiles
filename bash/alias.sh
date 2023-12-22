@@ -144,27 +144,15 @@ tee_err () {
 
 update_envs () {
     module load conda
-    # update base env
-    echo -e "\n=== Updating base env ===\n"
-    conda activate base
-    conda update --yes --all
-    conda deactivate
     # update conda environments
-    for dir in ${CONDAPATH}/envs/*; do
+    for dir in base ${CONDAPATH}/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
         conda activate "${name}"
-        mamba update --yes --all
+        conda update --yes --all
         conda deactivate
     done
     module unload conda
-
-    ## update nix environments
-    # if [[ "$(which nix-env)" != "" ]]; then
-    #     nix-channel --update nixpkgs
-    #     nix-env -u '*'
-    #     # nix-collect-garbage -d
-    # fi
 }
 
 whoareu () {
@@ -181,7 +169,6 @@ alias acS="apt-cache show"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_rsa; stty echo'"
-alias addvroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_ed25519; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias bp="bpython"
@@ -277,15 +264,9 @@ alias ss="squeue --start -u ${USER}"
 if [[ $(hostname -s) == "enki" ]]; then
     alias  sbash="srun -p debug -t 60 -n 1 --pty bash"
     alias squart="srun -p debug -t 60 -n 20 --gres=gpu:1 --pty bash"
-elif [[ $(hostname -s) == "ruth" ]]; then
-    alias      s4="srun -p gpu -t 120 -n 1  -w rgpu4 --pty bash"
-    alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
-    alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
-    alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
 elif [[ $(hostname -s) == "mr-french" ]]; then
-    alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
-    alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
-    alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
+    alias  sbash="srun -p gpu -t 60 -n 1  --pty bash"
+    alias squart="srun -p gpu -t 60 -n 16 --gres=gpu:volta:1 --pty bash"
 fi
 
 export ALIAS_SOURCED=1
