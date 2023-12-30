@@ -7,6 +7,7 @@ shopt -s checkwinsize # resize terminal output
 shopt -s cmdhist      # flatten multi-line cmd history
 shopt -s histappend   # append, rather than overwrite
 shopt -s nocaseglob   # case-insensitive globbing
+export HISTCONTROL=erasedups:ignorespace
 
 # Disable some unhelpful options
 shopt -u huponexit  # don't kill *all jobs* just 'cuz this shell quit

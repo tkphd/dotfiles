@@ -103,8 +103,7 @@
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(flycheck-markdown-markdownlint-cli-executable "markdownlint-cli2")
  '(package-selected-packages
-   '(olivetti poly-markdown dismal langtool toml-mode multi-line adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv-mode dockerfile-mode dtrt-indent edit-indirect editorconfig elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode helm helm-gtags highlight-doxygen iedit julia-formatter julia-mode lua-mode neotree night-owl-theme opencl-mode pandoc-mode poetry poly-R poly-ansible poly-rst py-autopep8 pyvenv-auto rainbow-mode rdf-prefix rst rust-mode scad-mode snakemake-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights ws-butler yaml-mode yasnippet zygospore))
- '(warning-suppress-types '((comp))))
+   '(adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv-mode dismal dockerfile-mode dtrt-indent edit-indirect editorconfig elisp-format elisp-lint ess fill-column-indicator flycheck flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode helm helm-gtags highlight-doxygen iedit julia-formatter julia-mode langtool lua-mode markdown-mode multi-line neotree night-owl-theme olivetti opencl-mode pandoc-mode poetry poly-R poly-ansible poly-rst py-autopep8 pyvenv-auto rainbow-mode rdf-prefix rst rust-mode scad-mode snakemake-mode toml-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights web-mode ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -210,13 +209,16 @@
   :init
   (with-eval-after-load 'flycheck
     (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
-    )
+  )
   (setq flycheck-pycheckers-checkers
         '(
           pyflakes
           )
-        )
   )
+)
+
+(eval-after-load 'flycheck
+  '(flycheck-add-mode 'html-tidy 'web-mode))
 
 ;; Python dependency management and packaging
 (use-package poetry
@@ -235,7 +237,8 @@
 (use-package cuda-mode
   :ensure t
   :mode (("\\.cu\\'"  . cuda-mode))
-  :mode (("\\.cuh\\'"  . cuda-mode)))
+  :mode (("\\.cuh\\'" . cuda-mode))
+)
 
 (require 'highlight-doxygen)
 (add-to-list 'auto-mode-alist '("\\Doxyfile\\'" . highlight-doxygen-mode))
@@ -247,27 +250,21 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'"   . json-mode))
 (add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-mode))
 
-;; (use-package markdown-mode
-;;   :ensure t
-;;   :commands (markdown-mode gfm-mode)
-;;   :mode (("\\.md\\'"       . gfm-mode)
-;;          ("\\.markdown\\'" . markdown-mode))
-;;   :init (setq markdown-command "pandoc")
-;; )
-
 (use-package markdown-mode
   :ensure t
-  :commands (markdown-mode)
-  :mode (("\\.md\\'"       . markdown-mode)
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\.md\\'"       . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc")
-  )
+)
 
 (require 'opencl-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
 
 (require 'rst)
 (add-to-list 'auto-mode-alist '("\\.rst\\'" . rst-mode))
+
+(add-to-list 'auto-mode-alist '("\\Snakefile\\'" . python-mode))
 
 (require 'turtle-mode)
 (add-to-list 'auto-mode-alist '("\\.turtle\\'" . turtle-mode))
@@ -300,12 +297,12 @@
   (setq-default olivetti-minimum-body-width 40)
   (setq olivetti-body-width 125)
   (setq olivetti-minimum-body-width 40)
-  )
+)
 
 (defun turn-olivetti-on ()
   "Activate Olivetti minor mode."
   (olivetti-mode 1)
-  )
+)
 
 (add-hook 'LaTeX-mode-hook      'turn-olivetti-on)
 (add-hook 'lua-mode-hook        'turn-olivetti-on)

@@ -68,3 +68,6 @@
   rebase = false
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[user]
+	name = Trevor Keller
+	email = trevor.keller@nist.gov

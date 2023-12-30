@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -n "${ALIAS_SOURCED}" ]]; then
+    return
+fi
+
 if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
     source "${HOME}/.dotfiles/local/HostIP"
 fi
@@ -139,23 +143,16 @@ tee_err () {
 }
 
 update_envs () {
-    # update conda environments
     module load conda
+    # update conda environments
     for dir in base ${CONDAPATH}/envs/*; do
         name=$(basename "${dir}")
         echo -e "\n=== Updating ${name} env ===\n"
         conda activate "${name}"
-        mamba update --yes --all
+        conda update --yes --all
         conda deactivate
     done
     module unload conda
-
-    ## update nix environments
-    # if [[ "$(which nix-env)" != "" ]]; then
-    #     nix-channel --update nixpkgs
-    #     nix-env -u '*'
-    #     # nix-collect-garbage -d
-    # fi
 }
 
 whoareu () {
@@ -172,7 +169,6 @@ alias acS="apt-cache show"
 alias afb="sudo apt --fix-broken install"
 alias agi="sudo apt install"
 alias addroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_rsa; stty echo'"
-alias addvroot="su root -c 'stty -echo; /usr/bin/ssh-add -c -t 9h /root/.ssh/id_ed25519; stty echo'"
 alias aria="aria2c -c -m 0"
 alias astyle="astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias bp="bpython"
@@ -248,6 +244,7 @@ alias tmux_refresh='[[ $TMUX ]] && eval "$(tmux show-environment -s)"'
 alias trinket="screen /dev/ttyACM0 115200"
 alias vg="valgrind -v --log-file=val.log --leak-check=full --show-leak-kinds=all --trace-children=yes"
 alias wget="wget -d -c --tries=0 --read-timeout=30"
+alias which="whereis"
 alias win="sudo intel_gpu_top -s 100"
 alias wnv="watch -n 1 nvidia-smi"
 alias xpraview="xpra --webcam=no --opengl=no start ssh://bart --start=paraview"
@@ -255,10 +252,11 @@ alias xpraview="xpra --webcam=no --opengl=no start ssh://bart --start=paraview"
 # Slurm shenanigans
 safmt="JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,MaxRSS"
 sifmt="%9P %10A %8z %14O %.12l %N"
-sqfmt="%7i %20j %3t %11P %9Q %6D %5C %20S %12L %17R"
+sqfmt="%12i %20j %3t %11P %6D %5C %12L %17R"
+
 alias si="sinfo -o \"${sifmt}\""
-alias sj="sacct --format=User,AssocID,${safmt} -j"
-alias sa="sacct --format=${safmt} -u ${USER} -S $(date --date='last week' +%m%d%y)"
+alias sj="sacct --units=G --format=User,AssocID,${safmt} -j"
+alias sa="sacct --units=G --format=${safmt} -u ${USER} -S $(date --date='last week' +%m%d%y)"
 alias sq="squeue -o \"${sqfmt}\" -u tnk10"
 alias wsq="watch -n 20 'squeue -o \"${sqfmt}\" -u tnk10'"
 alias ss="squeue --start -u ${USER}"
@@ -266,15 +264,9 @@ alias ss="squeue --start -u ${USER}"
 if [[ $(hostname -s) == "enki" ]]; then
     alias  sbash="srun -p debug -t 60 -n 1 --pty bash"
     alias squart="srun -p debug -t 60 -n 20 --gres=gpu:1 --pty bash"
-elif [[ $(hostname -s) == "ruth" ]]; then
-    alias      s4="srun -p gpu -t 120 -n 1  -w rgpu4 --pty bash"
-    alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
-    alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
-    alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
 elif [[ $(hostname -s) == "mr-french" ]]; then
-    alias   sbash="srun -p gpu -t  60 -n 1  --pty bash"
-    alias  squart="srun -p gpu -t  60 -n 16 --gres=gpu:pascal:1 --pty bash"
-    alias svquart="srun -p gpu -t  60 -n 16 --gres=gpu:volta:1  --pty bash"
+    alias  sbash="srun -p gpu -t 60 -n 1  --pty bash"
+    alias squart="srun -p gpu -t 60 -n 16 --gres=gpu:volta:1 --pty bash"
 fi
 
 export ALIAS_SOURCED=1
