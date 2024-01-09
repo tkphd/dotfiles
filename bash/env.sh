@@ -125,13 +125,13 @@ fi
     export PATH="${PATH}:${HOME}/.rvm/bin"
 [ -s "$HOME/.rvm/scripts/rvm" ] && \
     . "$HOME/.rvm/scripts/rvm"
-# === Singularity ===
-if [[ -d "/working/${USER}" ]]; then
-    export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
-    export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
-    [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
-    [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
-fi
+# # === Singularity ===
+# if [[ -d "/working/${USER}" ]]; then
+#     export SINGULARITY_TMPDIR="/working/${USER}/scratch/singularity/tmp"
+#     export SINGULARITY_CACHEDIR="/working/${USER}/scratch/singularity/cache"
+#     [[ -d "${SINGULARITY_TMPDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+#     [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
+# fi
 # === SSH ===
 SSH_ASKPASS="/usr/bin/ssh-askpass" && export SSH_ASKPASS
 # === Systemd ===

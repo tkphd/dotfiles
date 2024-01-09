@@ -40,3 +40,7 @@ fi
 
 export PROFILE_SOURCED=1
 . "$HOME/.cargo/env"
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/home/tnk10/.local/share/coursier/bin"
+# <<< coursier install directory <<<
