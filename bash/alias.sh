@@ -193,7 +193,7 @@ alias guvc="guvcviewer -x 1600x1200"
 alias htup="htop -u \${USER}"
 alias iftop="bmon"
 alias kernperf="perf stat -e cycles,instructions,cache-references,cache-misses,branches,branch-misses,task-clock,faults,minor-faults,context-switches,migrations -r 3"
-alias less="less -Nmr"
+alias less="less -NRm"
 alias ldvi="ldapvi --base 'ou=People,dc=ctcms,dc=gov' -H ldaps://smithers.nist.gov -Y GSSAPI" # first, kinit root/admin
 if [[ "$(which lsd)" != "" ]]; then
     alias lsd="lsd --color auto --classify --group-dirs first"
