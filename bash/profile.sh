@@ -44,3 +44,6 @@ export PROFILE_SOURCED=1
 # >>> coursier install directory >>>
 export PATH="$PATH:/home/tnk10/.local/share/coursier/bin"
 # <<< coursier install directory <<<
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

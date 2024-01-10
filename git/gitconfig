@@ -48,6 +48,8 @@
 
 [merge]
   conflictstyle = diff3
+  tool = p4merge
+  path = "/usr/local/bin/p4merge"
 
 [push]
   default = simple
@@ -60,14 +62,14 @@
 
 [credential]
   helper = netrc -f ~/.netrc -v
-	helper = 
-	helper = /usr/local/bin/git-credential-manager
-	credentialStore = cache
+  credentialStore = cache
 
 [pull]
   rebase = false
+
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+
 [user]
 	name = Trevor Keller
 	email = trevor.keller@nist.gov

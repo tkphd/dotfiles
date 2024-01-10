@@ -46,6 +46,7 @@ for CONF in alias env prompt shopt tools; do
     [[ -f "${HOME}/.dotfiles/bash/${CONF}.sh" ]] && \
         source "${HOME}/.dotfiles/bash/${CONF}.sh"
 done
+
 for CONF in "${HOME}"/.dotfiles/bash/opt/*.sh; do
     source "${CONF}"
 done
@@ -53,13 +54,3 @@ done
 unset CONF
 
 export BASHRC_SOURCED=1
-. "$HOME/.cargo/env"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# === SdkMan ===
-# N.B.: This must be at the end of the file for sdkman to work!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
