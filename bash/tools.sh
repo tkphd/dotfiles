@@ -2,7 +2,7 @@
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -nw"
-export PAGER="less -Nmr"
+export PAGER="less -Rm"
 export READER="okular"
 export VISUAL="${EDITOR}"
 
