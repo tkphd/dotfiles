@@ -61,7 +61,7 @@ set constantshow
 ## Draw a vertical stripe at the given column, to help judge text width.
 ## (This option does not have a default value.)
 set guidestripe 70
-set stripecolor sand,slate
+# set stripecolor sand,slate
 
 ## Remember the used search/replace strings for the next session.
 set historylog

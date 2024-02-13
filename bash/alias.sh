@@ -207,6 +207,7 @@ else
     alias la='ls -A'
     alias ll='ls -hal'
 fi
+alias lls="ls"  # typo resistance
 alias mdl="markdownlint-cli2"
 alias mf="echo -e 'Use /usr/bin/mf for MetaFont; you probably meant\n    mv'"
 alias mmbi="mamba install --quiet"
@@ -256,9 +257,12 @@ safmt="JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,MaxRSS"
 sifmt="%9P %10A %8z %14O %.12l %N"
 sqfmt="%12i %20j %3t %11P %6D %5C %12L %17R"
 
+LASTWK="$(date --date='last week' +%m%d%y)"
+NEXTWK="$(date --date='next week' +%m%d%y)"
+
 alias si="sinfo -o \"${sifmt}\""
 alias sj="sacct --units=G --format=User,AssocID,${safmt} -j"
-alias sa="sacct --units=G --format=${safmt} -u ${USER} -S $(date --date='last week' +%m%d%y)"
+alias sa="sacct --units=G --format=${safmt} -u ${USER} -S ${LASTWK} -E ${NEXTWK}"
 alias sq="squeue -o \"${sqfmt}\" -u tnk10"
 alias wsq="watch -n 20 'squeue -o \"${sqfmt}\" -u tnk10'"
 alias ss="squeue --start -u ${USER}"
