@@ -6,9 +6,7 @@ if [[ -n "$PROFILE_SOURCED" ]]; then
     return
 fi
 
-if [ -n "${BASH_VERSION}" ]; then
-    . "${HOME}/.bashrc"
-fi
+. "${HOME}/.bashrc"
 
 # === Modules ===
 if [[ -f /etc/profile.d/lmod.sh ]]; then
@@ -38,7 +36,6 @@ fi
 [ -d "${HOME}/.rvm/bin" ] && [[ ! $PATH =~ .*/.rvm* ]] && \
     export PATH="${PATH}:${HOME}/.rvm/bin"
 
-export PROFILE_SOURCED=1
 . "$HOME/.cargo/env"
 
 # >>> coursier install directory >>>
@@ -47,3 +44,5 @@ export PATH="$PATH:/home/tnk10/.local/share/coursier/bin"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export PROFILE_SOURCED=1
