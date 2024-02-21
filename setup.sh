@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo -ne 'DANGER! This script will overwrite ~/.bashrc and other config files.\n\nType "yes" to continue: '
+echo -ne 'DANGER! This script will overwrite "${HOME}"/.bashrc and other config files.\n\nType "yes" to continue: '
 read -r DISCLAIMER
 
 if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
@@ -80,6 +80,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         mkdir -p "${NANO_DIR}" || exit
         unzip -d "${NANO_DIR}" -f -j "${NANO_TMP}" && rm "${NANO_TMP}"
     fi
+
+    # === tmux ===
+    [[ ! -d "${HOME}"/.config/tmux ]] && \
+        mkdir -p "${HOME}"/.config/tmux
+    ln -sf "${HOME}"/.dotfiles/tmux/tmux.conf "${HOME}"/.config/tmux/tmux.conf
+    ln -sf "${HOME}"/.dotfiles/tmux/tmux.conf.local "${HOME}"/.config/tmux/tmux.conf.local
 
     # === urxvt ===
     if [[ -d "${HOME}"/.urxvt ]]; then
