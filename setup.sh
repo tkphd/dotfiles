@@ -83,9 +83,9 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     # === tmux ===
     [[ ! -d "${HOME}"/.config/tmux ]] && \
-        mkdir -p "${HOME}"/.config/tmux
-    ln -sf "${DIR}"/tmux/tmux.conf       "${HOME}"/.config/tmux/tmux.conf
-    ln -sf "${DIR}"/tmux/tmux.conf.local "${HOME}"/.config/tmux/tmux.conf.local
+        mkdir -p "${HOME}"/.tmux
+    ln -sf "${DIR}"/tmux/tmux.conf       "${HOME}"/.tmux.conf
+    ln -sf "${DIR}"/tmux/tmux.conf.local "${HOME}"/.tmux.conf.local
 
     # === urxvt ===
     if [[ -d "${HOME}"/.urxvt ]]; then

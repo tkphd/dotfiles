@@ -73,3 +73,5 @@
 [user]
 	name = Trevor Keller
 	email = trevor.keller@nist.gov
+[column]
+	ui = auto
