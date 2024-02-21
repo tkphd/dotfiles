@@ -14,14 +14,7 @@ aguu () {
     sudo apt dist-upgrade -y
     update_envs
 }
-
-airplanemode () {
-    if [[ $(nmcli n connectivity) == 'none' ]]; then
-        nmcli n on
-    elif [[ $(nmcli n connectivity) == 'full' ]]; then
-        nmcli n off
-    fi
-}
+export -f aguu
 
 md2book () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
@@ -33,6 +26,7 @@ md2book () {
            --shift-heading-level-by=-1 \
            "$1"
 }
+export -f md2book
 
 md2pdf () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
@@ -44,6 +38,12 @@ md2pdf () {
            --shift-heading-level-by=-1 \
            "$1"
 }
+export -f md2pdf
+
+mkcd () {
+    mkdir $1 && cd $1
+}
+export -f mkcd
 
 png2vid () {
 	if [[ $# == 0 || $# -gt 2 ]] ; then
@@ -54,6 +54,7 @@ png2vid () {
                  -ovc x264 -x264encopts pass=1:bitrate=2000:bframes=0:crf=24
     fi
 }
+export -f png2vid
 
 rot13 () {
     # "rotate by 13 places," a substitution cipher for the Latin
@@ -64,6 +65,7 @@ rot13 () {
 		tr "a-mn-zA-MN-Z" "n-za-mN-ZA-M" < "$1"
 	fi
 }
+export -f rot13
 
 ssm () {
     if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
@@ -75,6 +77,7 @@ ssm () {
         ssh -A -l machine -o UserKnownHostsFile="${HOME}/.ssh/known_hosts_su" "$@"
     fi
 }
+export -f ssm
 
 ssr () {
     if [[ $# == 0 || "$1" == "--help" || "$1" == "-h" ]]; then
@@ -84,16 +87,7 @@ ssr () {
         ssh -A -l root -o UserKnownHostsFile="${HOME}/.ssh/known_hosts_su" "$@"
     fi
 }
-
-ssv () {
-    if [[ $# == 0 || "$1" == "--help" || "$1" == "-h" ]]; then
-        echo -e "\e[0;32mssm\e[0;39m: SSH to the specified VM as \e[0;35mroot\e[0;39m"
-        echo "«Usage:»$ ssv host"
-    else
-        ssh -A -l root -o UserKnownHostsFile="${HOME}/.ssh/known_hosts_vm" "$@"
-    fi
-
-}
+export -f ssr
 
 tea () {
     # Set a timer for your tea. Defaults to 5 min.
@@ -136,11 +130,13 @@ tea () {
         announce "Your tea has steeped ${t_str}."
     fi
 }
+export -f tea
 
 tee_err () {
     echo "Logging to trace.out and trace.err"
     $1 > >(tee trace.out) 2> >(tee trace.err >&2)
 }
+export -f tee_err
 
 update_envs () {
     module load conda
@@ -154,6 +150,20 @@ update_envs () {
     done
     module unload conda
 }
+export -f update_envs
+
+update_title () {
+    if [[ "$(/bin/which xttitle)" == "" ]]; then
+        xttitle "[$$] ${USER}@${HOSTNAME}:$(basename $PWD)"
+    else
+        PS1=$PS1"\[\e]0;\u@\h:\w\a\]"
+    fi
+}
+export -f update_title
+
+cd () {
+	builtin cd $*; update_title
+}
 
 whoareu () {
     # Print the name of the person assigned the specified ID
@@ -163,6 +173,7 @@ whoareu () {
     info=$(getent passwd "${user}")
     echo "${info}" | awk -F':' '{print $5}' | awk -F',' '{print $1}'
 }
+export -f whoareu
 
 alias acs="apt-cache search"
 alias acS="apt-cache show"

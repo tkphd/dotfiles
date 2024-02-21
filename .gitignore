@@ -12,6 +12,7 @@ emacs/*.last
 emacs/elpa
 emacs/places
 emacs/semanticdb
+emacs/tramp
 emacs/transient
 
 i3wm/machine.py
