@@ -76,7 +76,7 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         NANO_TMP="/tmp/nanorc.zip"
         NANO_DIR="${HOME}/.nano"
 
-        wget -O "${NANO_TMP}" https://github.com/scopatz/nanorc/archive/master.zip
+        wget  -O "${NANO_TMP}" https://github.com/scopatz/nanorc/archive/master.zip
         mkdir -p "${NANO_DIR}" || exit
         unzip -d "${NANO_DIR}" -f -j "${NANO_TMP}" && rm "${NANO_TMP}"
     fi
@@ -84,8 +84,8 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     # === tmux ===
     [[ ! -d "${HOME}"/.config/tmux ]] && \
         mkdir -p "${HOME}"/.config/tmux
-    ln -sf "${HOME}"/.dotfiles/tmux/tmux.conf "${HOME}"/.config/tmux/tmux.conf
-    ln -sf "${HOME}"/.dotfiles/tmux/tmux.conf.local "${HOME}"/.config/tmux/tmux.conf.local
+    ln -sf "${DIR}"/tmux/tmux.conf       "${HOME}"/.config/tmux/tmux.conf
+    ln -sf "${DIR}"/tmux/tmux.conf.local "${HOME}"/.config/tmux/tmux.conf.local
 
     # === urxvt ===
     if [[ -d "${HOME}"/.urxvt ]]; then
@@ -116,11 +116,12 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    DEBPKG="diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp plocate  \
-            pyflakes3 pygmentize python3-flake8 tig urxvt visidata xsel \
-            yamllint zathura"
+    DEBPKG="diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp plocate    \
+            pyflakes3 pygmentize python3-flake8 tig rxvt-unicode visidata \
+            xsel yamllint zathura"
     for PKG in ${DEBPKG}; do
-        [[ $(which ${PKG}) == "" ]] && \
+        PKG_PRESENT=$(dpkg -l "${PKG}" 2>/dev/null | grep '^ii')
+        [[ "${PKG_PRESENT}" == "" ]] && \
             echo "Warning: ${PKG} not found!"
     done
 
