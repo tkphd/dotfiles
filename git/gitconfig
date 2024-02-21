@@ -75,3 +75,5 @@
 	email = trevor.keller@nist.gov
 [column]
 	ui = auto
+[branch]
+	sort = -committerdate
