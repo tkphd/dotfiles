@@ -116,9 +116,9 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         xrdb -merge "${HOME}"/.Xresources
 
     # === check dependencies ===
-    DEBPKG="diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp plocate    \
-            pyflakes3 pygmentize python3-flake8 tig rxvt-unicode visidata \
-            xsel yamllint zathura"
+    DEBPKG="byobu diff-so-fancy direnv emacs-nox exa fzf i3 lnav mdp  \
+            plocate pyflakes3 pygmentize python3-flake8 rxvt-unicode  \
+            tig tmux visidata xsel yamllint zathura"
     for PKG in ${DEBPKG}; do
         PKG_PRESENT=$(dpkg -l "${PKG}" 2>/dev/null | grep '^ii')
         [[ "${PKG_PRESENT}" == "" ]] && \
