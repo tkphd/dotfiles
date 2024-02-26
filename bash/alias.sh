@@ -28,6 +28,15 @@ md2book () {
 }
 export -f md2book
 
+
+manual () {
+    # list manually installed packages
+    comm -23 <(apt-mark showmanual | sort -u) \
+         <(gzip -dc /var/log/installer/initial-status.gz | \
+               sed -n 's/^Package: //p' | sort -u)
+
+}
+
 md2pdf () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
     # with TeX Gyre TermesX, old style numbers,

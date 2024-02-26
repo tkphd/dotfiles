@@ -77,3 +77,5 @@
 	ui = auto
 [branch]
 	sort = -committerdate
+[maintenance]
+	repo = /home/tnk10/.dotfiles
