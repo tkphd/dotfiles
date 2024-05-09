@@ -134,6 +134,10 @@ fi
 # fi
 # === SSH ===
 SSH_ASKPASS="/usr/bin/ssh-askpass" && export SSH_ASKPASS
+if [[ -a /usr/bin/keychain ]]; then
+    /usr/bin/keychain $HOME/.ssh/id_ed25519
+    source $HOME/.keychain/$HOSTNAME-sh
+fi
 # === Systemd ===
 # export SYSTEMD_PAGER=  # uncomment to disable systemctl's auto-paging feature
 

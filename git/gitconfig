@@ -48,8 +48,7 @@
 
 [merge]
   conflictstyle = diff3
-  tool = p4merge
-  path = "/usr/local/bin/p4merge"
+  tool = meld
 
 [push]
   default = simple
