@@ -76,6 +76,9 @@ if [[ -f /etc/profile.d/lmod.sh ]]; then
     [ -d "${HOME}/research/modules/modulefiles" ] && \
         module use "${HOME}/research/modules/modulefiles"
 fi
+# === MOOSE ===
+[[ -d /toolbox/tnk10/src/moose ]] && \
+    export MOOSE_DIR=/toolbox/tnk10/src/moose
 # === MMSP ===
 export MMSP_PATH="${HOME}/research/projects/mmsp"
 [[ ! $PATH =~ .*mmsp* ]] && \
