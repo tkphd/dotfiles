@@ -274,7 +274,7 @@ alias xpraview="xpra --webcam=no --opengl=no start ssh://bart --start=paraview"
 
 # Slurm shenanigans
 safmt="JobID,JobName%20,Partition,ReqCPUS,NodeList%8,State,Start,Elapsed,MaxRSS"
-sifmt="%9P %10A %8z %14O %.12l %N"
+sifmt="%9P %10A %8z %14O %.12l %20N %20G"
 sqfmt="%12i %20j %3t %11P %6D %5C %12L %17R"
 
 LASTWK="$(date --date='last week' +%m%d%y)"
