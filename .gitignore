@@ -2,6 +2,7 @@
 *#*
 *__
 *.#*
+*.cache
 *.orig
 
 bash/local_prompt
