@@ -60,7 +60,7 @@
   process = git-lfs filter-process
 
 [credential]
-  helper = netrc -f ~/.netrc -v
+	helper = store
   credentialStore = cache
 
 [pull]
