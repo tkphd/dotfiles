@@ -99,6 +99,11 @@ fi
 #     export __NV_PRIME_RENDER_OFFLOAD=1
 #     export __GLX_VENDOR_LIBRARY_NAME=nvidia
 # fi
+# === OpenMPI ===
+export OMPI_MCA_opal_cuda_support="false"  # false by default
+export OMPI_MCA_pml="ucx"
+export OMPI_MCA_osc="ucx"
+export UCX_MEMTYPE_CACHE="n"
 # === OpenSCAD plugins ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
@@ -109,6 +114,9 @@ if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     fi
     unset DOTSCADPATH
 fi
+# === pixi ===
+[[ -a "$HOME/.pixi/bin" ]] && \
+    export PATH="${PATH}:${HOME}/.pixi/bin"
 # === Python ===
 export JUPYTER_PLATFORM_DIRS=1
 export PYTHONPYCACHEPREFIX="/tmp/${USER}/pycache"

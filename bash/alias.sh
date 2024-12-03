@@ -229,6 +229,7 @@ else
     alias ll='ls -hal'
 fi
 alias lls="ls"  # typo resistance
+alias lsrt="ls -rlct"  # chronological
 alias mdl="markdownlint-cli2"
 alias mf="echo -e 'Use /usr/bin/mf for MetaFont; you probably meant\n    mv'"
 alias mmbi="mamba install --quiet"
