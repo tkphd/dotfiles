@@ -78,3 +78,5 @@
 	sort = -committerdate
 [maintenance]
 	repo = /home/tnk10/.dotfiles
+[pack]
+	threads = 8
