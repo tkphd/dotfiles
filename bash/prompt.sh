@@ -25,7 +25,7 @@ PS1='[\u@\h:\W]\$ '
 # Customizable prompt settings
 D_HU="${MAGENTAB}"
 G_HU="${RED}"
-H_HU="${BLUE}"
+H_HU="${BLUEB}"
 P_HU="${CYANL}"
 S_HU="${GREENL}"
 Q_HU="${MAGENTAB}"
