@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e  # exit on failure
 echo -ne 'DANGER! This script will overwrite "${HOME}"/.bashrc and other config files.\n\nType "yes" to continue: '
 read -r DISCLAIMER
 
@@ -64,21 +64,22 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     ln -s "${DIR}"/i3wm "${HOME}"/.config/i3
 
     # === julia ===
-    if [[ -d "${HOME}"/.julia/config ]]; then
-        rm -r "${HOME}"/.julia/config
-    elif [[ -f "${HOME}"/.julia/config || -L "${HOME}"/.julia/config ]]; then
-        rm "${HOME}"/.julia/config
+    if [[ -d "${DIR}"/julia ]]; then
+      if [[ -d "${HOME}"/.julia/config ]]; then
+          rm -r "${HOME}"/.julia/config
+      elif [[ -f "${HOME}"/.julia/config || -L "${HOME}"/.julia/config ]]; then
+          rm "${HOME}"/.julia/config
+      fi
+      mkdir -p "${HOME}"/.julia
+      ln -s "${DIR}"/julia "${HOME}"/.julia/config
     fi
-    ln -s "${DIR}"/julia "${HOME}"/.julia/config
 
     # === nano ===
     if [[ ! -d "${HOME}/.nano" ]]; then
         NANO_TMP="/tmp/nanorc.zip"
         NANO_DIR="${HOME}/.nano"
 
-        wget  -O "${NANO_TMP}" https://github.com/scopatz/nanorc/archive/master.zip
-        mkdir -p "${NANO_DIR}" || exit
-        unzip -d "${NANO_DIR}" -f -j "${NANO_TMP}" && rm "${NANO_TMP}"
+        git clone --recursive github:scopatz/nanorc "${NANO_DIR}"
     fi
 
     # === tmux ===

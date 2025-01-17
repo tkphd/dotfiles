@@ -41,16 +41,18 @@ fi
 [[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]] && \
     source "${HOME}/.dotfiles/x11/xsessionrc"
 
+# alternative package managers
+for CONF in "${HOME}"/.dotfiles/bash/opt/*.sh; do
+    source "${CONF}"
+done
+
 # auxiliary config
 for CONF in alias env prompt shopt tools; do
     [[ -f "${HOME}/.dotfiles/bash/${CONF}.sh" ]] && \
         source "${HOME}/.dotfiles/bash/${CONF}.sh"
 done
 
-for CONF in "${HOME}"/.dotfiles/bash/opt/*.sh; do
-    source "${CONF}"
-done
-
 unset CONF
 
 export BASHRC_SOURCED=1
+
