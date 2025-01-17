@@ -161,18 +161,18 @@ update_envs () {
 }
 export -f update_envs
 
-update_title () {
-    if [[ "$(/bin/which xttitle)" == "" ]]; then
-        xttitle "[$$] ${USER}@${HOSTNAME}:$(basename $PWD)"
-    else
-        PS1=$PS1"\[\e]0;\u@\h:\w\a\]"
-    fi
-}
-export -f update_title
+# update_title () {
+#     if [[ "$(/bin/which xttitle 2>/dev/null)" != "" ]]; then
+#         xttitle "[$$] ${USER}@${HOSTNAME}:$(basename $PWD)"
+#     else
+#         PS1=$PS1"\[\e]0;\u@\h:\w\a\]"
+#     fi
+# }
+# export -f update_title
 
-cd () {
-	builtin cd $*; update_title
-}
+# cd () {
+# 	builtin cd $*; update_title
+# }
 
 whoareu () {
     # Print the name of the person assigned the specified ID
