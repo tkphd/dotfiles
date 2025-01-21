@@ -127,7 +127,6 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     done
 
     # === rust utilities ===
-    # h/t Julia Evans <https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/>
     [[ -f "${HOME}/.cargo/env" ]] && \
         . "${HOME}/.cargo/env"
     if [[ ! -d "${HOME}/.cargo" ]]; then
@@ -135,8 +134,9 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
     else
         rustup update
     fi
+    # h/t Julia Evans <https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/>
     source "${HOME}/.cargo/env"
-    cargo install ag choose difftastic du-dust exa git-delta ripgrep sd xsv
+    cargo install ag choose difftastic du-dust exa git-delta lsd ripgrep sd xsv
 
     # === node utilities ===
     if [[ ! -d "${HOME}/.nvm" ]]; then

@@ -144,6 +144,7 @@ fi
 #     [[ -d "${SINGULARITY_CACHEDIR}" ]] || mkdir -p "${SINGULARITY_TMPDIR}"
 # fi
 # === SSH ===
+export TMOUT=0  # disable server-side SSH disconnections
 SSH_ASKPASS="/usr/bin/ssh-askpass" && export SSH_ASKPASS
 if [[ -a /usr/bin/keychain ]]; then
     /usr/bin/keychain $HOME/.ssh/id_ed25519
