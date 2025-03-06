@@ -100,10 +100,10 @@ fi
 #     export __GLX_VENDOR_LIBRARY_NAME=nvidia
 # fi
 # === OpenMPI ===
-export OMPI_MCA_opal_cuda_support="false"  # false by default
-export OMPI_MCA_pml="ucx"
-export OMPI_MCA_osc="ucx"
-export UCX_MEMTYPE_CACHE="n"
+# export OMPI_MCA_opal_cuda_support="false"  # false by default
+# export OMPI_MCA_pml="ucx"
+# export OMPI_MCA_osc="ucx"
+# export UCX_MEMTYPE_CACHE="n"
 # === OpenSCAD plugins ===
 if [[ -d "${HOME}/repositories/dotSCAD" ]]; then
     DOTSCADPATH="${HOME}/repositories/dotSCAD/src"
