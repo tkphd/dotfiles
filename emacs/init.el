@@ -67,9 +67,10 @@
   )
 
 ;; Put backup files neatly away (https://emacs.stackexchange.com/a/36)
-(let ((backup-dir (getenv "EMACSBD"))
-      (auto-saves-dir (getenv "EMACSSD")) )
-  (dolist (dir (list backup-dir auto-saves-dir))
+(let ((back-dir "/tmp/${USER}/emacs/backup")
+      (save-dir "/tmp/${USER}/emacs/save")
+      (undo-dir "/tmp/${USER}/emacs/undo"))
+  (dolist (dir (list "/tmp/${USER}/emacs" back-dir save-dir undo-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)) )
   (setq backup-directory-alist `(("." . ,backup-dir))
@@ -77,6 +78,7 @@
         auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
         tramp-backup-directory-alist `((".*" . ,backup-dir))
         tramp-auto-save-directory auto-saves-dir)
+  (setq undo-tree-history-directory-alist '(("." . ,undo-dir)))
   )
 
 (setq backup-by-copying t               ; Don't delink hardlinks
@@ -229,8 +231,8 @@
 (setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
 
 (require 'csv-mode)
-(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
-(add-to-list 'auto-mode-alist '("\\.tsv\\'" . csv-mode))
+(add-to-list 'auto-mode-alist '("\\.csv\\'"       . csv-mode))
+(add-to-list 'auto-mode-alist '("\\.tsv\\'"       . csv-mode))
 
 (use-package cuda-mode
   :ensure t
@@ -239,14 +241,14 @@
 )
 
 (require 'highlight-doxygen)
-(add-to-list 'auto-mode-alist '("\\Doxyfile\\'" . highlight-doxygen-mode))
+(add-to-list 'auto-mode-alist '("\\Doxyfile\\'"   . highlight-doxygen-mode))
 
 (require 'gcode-mode)
-(add-to-list 'auto-mode-alist '("\\.gcode\\'" . gcode-mode))
+(add-to-list 'auto-mode-alist '("\\.gcode\\'"     . gcode-mode))
 
 (require 'json-mode)
-(add-to-list 'auto-mode-alist '("\\.json\\'"   . json-mode))
-(add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'"      . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonld\\'"    . json-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -257,23 +259,23 @@
 )
 
 ;; (require 'opencl-mode)
-;; (add-to-list 'auto-mode-alist '("\\.cl\\'" . opencl-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cl\\'"        . opencl-mode))
 
 (require 'rst)
-(add-to-list 'auto-mode-alist '("\\.rst\\'" . rst-mode))
+(add-to-list 'auto-mode-alist '("\\.rst\\'"       . rst-mode))
 
-(add-to-list 'auto-mode-alist '("\\Snakefile\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\Snakefile\\'"  . python-mode))
 
 (require 'turtle-mode)
-(add-to-list 'auto-mode-alist '("\\.turtle\\'" . turtle-mode))
+(add-to-list 'auto-mode-alist '("\\.turtle\\'"    . turtle-mode))
 
 (require 'typescript-mode)
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"        . typescript-mode))
 
 (require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.cff\\'"  . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'"      . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yml\\'"       . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.cff\\'"       . yaml-mode))
 
 ;; LaTeX handling
 

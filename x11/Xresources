@@ -58,3 +58,4 @@ Xcursor.theme: volantes
 
 ! █▓▒░ URxvt particulars
 ! #include ".dotfiles/x11/Xresources.URxvt"
+URxvt*font:          xft:Hack Nerd Font:style=Regular:size=11
