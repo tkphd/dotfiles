@@ -11,7 +11,7 @@ variables:
   documentclass: article
   fontsize: 11pt
   geometry:
-    - margin=0.75in
+    - margin=1in
   lang: en-US
   linkcolor: blue  # highlight internal links
   mainfont: NewCM10

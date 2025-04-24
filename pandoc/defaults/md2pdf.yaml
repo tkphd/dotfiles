@@ -10,7 +10,7 @@ variables:
   documentclass: article
   fontsize: 12pt
   geometry:
-    - margin=0.75in
+    - margin=1in
   linkcolor: blue  # highlight internal links
   mainfont: TeXGyreTermesX
   mainfontoptions:
