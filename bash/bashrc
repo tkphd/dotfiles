@@ -37,15 +37,6 @@ else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
-# X11 interface glitter
-[[ -f "${HOME}/.dotfiles/x11/xsessionrc" ]] && \
-    source "${HOME}/.dotfiles/x11/xsessionrc"
-
-# alternative package managers
-for CONF in "${HOME}"/.dotfiles/bash/opt/*.sh; do
-    source "${CONF}"
-done
-
 # auxiliary config
 for CONF in alias env prompt shopt tools; do
     [[ -f "${HOME}/.dotfiles/bash/${CONF}.sh" ]] && \
