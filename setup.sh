@@ -30,9 +30,15 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         link="${HOME}/${f/.sh/}"
         [[ -f "${link}" || -L "${link}" ]] && \
             rm "${link}"
-        ln -s "$(pwd)/${f}" "${link}"
+        ln -s "${PWD}/${f}" "${link}"
     done
 
+    ## === emacs ===
+    [[ -d "${HOME}"/.emacs.d ]] && \
+	rm -r "${HOME}"/.emacs.d
+    ln -s "${PWD}/emacs" "${HOME}/.emacs.d"
+    done
+    
     # === git ===
     [[ -f "${HOME}"/.gitconfig || -L "${HOME}"/.gitconfig ]] && \
         rm "${HOME}"/.gitconfig
