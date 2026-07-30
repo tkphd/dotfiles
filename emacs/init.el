@@ -14,7 +14,6 @@
 (add-to-list 'exec-path "~/bin") ;; put global in there
 (add-to-list 'load-path "~/.emacs.d/custom")
 (setq exec-path (cons "/usr/local/bin" exec-path))
-(setq backup-directory-alist '(("." . (substitute-in-file-name "/tmp/${USER}/emacs"))))
 (require 'subr-x)
 
 (when (and (version<  "25" emacs-version)
@@ -67,25 +66,22 @@
   )
 
 ;; Put backup files neatly away (https://emacs.stackexchange.com/a/36)
-(let ((back-dir "/tmp/${USER}/emacs/backup")
-      (save-dir "/tmp/${USER}/emacs/save")
-      (undo-dir "/tmp/${USER}/emacs/undo"))
-  (dolist (dir (list "/tmp/${USER}/emacs" back-dir save-dir undo-dir))
-    (when (not (file-directory-p dir))
-      (make-directory dir t)) )
+(let ((backup-dir "~/.cache/emacs/backup")
+      (save-dir "~/.cache/emacs/save"))
+  (dolist (dir (list backup-dir save-dir))
+    (unless (file-directory-p dir)
+      (make-directory dir t)))
   (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*", auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        auto-save-file-name-transforms `((".*" ,save-dir t))
+        auto-save-list-file-prefix (concat save-dir "/.saves-")
         tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir)
-  (setq undo-tree-history-directory-alist '(("." . ,undo-dir)))
-  )
+        tramp-auto-save-directory save-dir))
 
 (setq backup-by-copying t               ; Don't delink hardlinks
       delete-old-versions t             ; Clean up the backups
       version-control t                 ; Use version numbers on backups,
-      kept-new-versions 2               ; keep some new versions
-      kept-old-versions 2)              ; and some old ones, too
+      kept-new-versions 1               ; keep some new versions
+      kept-old-versions 0)              ; and some old ones, too
 
 ;; function-args
 ;; (require 'function-args)
@@ -101,7 +97,7 @@
    '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(flycheck-markdown-markdownlint-cli-executable "markdownlint-cli2")
  '(package-selected-packages
-   '(quarto-mode adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv csv-mode dismal dockerfile-mode dtrt-indent edit-indirect editorconfig eglot elisp-format elisp-lint ess flycheck flycheck-eglot flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode gnu-elpa-keyring-update helm helm-directory helm-file-preview helm-flycheck highlight-doxygen iedit julia-formatter julia-mode langtool lua-mode markdown-mode multi-line neotree night-owl-theme olivetti org-projectile-helm pandoc-mode poetry poly-R poly-ansible poly-rst popup-complete projectile py-autopep8 pyvenv-auto rainbow-mode rdf-prefix rst rust-mode scad-mode snakemake-mode term-projectile toml-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights web-mode ws-butler yaml-mode yasnippet zygospore)))
+   '(quarto-mode adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv csv-mode dismal dockerfile-mode edit-indirect editorconfig eglot elisp-format elisp-lint ess flycheck flycheck-eglot flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode gnu-elpa-keyring-update helm helm-directory helm-file-preview helm-flycheck highlight-doxygen iedit julia-formatter julia-mode langtool lua-mode markdown-mode multi-line neotree night-owl-theme olivetti org-projectile-helm pandoc-mode poetry poly-R poly-ansible poly-rst popup-complete projectile py-autopep8 pyvenv-auto rainbow-mode rdf-prefix rst rust-mode scad-mode snakemake-mode term-projectile toml-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights web-mode ws-butler yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -131,8 +127,10 @@
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (setq-default column-number-mode t)
 (setq-default require-final-newline t)
+
 (setq require-final-newline t)
-;; (setq sentence-end-double-space nil)
+(setq column-number-mode t)
+(setq sentence-end-double-space nil)
 
 ;; how wide should the text fields be?
 (setq-default fill-column 79)
@@ -202,27 +200,27 @@
                '(python-mode . ("ruff" "server")))
   (add-hook 'after-save-hook 'eglot-format))
 
-(use-package flycheck
-  :ensure t
-  :config
-  (global-flycheck-mode t))
+(when (version<= "28.1" emacs-version)
+  (use-package flycheck
+    :ensure t
+    :config
+    (global-flycheck-mode t))
 
-(use-package flycheck-pycheckers
-  :after flycheck
-  :ensure t
-  :init
-  (with-eval-after-load 'flycheck
-    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
-    )
-  (setq flycheck-pycheckers-checkers '(pyflakes))
-)
+  (use-package flycheck-pycheckers
+    :after flycheck
+    :ensure t
+    :init
+    (with-eval-after-load 'flycheck
+      (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+    (setq flycheck-pycheckers-checkers '(pyflakes)))
 
-(eval-after-load 'flycheck
-  '(flycheck-add-mode 'html-tidy 'web-mode))
+  (eval-after-load 'flycheck
+    '(flycheck-add-mode 'html-tidy 'web-mode)))
 
 ;; Python dependency management and packaging
-(use-package poetry
-  :ensure t)
+(when (version<= "28.1" emacs-version)
+  (use-package poetry
+    :ensure t))
 
 (setq compilation-scroll-output 'first-error)
 
@@ -230,9 +228,9 @@
 
 (setq c-default-style "linux" c-basic-offset 4 tab-width 4 indent-tabs-mode t)
 
-(require 'csv-mode)
-(add-to-list 'auto-mode-alist '("\\.csv\\'"       . csv-mode))
-(add-to-list 'auto-mode-alist '("\\.tsv\\'"       . csv-mode))
+(use-package csv-mode
+  :mode (("\\.csv\\'" . csv-mode)
+         ("\\.tsv\\'" . csv-mode)))
 
 (use-package cuda-mode
   :ensure t

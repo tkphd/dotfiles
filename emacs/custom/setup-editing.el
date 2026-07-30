@@ -47,7 +47,12 @@
 ;; GROUP: Editing -> Undo -> Undo Tree
 (use-package undo-tree
   :init
-  (global-undo-tree-mode 1))
+  (global-undo-tree-mode 1)
+  :config
+  (let ((undo-dir "~/.cache/emacs/undo"))
+    (unless (file-directory-p undo-dir)
+      (make-directory undo-dir t))
+    (setq undo-tree-history-directory-alist `(("." . ,undo-dir)))))
 
 
 ;; Package: yasnippet
@@ -64,10 +69,11 @@
   (add-hook 'prog-mode-hook 'clean-aindent-mode))
 
 ;; Package: dtrt-indent
-(use-package dtrt-indent
-  :init
-  (dtrt-indent-mode 1)
-  (setq dtrt-indent-verbosity 0))
+(when (version<= "28.1" emacs-version)
+  (use-package dtrt-indent
+    :init
+    (dtrt-indent-mode 1)
+    (setq dtrt-indent-verbosity 0)))
 
 ;; Package: ws-butler
 (use-package ws-butler
