@@ -8,10 +8,12 @@ fi
 [[ ! $PATH =~ .*/usr/sbin* ]] && \
     export PATH="${PATH}:/usr/sbin"
 # === Local Binaries ===
+[[ ! $PATH =~ .*/$USER/.local/bin* ]] && \
+    export PATH="${HOME}/.local/bin:${PATH}"
 [[ -d "${HOME}/bin" ]] && [[ ! $PATH =~ .*/$USER/bin* ]] && \
     export PATH="${HOME}/bin:${PATH}"
 # === Emacs ===
-export EMACSD="~/.cache/emacs"
+export EMACSD="${HOME}/.cache/emacs"
 export EMACSBD="${EMACSD}/backups"
 export EMACSSD="${EMACSD}/saves"
 if [[ ! -d "${EMACSD}" ]]; then
@@ -21,6 +23,9 @@ if [[ ! -d "${EMACSD}" ]]; then
 fi
 # === GCC ===
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# === GCloud ===
+[[ -a /opt/google/gcloud/path.bash.inc ]] && \
+    source /opt/google/gcloud/path.bash.inc
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && \
     source "${HOME}/.github" # personal access token(s)
@@ -51,9 +56,12 @@ LESS_TERMCAP_ZO=$(tput ssupm)                            && export LESS_TERMCAP_
 LESS_TERMCAP_ZW=$(tput rsupm)                            && export LESS_TERMCAP_ZW
 GROFF_NO_SGR=1                                           && export GROFF_NO_SGR
 # === LESS ===
-[[ $(which pygmentize) != "" ]] && \
+[[ $(which pygmentize 2>/dev/null) != "" ]] && \
     export LESSOPEN="| pygmentize -g %s"
 # === Systemd ===
 # export SYSTEMD_PAGER=  # uncomment to disable systemctl's auto-paging feature
+# === neovim ===
+[[ ! $PATH =~ .*/opt/nvim-linux-x86_64* ]] && \
+    export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 export ENV_SOURCED=1

@@ -10,6 +10,7 @@ bash/local_prompt
 emacs/*.el
 emacs/*.eld
 emacs/*.last
+emacs/eln-cache
 emacs/elpa
 emacs/places
 emacs/semanticdb

@@ -4,10 +4,6 @@ if [[ -n "${ALIAS_SOURCED}" ]]; then
     return
 fi
 
-if [[ -f "${HOME}/.dotfiles/local/HostIP" ]]; then
-    source "${HOME}/.dotfiles/local/HostIP"
-fi
-
 aguu () {
     # Update Debian and Conda apps
     sudo apt update
@@ -15,6 +11,16 @@ aguu () {
     update_envs
 }
 export -f aguu
+
+dnfi () {
+    # Install package from file, then delete it.
+    [[ -f "$1" ]] || \
+        { echo "File not found: $1"; exit; }
+
+    md5sum "$1" || exit
+    sudo dnf install "$1" && rm -v "$1"
+}
+export -f dnfi
 
 md2book () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
@@ -27,7 +33,6 @@ md2book () {
            "$1"
 }
 export -f md2book
-
 
 manual () {
     # list manually installed packages
@@ -50,7 +55,7 @@ md2pdf () {
 export -f md2pdf
 
 mkcd () {
-    mkdir $1 && cd $1
+    mkdir "$1" && cd "$1" || exit
 }
 export -f mkcd
 
@@ -183,16 +188,19 @@ alias bp="bpython"
 alias curl="curl -L -C -"
 alias ddp="sudo dd bs=4M conv=fsync status=progress"
 alias dir='dir --color=auto'
+alias dnf="sudo dnf"
 alias vdir='vdir --color=auto'
 alias dmesg="/bin/dmesg --color=always | /bin/less -R"
 alias dpgrep="dpkg -l | grep"
 alias du="du -x"
-alias e="emacsclient -t"
+alias e="emacsclient --no-window-system"
 alias ek="emacsclient -e '(kill-emacs)'"
-alias se="sudo emacs -nw"
+alias emacs="emacs --no-window-system"
+alias se="sudo emacs --no-window-system"
 alias exa="exa -abghHliS --group-directories-first"
 alias ff="feh -F --force-aliasing"
 alias gdb="gdb -q"
+alias glow="glow --tui"
 alias grafana="ssh -L 3000:localhost:3000 mr-french"
 alias grep='grep --color=auto --line-number --with-filename'
 alias gs="git status"
@@ -225,7 +233,7 @@ alias more="less -mNR"
 alias mmspstyle="/usr/bin/astyle --style=linux --indent-col1-comments --indent=tab --indent-preprocessor --indent-preproc-cond --pad-header --align-pointer=type --keep-one-line-blocks --suffix=none"
 alias ncdu="ncdu -x --exclude-kernfs"
 alias bp="bpython"
-if [[ "$(which bpython)" == "" ]]; then
+if [[ "$(which bpython 2>/dev/null)" == "" ]]; then
     alias p="python3 -i"
 else
     alias p="bpython"
@@ -283,5 +291,8 @@ elif [[ $(hostname -s) == "mr-french" ]]; then
     alias  sbash="srun -p gpu -t 60 -n 1  --pty bash"
     alias squart="srun -p gpu -t 60 -n 16 --gres=gpu:volta:1 --pty bash"
 fi
+
+alias tsfn="sudo tailscale switch ad8e"
+alias tsmj="sudo tailscale switch a1bf"
 
 export ALIAS_SOURCED=1

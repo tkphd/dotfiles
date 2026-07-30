@@ -16,14 +16,6 @@
 (setq exec-path (cons "/usr/local/bin" exec-path))
 (require 'subr-x)
 
-(when (and (version<  "25" emacs-version)
-           (version< emacs-version "26.3"))
-  ;; Hack to prevent TLS error with Emacs 26.1 and 26.2 and gnutls 3.6.4 and above
-  ;; see https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
-  (with-current-buffer (url-retrieve-synchronously "https://api.github.com/users/syl20bnr/repos")
-    (when (string-empty-p (buffer-string))
-      (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))))
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -94,10 +86,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65" "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e" "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
+   '("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5"
+     "4f2ede02b3324c2f788f4e0bad77f7ebc1874eff7971d2a2c9b9724a50fb3f65"
+     "50e9ef789d599d39a9ecb6e983757306ea19198d1a8f182be7fd3242b613f00e"
+     "66881e95c0eda61d34aa7f08ebacf03319d37fe202d68ecf6a1dbfd49d664bc3"
+     "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a"
+     "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(flycheck-markdown-markdownlint-cli-executable "markdownlint-cli2")
- '(package-selected-packages
-   '(quarto-mode adafruit-wisdom all-the-icons anzu better-defaults bug-hunter clean-aindent-mode company company-anaconda company-jedi company-lua company-math company-quickhelp-terminal company-shell company-terraform counsel counsel-pydoc counsel-projectile csv csv-mode dismal dockerfile-mode edit-indirect editorconfig eglot elisp-format elisp-lint ess flycheck flycheck-eglot flycheck-julia flycheck-pycheckers flycheck-pyflakes flycheck-yamllint flymake-sass gcode-mode gnu-elpa-keyring-update helm helm-directory helm-file-preview helm-flycheck highlight-doxygen iedit julia-formatter julia-mode langtool lua-mode markdown-mode multi-line neotree night-owl-theme olivetti org-projectile-helm pandoc-mode poetry poly-R poly-ansible poly-rst popup-complete projectile py-autopep8 pyvenv-auto rainbow-mode rdf-prefix rst rust-mode scad-mode snakemake-mode term-projectile toml-mode typescript-mode undo-tree unicode-troll-stopper use-package v-mode virtualenv volatile-highlights web-mode ws-butler yaml-mode yasnippet zygospore)))
+ '(package-selected-packages nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -238,42 +234,31 @@
   :mode (("\\.cuh\\'" . cuda-mode))
 )
 
-(require 'highlight-doxygen)
-(add-to-list 'auto-mode-alist '("\\Doxyfile\\'"   . highlight-doxygen-mode))
-
-(require 'gcode-mode)
-(add-to-list 'auto-mode-alist '("\\.gcode\\'"     . gcode-mode))
-
-(require 'json-mode)
-(add-to-list 'auto-mode-alist '("\\.json\\'"      . json-mode))
-(add-to-list 'auto-mode-alist '("\\.jsonld\\'"    . json-mode))
-
-(use-package markdown-mode
+(use-package json-mode
   :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("\\.md\\'"       . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc")
+  :mode (("\\.json\\'"  . json-mode))
+  :mode (("\\.jsonld\\'" . json-mode))
 )
+
+(when (version<= "28.1" emacs-version)
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("\\.md\\'"       . gfm-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "pandoc")))
 
 ;; (require 'opencl-mode)
 ;; (add-to-list 'auto-mode-alist '("\\.cl\\'"        . opencl-mode))
 
-(require 'rst)
-(add-to-list 'auto-mode-alist '("\\.rst\\'"       . rst-mode))
-
 (add-to-list 'auto-mode-alist '("\\Snakefile\\'"  . python-mode))
 
-(require 'turtle-mode)
-(add-to-list 'auto-mode-alist '("\\.turtle\\'"    . turtle-mode))
-
-(require 'typescript-mode)
-(add-to-list 'auto-mode-alist '("\\.ts\\'"        . typescript-mode))
-
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yaml\\'"      . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yml\\'"       . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.cff\\'"       . yaml-mode))
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yaml\\'" . yaml-mode)
+         ("\\.yml\\'"  . yaml-mode)
+         ("\\.cff\\'"  . yaml-mode))
+)
 
 ;; LaTeX handling
 

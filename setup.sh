@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # exit on failure
-echo -ne 'DANGER! This script will overwrite "${HOME}"/.bashrc and other config files.\n\nType "yes" to continue: '
+
+
+
+echo -ne "DANGER! This script will overwrite ${HOME}/.bashrc and other config files.\n\nType \"yes\" to continue: "
 read -r DISCLAIMER
 
 if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
@@ -35,10 +38,11 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
 
     ## === emacs ===
     [[ -d "${HOME}"/.emacs.d ]] && \
-	rm -r "${HOME}"/.emacs.d
+	    rm -r "${HOME}"/.emacs.d
     ln -s "${PWD}/emacs" "${HOME}/.emacs.d"
-    done
-    
+    [[ -d "${HOME}/.cache/emacs" ]] || \
+        mkdir -p "${HOME}"/.cache/emacs/{backup,save,undo}
+
     # === git ===
     [[ -f "${HOME}"/.gitconfig || -L "${HOME}"/.gitconfig ]] && \
         rm "${HOME}"/.gitconfig

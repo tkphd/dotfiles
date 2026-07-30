@@ -106,18 +106,6 @@
     (define-key global-map [remap list-buffers] 'helm-buffers-list)
 
     (when (version<= "28.1" emacs-version)
-      ;; PACKAGE: helm-swoop
-      (use-package helm-swoop
-        :bind (("C-c h o" . helm-swoop)
-               ("C-c s" . helm-multi-swoop-all))
-        :config
-        (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
-        (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
-        (setq helm-multi-swoop-edit-save t)
-        (setq helm-swoop-split-with-multiple-windows t)
-        (setq helm-swoop-split-direction 'split-window-vertically)
-        (setq helm-swoop-speed-or-color t))
-
       (use-package helm-projectile
         :init
         (helm-projectile-on)
