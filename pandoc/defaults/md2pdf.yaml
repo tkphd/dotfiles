@@ -12,7 +12,7 @@ variables:
   geometry:
     - margin=1in
   linkcolor: blue  # highlight internal links
-  mainfont: TeXGyre
+  mainfont: TeXGyreTermesX
   mainfontoptions:
     - Extension=.otf
     - UprightFont=*-Regular

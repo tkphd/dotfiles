@@ -12,6 +12,10 @@ fi
     export PATH="${HOME}/.local/bin:${PATH}"
 [[ -d "${HOME}/bin" ]] && [[ ! $PATH =~ .*/$USER/bin* ]] && \
     export PATH="${HOME}/bin:${PATH}"
+# === TeX Live ===
+[[ -d "/usr/local/texlive/2026/bin/x86_64-linux" ]] && \
+    [[ ! $PATH =~ .*texlive.* ]] && \
+    export PATH="/usr/local/texlive/2026/bin/x86_64-linux:${PATH}"
 # === Emacs ===
 export EMACSD="${HOME}/.cache/emacs"
 export EMACSBD="${EMACSD}/backups"
