@@ -1,0 +1,276 @@
+#!/usr/bin/env python3
+"""stdio <-> Streamable HTTP bridge for any bearer-token MCP server.
+
+Install docs for hosted MCP servers almost always tell you to paste a live token
+into the client config:
+
+    claude mcp add --transport http NAME URL --header "Authorization: Bearer <token>"
+
+That writes the credential to ~/.claude.json in plaintext, and Claude Code's
+${VAR} header expansion resolves against the claude process's own environment,
+so every subprocess and hook it spawns inherits the token too. This bridge
+replaces that pattern:
+
+    claude mcp add --scope user NAME -- mcp-http-bridge \\
+        --endpoint URL --secret-service SVC --secret-account ACCT
+
+Claude Code speaks MCP over stdio to this process; this process speaks MCP
+Streamable HTTP upstream, attaching the bearer token it reads from the login
+keyring into its own memory. The token therefore lives:
+
+  - not in ~/.claude.json (which stores only this command line)
+  - not in the login shell, so no other session or sibling process inherits it
+  - not in argv -- /proc/<pid>/cmdline is mode 444, world readable, so a token
+    passed as an argument would be strictly worse than an environment variable.
+    Only non-secret names travel in argv.
+  - not in this process's environment either, so nothing it spawns sees it
+
+Use this for servers that only accept a static bearer token. A server that
+supports OAuth should just be added normally and left to Claude Code's own
+credential store; check by looking for a WWW-Authenticate header on a 401 and
+for /.well-known/oauth-protected-resource.
+"""
+
+import argparse
+import json
+import os
+import subprocess
+import sys
+import threading
+import urllib.error
+import urllib.request
+
+PROG = os.path.basename(sys.argv[0])
+TIMEOUT = 300
+
+_out_lock = threading.Lock()
+_state = {"session": None, "protocol": None}
+_cfg = {}
+
+
+def die(message):
+    """Fail loudly. A silent tokenless start would look like a server outage."""
+    print("%s: %s" % (PROG, message), file=sys.stderr, flush=True)
+    raise SystemExit(1)
+
+
+def warn(message):
+    print("%s: %s" % (PROG, message), file=sys.stderr, flush=True)
+
+
+def load_token():
+    """Read the token from the login keyring via secret-tool.
+
+    This shells out rather than using the libsecret (gi.Secret) bindings so the
+    bridge depends only on the stdlib plus the same tool that stored the item.
+    gi.Secret does work, but only if the schema is built as
+    "org.freedesktop.Secret.Generic" with SchemaFlags.DONT_MATCH_NAME -- libsecret
+    matches the schema name as a hidden xdg:schema attribute, so a custom schema
+    name silently misses items written by `secret-tool store`. Shelling out
+    sidesteps that pitfall entirely.
+
+    Only the attribute names travel in argv -- the secret comes back over a pipe,
+    so it never reaches /proc/<pid>/cmdline (mode 444, world readable).
+    """
+    service, account = _cfg["service"], _cfg["account"]
+    argv = ["secret-tool", "lookup", "service", service, "account", account]
+    try:
+        result = subprocess.run(argv, capture_output=True, timeout=30)
+    except FileNotFoundError:
+        die("secret-tool not found; install libsecret-tools to read the keyring")
+    except subprocess.TimeoutExpired:
+        die(
+            "keyring lookup timed out, which usually means the login keyring is "
+            "locked and waiting on a prompt (common under non-graphical SSH)."
+        )
+    token = result.stdout.decode("utf-8", "replace").strip()
+    if result.returncode != 0 or not token:
+        die(
+            "no keyring entry for service=%s account=%s. Store one with:\n"
+            "  secret-tool store --label='%s' service %s account %s"
+            % (service, account, _cfg["label"], service, account)
+        )
+    return token
+
+
+def emit(text):
+    """Write one framed JSON-RPC message. Locked: two threads write here."""
+    with _out_lock:
+        sys.stdout.write(text + "\n")
+        sys.stdout.flush()
+
+
+def build_headers(token):
+    headers = {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream",
+    }
+    if _state["session"]:
+        headers["Mcp-Session-Id"] = _state["session"]
+    if _state["protocol"]:
+        headers["MCP-Protocol-Version"] = _state["protocol"]
+    return headers
+
+
+def note_initialize(payload):
+    """Latch the negotiated protocol version so later requests can echo it."""
+    try:
+        version = json.loads(payload)["result"]["protocolVersion"]
+    except Exception:
+        return
+    if isinstance(version, str):
+        _state["protocol"] = version
+
+
+def pump_sse(response, is_initialize):
+    """Forward each SSE `data:` frame as its own stdio message."""
+    for raw in response:
+        line = raw.decode("utf-8", "replace").rstrip("\r\n")
+        if not line.startswith("data:"):
+            continue
+        payload = line[5:].strip()
+        if not payload:
+            continue
+        if is_initialize:
+            note_initialize(payload)
+        emit(payload)
+
+
+def error_reply(message, detail):
+    """Answer a request we could not deliver, so the client does not hang."""
+    if not isinstance(message, dict) or message.get("id") is None:
+        return
+    emit(
+        json.dumps(
+            {
+                "jsonrpc": "2.0",
+                "id": message["id"],
+                "error": {"code": -32000, "message": detail},
+            }
+        )
+    )
+
+
+def relay(line, message, token):
+    is_initialize = isinstance(message, dict) and message.get("method") == "initialize"
+    request = urllib.request.Request(
+        _cfg["endpoint"],
+        data=line.encode("utf-8"),
+        headers=build_headers(token),
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+            session = response.headers.get("Mcp-Session-Id")
+            if session:
+                _state["session"] = session
+            # Notifications and responses are acknowledged with 202, no body.
+            if response.status == 202:
+                return
+            content_type = (response.headers.get("Content-Type") or "").split(";")[0]
+            if content_type.strip() == "text/event-stream":
+                pump_sse(response, is_initialize)
+                return
+            body = response.read().decode("utf-8", "replace").strip()
+            if body:
+                if is_initialize:
+                    note_initialize(body)
+                emit(body)
+    except urllib.error.HTTPError as exc:
+        detail = "upstream HTTP %s" % exc.code
+        if exc.code == 401:
+            detail += " (token rejected; rotate or re-store the keyring entry)"
+        warn(detail)
+        error_reply(message, detail)
+    except Exception as exc:
+        warn("relay failed (%s)" % exc)
+        error_reply(message, "bridge error: %s" % exc)
+
+
+def listen_for_server_messages(token):
+    """Hold a GET stream for server-initiated messages; optional per spec."""
+    headers = build_headers(token)
+    headers["Accept"] = "text/event-stream"
+    try:
+        request = urllib.request.Request(_cfg["endpoint"], headers=headers, method="GET")
+        with urllib.request.urlopen(request, timeout=None) as response:
+            pump_sse(response, False)
+    except Exception:
+        # 405/404 simply means this server does not offer the GET stream.
+        return
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        prog=PROG,
+        description="Bridge stdio MCP to a bearer-token HTTP MCP server, reading "
+        "the token from the login keyring.",
+    )
+    parser.add_argument("--endpoint", required=True, help="HTTPS MCP endpoint URL")
+    parser.add_argument(
+        "--secret-service",
+        required=True,
+        help="keyring 'service' attribute (non-secret name)",
+    )
+    parser.add_argument(
+        "--secret-account",
+        default="mcp",
+        help="keyring 'account' attribute (default: mcp)",
+    )
+    parser.add_argument(
+        "--label",
+        default=None,
+        help="label to suggest in the 'not stored yet' error message",
+    )
+    args = parser.parse_args()
+    if not args.endpoint.startswith("https://"):
+        parser.error("--endpoint must be https:// (a bearer token must not "
+                     "travel over plaintext http)")
+    return args
+
+
+def main():
+    args = parse_args()
+    _cfg.update(
+        endpoint=args.endpoint,
+        service=args.secret_service,
+        account=args.secret_account,
+        label=args.label or ("%s MCP" % args.secret_service),
+    )
+
+    token = load_token()
+    listener_started = False
+
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            message = json.loads(line)
+        except json.JSONDecodeError:
+            warn("dropping non-JSON input")
+            continue
+
+        # initialize must complete before anything else: it establishes the
+        # session id and protocol version that later requests depend on.
+        if isinstance(message, dict) and message.get("method") == "initialize":
+            relay(line, message, token)
+            continue
+
+        if not listener_started:
+            listener_started = True
+            threading.Thread(
+                target=listen_for_server_messages, args=(token,), daemon=True
+            ).start()
+
+        threading.Thread(
+            target=relay, args=(line, message, token), daemon=True
+        ).start()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, BrokenPipeError):
+        pass
