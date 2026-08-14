@@ -51,8 +51,6 @@ for CONF in alias env prompt shopt tools; do
     [[ -f "${HOME}/.dotfiles/bash/${CONF}.sh" ]] && \
         source "${HOME}/.dotfiles/bash/${CONF}.sh"
 done
-
 unset CONF
 
 export BASHRC_SOURCED=1
-

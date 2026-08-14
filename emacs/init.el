@@ -93,7 +93,12 @@
      "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a"
      "c82092aedda488cad216113d2d1b676c78b45569204a1350ebe8bef7bbd1b564"))
  '(flycheck-markdown-markdownlint-cli-executable "markdownlint-cli2")
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(all-the-icons anzu clean-aindent-mode company csv csv-mode cuda-mode
+                   dtrt-indent flycheck-pycheckers format-table helm-gtags
+                   helm-projectile iedit json-mode markdown-mode olivetti
+                   poetry undo-tree use-package volatile-highlights ws-butler
+                   yaml-mode yasnippet zygospore)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

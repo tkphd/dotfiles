@@ -36,6 +36,27 @@ if [[ "${DISCLAIMER}" == "yes" || "${DISCLAIMER}" == "\"yes\"" ]]; then
         ln -s "${PWD}/${f}" "${link}"
     done
 
+    ## === desktop entries ===
+    # Generated rather than tracked so ${HOME} is resolved at run time instead
+    # of baking an absolute path into the repo. Registering it as the default
+    # browser is left as a deliberate manual step:
+    #   xdg-settings set default-web-browser browser-router.desktop
+    APPS="${HOME}/.local/share/applications"
+    [[ -d "${APPS}" ]] || mkdir -p "${APPS}"
+    cat > "${APPS}/browser-router.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Browser Router
+Comment=Google Meet opens in Chrome; everything else in Firefox
+Exec=${HOME}/bin/browser-router %U
+Terminal=false
+NoDisplay=true
+StartupNotify=false
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;x-scheme-handler/http;x-scheme-handler/https;text/html;application/xhtml+xml;
+EOF
+    command -v update-desktop-database >/dev/null && \
+        update-desktop-database "${APPS}"
+
     ## === emacs ===
     [[ -d "${HOME}"/.emacs.d ]] && \
 	    rm -r "${HOME}"/.emacs.d
