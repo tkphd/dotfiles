@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Route URLs to a browser by host.
+#
+# Firefox stays the browser for everything; Google Meet goes to Chrome, which
+# handles Meet's WebRTC codecs, screen-share picker, and effects better.
+#
+# Registered as the http/https handler via browser-router.desktop, so this only
+# sees links launched by other applications (Evolution, Slack, terminal, ...).
+# Links clicked inside Firefox never reach here -- Firefox handles https itself.
+#
+# BROWSER_ROUTER_DRYRUN=1 prints "browser<TAB>url" per argument instead of
+# launching anything.
+
+set -u
+
+FIREFOX="${FIREFOX:-/usr/bin/firefox}"
+CHROME="${CHROME:-/usr/bin/google-chrome-stable}"
+
+# Which browser should handle this argument? Non-URLs (local file paths arriving
+# via text/html) have no host and fall through to Firefox.
+route() {
+    local arg=$1  \
+          host=   \
+          path=
+
+    if [[ $arg =~ ^[Hh][Tt][Tt][Pp][Ss]?://([^/?#]+)([^?#]*) ]]; then
+        host=${BASH_REMATCH[1],,}
+        path=${BASH_REMATCH[2]}
+        host=${host#*@}   # strip userinfo
+        host=${host%%:*}  # strip port
+    fi
+
+    # Edit this block to widen or narrow what goes to Chrome.
+    case $host in
+        meet.google.com) echo chrome; return ;;
+        g.co) [[ $path == /meet* ]] && { echo chrome; return; } ;;
+    esac
+
+    echo firefox
+}
+
+chrome_args=()
+firefox_args=()
+
+for arg in "$@"; do
+    target=$(route "$arg")
+    if [[ ${BROWSER_ROUTER_DRYRUN:-} == 1 ]]; then
+        printf '%s\t%s\n' "$target" "$arg"
+        continue
+    fi
+    if [[ $target == chrome ]]; then
+        chrome_args+=("$arg")
+    else
+        firefox_args+=("$arg")
+    fi
+done
+
+[[ ${BROWSER_ROUTER_DRYRUN:-} == 1 ]] && exit 0
+
+# exec the sole target where possible, so the browser -- not this wrapper -- is
+# the process the launching systemd scope tracks.
+if (( ${#chrome_args[@]} && ${#firefox_args[@]} )); then
+    setsid "$CHROME" --no-default-browser-check "${chrome_args[@]}" >/dev/null 2>&1 &
+    exec "$FIREFOX" "${firefox_args[@]}"
+elif (( ${#chrome_args[@]} )); then
+    exec "$CHROME" --no-default-browser-check "${chrome_args[@]}"
+elif (( ${#firefox_args[@]} )); then
+    exec "$FIREFOX" "${firefox_args[@]}"
+else
+    exec "$FIREFOX"
+fi
