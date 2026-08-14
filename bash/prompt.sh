@@ -33,5 +33,16 @@ T_HU="${RED}"
 [[ -f "${HOME}/.dotfiles/bash/local_prompt" ]] && \
     source "${HOME}/.dotfiles/bash/local_prompt"
 PS1="${Q_HU}«${T_HU}\D{%H:%M}${D_HU}@${H_HU}\h${D_HU}:${P_HU}\W${D_HU}\$(sep_git)${G_HU}\$(str_git)${Q_HU}»${S_HU}\$${DEFAULT} "
+
+# Set the terminal/tmux window title to the local user@host:dir on every
+# prompt render, so it snaps back after an SSH session leaves it stuck on
+# the remote host's title.
+case "$TERM" in
+    xterm*|rxvt*|tmux*|screen*)
+        PS1="\[\e]0;\u@\h: \w\a\]${PS1}"
+        ;;
+    *)
+        ;;
+esac
 export PS1
 export PROMPT_SOURCED=1
