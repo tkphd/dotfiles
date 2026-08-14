@@ -35,7 +35,7 @@
   untracked = blue  bold
 
 [core]
-  editor = "/usr/bin/emacs -nw"
+  editor = "/usr/local/bin/emacs -nw"
   autocrlf = input
 
 [diff]
@@ -69,9 +69,6 @@
 [credential "https://dev.azure.com"]
 	useHttpPath = true
 
-[user]
-	name = Trevor Keller
-	email = trevor.keller@nist.gov
 [column]
 	ui = auto
 [branch]
