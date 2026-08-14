@@ -15,7 +15,7 @@ str_git() {
 }
 
 SUDO_PROMPT=$(echo -e "\e[0;34m[Enter \e[0;36m${USER}'s\e[0;34m password to \e[0;35msudo\e[0;34m]:\e[0;39m ")
-SUDO_PS1="${REDB}\U@\H:\w\$${default}"
+SUDO_PS1="${REDB}\U@\H:\w\$${DEFAULT}"
 export SUDO_PROMPT
 export SUDO_PS1
 
