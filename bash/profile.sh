@@ -25,18 +25,16 @@ if [[ -d "${HOME}/.nvm" ]]; then
 fi
 
 # === Ruby ===
-[ -s "$HOME/.rvm/scripts/rvm" ] && \
+[ -d "$HOME/.rvm" ] && \
     . "$HOME/.rvm/scripts/rvm"
 
 # === Rust/cargo ===
-[ -e "${HOME}/.cargo/env" ] && \
+[ -d "${HOME}/.cargo" ] && \
     . "${HOME}/.cargo/env"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 [ -d "${HOME}/.rvm/bin" ] && [[ ! $PATH =~ .*/.rvm* ]] && \
     export PATH="${PATH}:${HOME}/.rvm/bin"
-
-. "$HOME/.cargo/env"
 
 # >>> coursier install directory >>>
 export PATH="$PATH:/home/tnk10/.local/share/coursier/bin"
