@@ -35,6 +35,8 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # === GCloud ===
 [[ -a /opt/google/gcloud/path.bash.inc ]] && \
     source /opt/google/gcloud/path.bash.inc
+# === GIT ===
+source "${HOME}/.dotfiles/bash/opt/git-completion.sh"
 # === GITHUB ===
 [[ -f "${HOME}/.github" ]] && \
     source "${HOME}/.github" # personal access token(s)
