@@ -29,7 +29,7 @@ fi
     . "$HOME/.rvm/scripts/rvm"
 
 # === Rust/cargo ===
-[ -d "${HOME}/.cargo" ] && \
+[ -f "${HOME}/.cargo/env" ] && \
     . "${HOME}/.cargo/env"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
@@ -37,7 +37,8 @@ fi
     export PATH="${PATH}:${HOME}/.rvm/bin"
 
 # >>> coursier install directory >>>
-export PATH="$PATH:/home/tnk10/.local/share/coursier/bin"
+[ -d "${HOME}/.local/share/coursier/bin" ] && \
+    export PATH="${PATH}:${HOME}/.local/share/coursier/bin"
 # <<< coursier install directory <<<
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
