@@ -28,6 +28,17 @@ md2pdf () {
 }
 export -f md2pdf
 
+md2fn () {
+    # convert a Markdown file to PDF using Pandoc and XeTeX
+    # on Fluid Numerics letterhead (insignia + Courier Prime header/footer)
+    pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
+           --defaults=md2fn.yaml                 \
+           --output="${1/.md/.pdf}"              \
+           --shift-heading-level-by=-1           \
+           "$1"
+}
+export -f md2fn
+
 mkcd () {
     mkdir "$1" && cd "$1" || exit
 }
