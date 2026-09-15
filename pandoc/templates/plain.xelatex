@@ -1,3 +1,7 @@
+% Activates the LaTeX PDF management layer (tagging, PDF/A, page-dictionary
+% access). Must be the first command in the file, before \documentclass and
+% before any \PassOptionsToPackage.
+\DocumentMetadata{}
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
 \PassOptionsToPackage{hyphens}{url}

@@ -29,12 +29,13 @@ md2pdf () {
 export -f md2pdf
 
 md2fn () {
-    # convert a Markdown file to PDF using Pandoc and XeTeX
-    # on Fluid Numerics letterhead (insignia + Courier Prime header/footer)
-    pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
-           --defaults=md2fn.yaml                 \
-           --output="${1/.md/.pdf}"              \
-           --shift-heading-level-by=-1           \
+    # convert a Markdown file to PDF on Fluid Numerics letterhead, using the
+    # fluidnumerics LaTeX class (~/fn/fluidnumerics.cls).
+    # Reads pandoc's default data dir (~/.local/share/pandoc), where fn.yaml
+    # sets the template, the fn-crossref.lua filter (which is what makes tables
+    # citable under pandoc 2.x), and --shift-heading-level-by=-1.
+    pandoc --defaults=fn.yaml       \
+           --output="${1/.md/.pdf}" \
            "$1"
 }
 export -f md2fn
