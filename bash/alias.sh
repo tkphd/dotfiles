@@ -50,7 +50,7 @@ md2fn () {
     # that reports overfull boxes and undefined references -- use a Makefile
     # with the two-stage pandoc/xelatex split: pandoc's direct-to-PDF path
     # builds in a temp dir and discards the .log with the answers in it.
-    local src=$1 out inst repo
+    local src=$1 out inst root defaults f
     [ -n "$src" ] || { echo "md2fn: usage: md2fn FILE.md" >&2; return 2; }
     [ -f "$src" ] || { echo "md2fn: no such file: $src" >&2; return 2; }
     # Was ${1/.md/.pdf}, which replaces the first ".md" ANYWHERE in the name
@@ -66,13 +66,36 @@ md2fn () {
         echo "md2fn: fluidnumerics.cls not found; run 'make install' in ~/fn/fluidnumerics.cls" >&2
         return 3
     }
-    # `make install` copies rather than symlinks, so the installed class can
-    # be older than the repo with nothing saying so -- which is how a rebuilt
-    # asset silently fails to reach a document.
-    repo=$HOME/fn/fluidnumerics.cls/fluidnumerics.cls
-    if [ -f "$repo" ] && [ "$repo" -nt "$inst" ]; then
-        echo "md2fn: warning: $repo is newer than the installed copy;" >&2
-        echo "       run 'make install' in ~/fn/fluidnumerics.cls to refresh" >&2
+    # kpsewhich answers relative to $PWD: run inside the class repo it returns
+    # ./fluidnumerics.cls -- the repo's own file, not the installed one. Resolve
+    # it, or the staleness check below compares a file against itself.
+    inst=$(readlink -f "$inst")
+    # `make install` copies rather than symlinks, so an installed file can be
+    # older than the repo it came from with nothing saying so -- which is how a
+    # rebuilt asset silently fails to reach a document.
+    #
+    # The repo is DERIVED, not hardcoded. `make install-pandoc` symlinks
+    # fn.yaml into pandoc's data dir, md2fn already depends on that symlink
+    # because --defaults=fn.yaml resolves through it, and it follows the repo
+    # if the repo moves. A hardcoded path would be a second copy of a fact
+    # already on disk, free to read and self-maintaining. Use -L, not -e:
+    # `readlink -f` on a missing path echoes it back, so an unguarded suffix
+    # strip yields a root that silently matches nothing.
+    #
+    # Check every installed file, not just the class: `make install` copies the
+    # artwork too, and a stale logo is exactly as silent as a stale class.
+    # Comparison is by mtime, so it errs toward warning -- restoring a file
+    # from a backup trips it with identical content. That is the safe
+    # direction for a warning whose whole job is to break a silence.
+    defaults=$HOME/.local/share/pandoc/defaults/fn.yaml
+    if [ -L "$defaults" ]; then
+        root=$(readlink -f "$defaults"); root=${root%/pandoc/defaults/fn.yaml}
+        for f in "$(dirname "$inst")"/*; do
+            [ -f "$root/${f##*/}" ] && [ "$root/${f##*/}" -nt "$f" ] && {
+                echo "md2fn: warning: ${f##*/} is newer in $root" >&2
+                echo "       than the copy TeX will use; 'make install' to refresh" >&2
+            }
+        done
     fi
     pandoc --defaults=fn.yaml --output="$out" "$src"
 }
