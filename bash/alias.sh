@@ -8,11 +8,22 @@ md2book () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
     # with New Computer Modern Book, old style numbers,
     # and the top-level header as the document title
+    local src=$1 out
+    # Was ${1/.md/.pdf}, which replaces the first ".md" ANYWHERE in the name
+    # rather than the extension: `md2book README` produced the output name
+    # README and overwrote the input with a PDF. Match the extension, or
+    # refuse. (Same bug as md2fn, fixed the same way.)
+    [ -n "$src" ] || { echo "md2book: usage: md2book FILE.md" >&2; return 2; }
+    [ -f "$src" ] || { echo "md2book: no such file: $src" >&2; return 2; }
+    case $src in
+        *.md) out=${src%.md}.pdf ;;
+        *) echo "md2book: not a .md file: $src" >&2; return 2 ;;
+    esac
     pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
            --defaults=md2pdf-cm.yaml             \
-           --output="${1/.md/.pdf}"              \
+           --output="$out"                       \
            --shift-heading-level-by=-1           \
-           "$1"
+           "$src"
 }
 export -f md2book
 
@@ -20,11 +31,22 @@ md2pdf () {
     # convert a Markdown file to PDF using Pandoc and XeTeX
     # with TeX Gyre TermesX, old style numbers,
     # and the top-level header as the document title
+    local src=$1 out
+    # Was ${1/.md/.pdf}, which replaces the first ".md" ANYWHERE in the name
+    # rather than the extension: `md2pdf README` produced the output name
+    # README and overwrote the input with a PDF. Match the extension, or
+    # refuse. (Same bug as md2fn, fixed the same way.)
+    [ -n "$src" ] || { echo "md2pdf: usage: md2pdf FILE.md" >&2; return 2; }
+    [ -f "$src" ] || { echo "md2pdf: no such file: $src" >&2; return 2; }
+    case $src in
+        *.md) out=${src%.md}.pdf ;;
+        *) echo "md2pdf: not a .md file: $src" >&2; return 2 ;;
+    esac
     pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
            --defaults=md2pdf.yaml                \
-           --output="${1/.md/.pdf}"              \
+           --output="$out"                       \
            --shift-heading-level-by=-1           \
-           "$1"
+           "$src"
 }
 export -f md2pdf
 
