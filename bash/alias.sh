@@ -29,14 +29,52 @@ md2pdf () {
 export -f md2pdf
 
 md2fn () {
-    # convert a Markdown file to PDF on Fluid Numerics letterhead, using the
+    # Convert a Markdown file to PDF on Fluid Numerics letterhead, using the
     # fluidnumerics LaTeX class (~/fn/fluidnumerics.cls).
+    #
     # Reads pandoc's default data dir (~/.local/share/pandoc), where fn.yaml
-    # sets the template, the fn-crossref.lua filter (which is what makes tables
-    # citable under pandoc 2.x), and --shift-heading-level-by=-1.
-    pandoc --defaults=fn.yaml       \
-           --output="${1/.md/.pdf}" \
-           "$1"
+    # selects the class template, the fn-crossref.lua filter, and -- load
+    # bearing -- `columns: 250`. That last one reads like a line-wrapping
+    # width but for the LaTeX writer it selects table COLUMN TYPES: below it
+    # pandoc emits equal-fraction p{} columns that wrap badly, above it
+    # natural l/r/c columns sized to content. The default moved between
+    # pandoc 2.14 and 3.x, so leaving it unset makes table layout a function
+    # of which pandoc is on PATH.
+    #
+    # The filter is still required, but NOT for labels any more: pandoc 3.11
+    # emits \label on longtable captions by itself, which 2.14 could not.
+    # It carries .wide, .auto-page, .page-per-table and .marginnote, which
+    # have no pandoc equivalent.
+    #
+    # This is the convenience path. For a build that can be CHECKED -- one
+    # that reports overfull boxes and undefined references -- use a Makefile
+    # with the two-stage pandoc/xelatex split: pandoc's direct-to-PDF path
+    # builds in a temp dir and discards the .log with the answers in it.
+    local src=$1 out inst repo
+    [ -n "$src" ] || { echo "md2fn: usage: md2fn FILE.md" >&2; return 2; }
+    [ -f "$src" ] || { echo "md2fn: no such file: $src" >&2; return 2; }
+    # Was ${1/.md/.pdf}, which replaces the first ".md" ANYWHERE in the name
+    # rather than the extension: `md2fn README` produced the output name
+    # README and overwrote the input with a PDF, and `md2fn notes.md.bak`
+    # wrote notes.pdf.bak. Match the extension, or refuse.
+    case $src in
+        *.md) out=${src%.md}.pdf ;;
+        *) echo "md2fn: not a .md file: $src" >&2; return 2 ;;
+    esac
+    inst=$(kpsewhich fluidnumerics.cls 2>/dev/null) || true
+    [ -n "$inst" ] || {
+        echo "md2fn: fluidnumerics.cls not found; run 'make install' in ~/fn/fluidnumerics.cls" >&2
+        return 3
+    }
+    # `make install` copies rather than symlinks, so the installed class can
+    # be older than the repo with nothing saying so -- which is how a rebuilt
+    # asset silently fails to reach a document.
+    repo=$HOME/fn/fluidnumerics.cls/fluidnumerics.cls
+    if [ -f "$repo" ] && [ "$repo" -nt "$inst" ]; then
+        echo "md2fn: warning: $repo is newer than the installed copy;" >&2
+        echo "       run 'make install' in ~/fn/fluidnumerics.cls to refresh" >&2
+    fi
+    pandoc --defaults=fn.yaml --output="$out" "$src"
 }
 export -f md2fn
 
