@@ -258,9 +258,15 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 $if(tables)$
-\usepackage{longtable,booktabs}
-$if(beamer)$
+\usepackage{longtable,booktabs,array}
 \usepackage{caption}
+\captionsetup[table]{skip=6pt}
+\newcounter{none} % for unnumbered tables
+$if(multirow)$
+\usepackage{multirow}
+$endif$
+\usepackage{calc} % for calculating minipage widths
+$if(beamer)$
 % Make caption package work with longtable
 \makeatletter
 \def\fnum@table{\tablename~\thetable}
