@@ -267,6 +267,7 @@ $if(multirow)$
 $endif$
 \usepackage{calc} % for calculating minipage widths
 $if(beamer)$
+\usepackage{caption}
 % Make caption package work with longtable
 \makeatletter
 \def\fnum@table{\tablename~\thetable}
