@@ -102,6 +102,12 @@ md2fn () {
         [ -f "$root/fluidnumerics.cls" ] || root=
     fi
     if [ -n "$root" ]; then
+        # The loop needs pathname expansion. A caller with `set -f` -- md2fn is
+        # export -f'd, so a script can be the caller -- would otherwise hand it
+        # the literal "dir/*", every -f test would fail, and the check would go
+        # silently inert. `local -` scopes shell options to this function, so
+        # the caller's setting is restored on return.
+        local -; set +f
         for f in "$(dirname "$inst")"/*; do
             [ -f "$root/${f##*/}" ] && [ "$root/${f##*/}" -nt "$f" ] && {
                 echo "md2fn: warning: ${f##*/} is newer in $root" >&2
