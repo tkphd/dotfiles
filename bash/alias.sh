@@ -88,8 +88,20 @@ md2fn () {
     # from a backup trips it with identical content. That is the safe
     # direction for a warning whose whole job is to break a silence.
     defaults=$HOME/.local/share/pandoc/defaults/fn.yaml
+    root=
     if [ -L "$defaults" ]; then
-        root=$(readlink -f "$defaults"); root=${root%/pandoc/defaults/fn.yaml}
+        # Up three levels, rather than stripping a fixed suffix. The symlink's
+        # NAME must be fn.yaml for pandoc to find it, but its TARGET need not
+        # be: point it at a variant and ${root%/pandoc/defaults/fn.yaml} is a
+        # no-op that leaves root naming a FILE, every -f test below fails, and
+        # the check goes silently inert -- the exact failure it exists to catch.
+        root=$(readlink -f "$defaults")
+        root=${root%/*}; root=${root%/*}; root=${root%/*}
+        # Then check the derivation landed somewhere that can answer the
+        # question, instead of assuming it did.
+        [ -f "$root/fluidnumerics.cls" ] || root=
+    fi
+    if [ -n "$root" ]; then
         for f in "$(dirname "$inst")"/*; do
             [ -f "$root/${f##*/}" ] && [ "$root/${f##*/}" -nt "$f" ] && {
                 echo "md2fn: warning: ${f##*/} is newer in $root" >&2
