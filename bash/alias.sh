@@ -29,13 +29,93 @@ md2pdf () {
 export -f md2pdf
 
 md2fn () {
-    # convert a Markdown file to PDF using Pandoc and XeTeX
-    # on Fluid Numerics letterhead (insignia + Courier Prime header/footer)
-    pandoc --data-dir="${HOME}/.dotfiles/pandoc" \
-           --defaults=md2fn.yaml                 \
-           --output="${1/.md/.pdf}"              \
-           --shift-heading-level-by=-1           \
-           "$1"
+    # Convert a Markdown file to PDF on Fluid Numerics letterhead, using the
+    # fluidnumerics LaTeX class (~/fn/fluidnumerics.cls).
+    #
+    # Reads pandoc's default data dir (~/.local/share/pandoc), where fn.yaml
+    # selects the class template, the fn-crossref.lua filter, and -- load
+    # bearing -- `columns: 250`. That last one reads like a line-wrapping
+    # width but for the LaTeX writer it selects table COLUMN TYPES: below it
+    # pandoc emits equal-fraction p{} columns that wrap badly, above it
+    # natural l/r/c columns sized to content. The default moved between
+    # pandoc 2.14 and 3.x, so leaving it unset makes table layout a function
+    # of which pandoc is on PATH.
+    #
+    # The filter is still required, but NOT for labels any more: pandoc 3.11
+    # emits \label on longtable captions by itself, which 2.14 could not.
+    # It carries .wide, .auto-page, .page-per-table and .marginnote, which
+    # have no pandoc equivalent.
+    #
+    # This is the convenience path. For a build that can be CHECKED -- one
+    # that reports overfull boxes and undefined references -- use a Makefile
+    # with the two-stage pandoc/xelatex split: pandoc's direct-to-PDF path
+    # builds in a temp dir and discards the .log with the answers in it.
+    local src=$1 out inst root defaults f
+    [ -n "$src" ] || { echo "md2fn: usage: md2fn FILE.md" >&2; return 2; }
+    [ -f "$src" ] || { echo "md2fn: no such file: $src" >&2; return 2; }
+    # Was ${1/.md/.pdf}, which replaces the first ".md" ANYWHERE in the name
+    # rather than the extension: `md2fn README` produced the output name
+    # README and overwrote the input with a PDF, and `md2fn notes.md.bak`
+    # wrote notes.pdf.bak. Match the extension, or refuse.
+    case $src in
+        *.md) out=${src%.md}.pdf ;;
+        *) echo "md2fn: not a .md file: $src" >&2; return 2 ;;
+    esac
+    inst=$(kpsewhich fluidnumerics.cls 2>/dev/null) || true
+    [ -n "$inst" ] || {
+        echo "md2fn: fluidnumerics.cls not found; run 'make install' in ~/fn/fluidnumerics.cls" >&2
+        return 3
+    }
+    # kpsewhich answers relative to $PWD: run inside the class repo it returns
+    # ./fluidnumerics.cls -- the repo's own file, not the installed one. Resolve
+    # it, or the staleness check below compares a file against itself.
+    inst=$(readlink -f "$inst")
+    # `make install` copies rather than symlinks, so an installed file can be
+    # older than the repo it came from with nothing saying so -- which is how a
+    # rebuilt asset silently fails to reach a document.
+    #
+    # The repo is DERIVED, not hardcoded. `make install-pandoc` symlinks
+    # fn.yaml into pandoc's data dir, md2fn already depends on that symlink
+    # because --defaults=fn.yaml resolves through it, and it follows the repo
+    # if the repo moves. A hardcoded path would be a second copy of a fact
+    # already on disk, free to read and self-maintaining. Use -L, not -e:
+    # `readlink -f` on a missing path echoes it back, so an unguarded suffix
+    # strip yields a root that silently matches nothing.
+    #
+    # Check every installed file, not just the class: `make install` copies the
+    # artwork too, and a stale logo is exactly as silent as a stale class.
+    # Comparison is by mtime, so it errs toward warning -- restoring a file
+    # from a backup trips it with identical content. That is the safe
+    # direction for a warning whose whole job is to break a silence.
+    defaults=$HOME/.local/share/pandoc/defaults/fn.yaml
+    root=
+    if [ -L "$defaults" ]; then
+        # Up three levels, rather than stripping a fixed suffix. The symlink's
+        # NAME must be fn.yaml for pandoc to find it, but its TARGET need not
+        # be: point it at a variant and ${root%/pandoc/defaults/fn.yaml} is a
+        # no-op that leaves root naming a FILE, every -f test below fails, and
+        # the check goes silently inert -- the exact failure it exists to catch.
+        root=$(readlink -f "$defaults")
+        root=${root%/*}; root=${root%/*}; root=${root%/*}
+        # Then check the derivation landed somewhere that can answer the
+        # question, instead of assuming it did.
+        [ -f "$root/fluidnumerics.cls" ] || root=
+    fi
+    if [ -n "$root" ]; then
+        # The loop needs pathname expansion. A caller with `set -f` -- md2fn is
+        # export -f'd, so a script can be the caller -- would otherwise hand it
+        # the literal "dir/*", every -f test would fail, and the check would go
+        # silently inert. `local -` scopes shell options to this function, so
+        # the caller's setting is restored on return.
+        local -; set +f
+        for f in "$(dirname "$inst")"/*; do
+            [ -f "$root/${f##*/}" ] && [ "$root/${f##*/}" -nt "$f" ] && {
+                echo "md2fn: warning: ${f##*/} is newer in $root" >&2
+                echo "       than the copy TeX will use; 'make install' to refresh" >&2
+            }
+        done
+    fi
+    pandoc --defaults=fn.yaml --output="$out" "$src"
 }
 export -f md2fn
 
